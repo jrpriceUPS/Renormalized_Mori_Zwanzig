@@ -1,0 +1,17 @@
+\begin{thebibliography}{1}
+
+\bibitem{parish2016dynamic}
+Eric~J Parish and Karthik Duraisamy.
+\newblock A dynamic subgrid scale model for large eddy simulations based on the
+  mori-zwanzig formalism.
+\newblock {\em arXiv preprint arXiv:1611.02143}, 2016.
+
+\bibitem{stinis2015renormalized}
+Panos Stinis.
+\newblock Renormalized mori--zwanzig-reduced models for systems without scale
+  separation.
+\newblock In {\em Proceedings of the Royal Society of London A: Mathematical,
+  Physical and Engineering Sciences}, volume 471, page 20140446. The Royal
+  Society, 2015.
+
+\end{thebibliography}

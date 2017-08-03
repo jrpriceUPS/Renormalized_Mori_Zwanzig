@@ -1,0 +1,261 @@
+\documentclass{article}
+\usepackage{setspace}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{cite}
+\graphicspath{{./figures/}}
+ 
+%----------------------------------------------------------------------------------------
+%     AUTHORS and ABSTRACT
+%----------------------------------------------------------------------------------------
+
+\title{Renormalized Mori-Zwanzig and Optimal Prediction of the Korteweg-de Vries Equation}
+\author{Jacob Price, Panos Stinis}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Most realistic dynamical systems involve many degrees of freedom more than those of interest to the modeler. However, it is often the case that the many ``unimportant'' variables exert a collective impact on the variables we wish to capture. Reduced order models seek to accurately approximate the important variables without simulating the system in full. Approximations based on the Mori-Zwanzig formalism, such as optimal prediction and renormalized Mori-Zwanzig, have seen great success. In this paper, we apply these reduced order methods to the Korteweg-de Vries equation with small dispersion, demonstrating a significant speedup in simulation time without compromising accuracy. We also conclusively demonstrate the efficacy of the renormalized Mori-Zwanzig method, whose power has only been posited in the past.
+\end{abstract}
+
+%----------------------------------------------------------------------------------------
+\section{Introduction}
+%----------------------------------------------------------------------------------------
+
+There exist many systems whose sizes preclude the complete simulation of their dynamics given finite computational power and time. Applications such as physical chemistry, nuclear engineering, plasma physics, and climate modeling regularly produce prohibitively large systems.
+
+An important example of prohibitively large systems arise in the study of partial differential equations. When partial differential equations are solved on a periodic domain, pseudospectral methods are often used to reformulate the infinite-dimensional PDE into an infinite system of ODEs. In many problems, a number of low frequency Fourier modes will accurately capture the dynamics of the system. In some problems, especially nonlinear ones, many more Fourier modes are necessary to resolve the solution. In cases such as the critical focusing Schr\"odinger equation, a finite time singularity leads to an infinite number of modes being necessary to resolve the results \cite{stinis2012numerical}.
+
+Reduced order modeling seeks to reduce the prohibitively large system to a computationally realizable problem size (resolution) while maintaining the essential features of the dynamics.
+
+This motivation has driven scientific modeling for centuries. For example, in a fluid system, a fully detailed description of the dynamics is given by the positions and velocities of every fluid particle. Classical hydrodynamic models reduce the dimensionality of the problem by modeling only key quantities such as pressure, bulk velocity, and temperature. The goal of reduced order modeling is to reduce the system in such a way that the dynamics for the reduced set of variables agree as closely as possible with their dynamics in a fully resolved system. Unfortunately, the many degrees of freedom that are eliminated (unresolved) exert an influence upon the degrees of freedom that are kept.
+
+Historically, the contributions of Robert Zwanzig and Hazime Mori to statistical mechanics allow the rigorous discussion of reduced order modeling \cite{zwanzig1961memory}. The Mori-Zwanzig formalism is an exact reduction of the dynamics of a full (large) system to the dynamics of a reduced set of variables. This reduction necessarily includes terms relating to the variables that have been left unresolved. They manifest as noise and memory terms.
+
+The Mori-Zwanzig formalism is helpful conceptually, but the difficulty of computing the memory term precludes a simple implementation. Recently, there have been tremendous strides in approximating the memory term. Optimal prediction and the t-model \cite{chorin2000optimal,chorin2002optimal,chorin2007problem,hald2007optimal,bernstein2007optimal,beck2009model,stinis2012numerical}, higher order memory approximations \cite{stinis2007higher,stinis2009phase}, and renormalized versions of these approximations \cite{stinis2013renormalized,stinis2015renormalized} have led to effective reduced order models.
+
+In this paper, we will apply several reduced order models to a pseudospectral interpretation of the Korteweg-de Vries (KdV) equation with small dispersion. The KdV equation is optimal for testing various reduced order models because it requires a large, but finite and computationally realizable, number of modes to resolve properly. In section 2, we will review the Mori-Zwanzig formalism. In section 3, a number of reduced order models will be constructed by approximating the memory term in different ways. In section 4, we implement these reduced order models for the Korteweg-de Vries equation. In section 5, we will present numerical results comparing the accuracy and efficiency of the different reduced order models. In section 6, we comment on our results and outline future directions of inquiry.
+
+%----------------------------------------------------------------------------------------
+\section{The Mori-Zwanzig Formalism}
+%----------------------------------------------------------------------------------------
+
+Consider a system of ordinary differential equations
+\begin{equation}
+\frac{d \mathbf{u}(t)}{dt} = R(\mathbf{u},t)\label{orig}
+\end{equation}
+augmented with an initial condition $\mathbf{u}(t)=\mathbf{u}^0$. If one considers a partial differential equation, pseudospectral and finite volume methods can be employed to convert the infinite-dimensional PDE to a system of ODEs. We can transform this nonlinear system of ODEs (\ref{orig}) into a linear system of PDEs by way of the Liouville operator
+
+\begin{equation}
+\mathcal{L}=\sum_{k\in F\cup G} R_k(\mathbf{u}^0)\frac{\partial}{\partial u_k^0}.\label{L}
+\end{equation}
+
+Then, as shown in \cite{chorin2000optimal}, the system can can be rewritten as
+\begin{equation}
+\frac{\partial \phi_k(\mathbf{u}^0,t)}{\partial t} = \mathcal{L}\phi_k,\;\; \phi_k(\mathbf{u}^0,0)=u_k^0.\label{liouville}
+\end{equation}
+It can be shown that, for a given initial condition $\mathbf{u}^0$, $u_k(t) = \phi_k(\mathbf{u}^0,t)$, and so these two formulations are equivalent. Equation \ref{liouville}, however, is linear. Using semigroup notation, we see
+\begin{equation}
+\frac{\partial}{\partial t}e^{t\mathcal{L}}u_k^0 = e^{t\mathcal{L}}\mathcal{L}u_k^0.\label{semigroup}
+\end{equation}This is the third and most convenient way of expressing the dynamics of the system given an initial condition. 
+
+Let $\mathbf{u}(t) = \{u_k(t)\}$, $k\in F\cup G$. We separate $\mathbf{u}(t)$ into resolved variables $\tilde{\mathbf{u}}=\{u_i(t)\}$, $i\in F$ and unresolved variables $\hat{\mathbf{u}}=\{u_j(t)\}$, $j\in G$. Let $P$ be an orthogonal projection onto the space of functions depending only on the resolved variables $\tilde{\mathbf{u}}$. For example, $P(f)$ might be the conditional expectation of $f$ given the resolved variables. Let $Q=I-P$. Then using Dyson's formula:
+\begin{equation}
+e^{t\mathcal{L}}=e^{tQ\mathcal{L}}+\int_0^t e^{(t-s)\mathcal{L}}P\mathcal{L}e^{sQ\mathcal{L}}\,\mathrm{d}s \label{dyson}
+\end{equation}(\ref{semigroup}) can be rewritten as:
+\begin{equation}
+\frac{\partial}{\partial t}e^{t\mathcal{L}}u_k^0 = e^{t\mathcal{L}}P\mathcal{L}u_k^0 +e^{tQ\mathcal{L}}Q\mathcal{L}u_k^0 + \int_0^t e^{(t-s)\mathcal{L}}P\mathcal{L}e^{sQ\mathcal{L}}Q\mathcal{L}u_k^0\,\mathrm{d}s.\label{MZ}
+\end{equation}This is the Mori-Zwanzig identity. It represents an alternative, but exact way of writing the full dynamics. The first term in (\ref{MZ}) is called the Markovian term, because it depends only on the instantaneous values of the resolved variables. The second term is called `noise' and the third is called `memory'.
+
+We again project the dynamics:
+\begin{equation}
+\frac{\partial }{\partial t}Pe^{t\mathcal{L}}u_k^0 = Pe^{t\mathcal{L}}P\mathcal{L}u_k^0+P\int_0^te^{(t-s)\mathcal{L}}P\mathcal{L}e^{sQ\mathcal{L}}Q\mathcal{L}u_k^0\,\mathrm{d}s.\label{reduced_MZ}
+\end{equation}Here, we made use of the fact that
+\[Pe^{tQ\mathcal{L}}Q\mathcal{L}u_k^0= P\left[I+tQ\mathcal{L}+t^2(Q\mathcal{L})^2+\dots\right]Q\mathcal{L}u_k^0 = 0
+\]because $PQ=0$. For $k\in F$, (\ref{reduced_MZ}) describes the projected dynamics of the resolved variables. The system is not closed, however, due to the presence of the orthogonal dynamics operator $e^{sQ\mathcal{L}}$ in the memory term. In order to simulate the dynamics of (\ref{reduced_MZ}) exactly, we would still need to know the dynamics of the unresolved variables. Fortunately, there are a number of approximations we can make for the memory term to eliminate their dependence on the unresolved variables. These are the reduced order models associated with the Mori-Zwanzig formalism.
+
+%----------------------------------------------------------------------------------------
+\section{Reduced Order Models}
+%----------------------------------------------------------------------------------------
+
+A reduced order model must eliminate the dependence upon the orthogonal dynamics by approximating the memory term. The most natural way to compute this approximation is by expanding $e^{(t-s)\mathcal{L}}$ and $e^{sQ\mathcal{L}}$ about $s=0$:
+\begin{align}
+P\int_0^te^{(t-s)\mathcal{L}}P\mathcal{L}&e^{sQ\mathcal{L}}Q\mathcal{L}u_k^0\,\mathrm{d}s=Pe^{t\mathcal{L}}\int_0^t [I-s\mathcal{L}+\dots]P\mathcal{L}[I+sQ\mathcal{L}+\dots]Q\mathcal{L}u_k^0\,\mathrm{d}s\notag\\
+=&Pe^{t\mathcal{L}}\int_0^t P\mathcal{L}Q\mathcal{L}u_k^0\,\mathrm{d}s-Pe^{t\mathcal{L}}\int_0^t s\mathcal{L}P\mathcal{L}Q\mathcal{L}u_k^0\,\mathrm{d}s\notag\\
+& +Pe^{t\mathcal{L}}\int_0^t sP\mathcal{L}Q\mathcal{L}Q\mathcal{L}u_k^0\,\mathrm{d}s+O(t^3)\notag\\
+=&tPe^{t\mathcal{L}}P\mathcal{L}Q\mathcal{L}u_k^0+\frac{t^2}{2}Pe^{t\mathcal{L}}\left[P\mathcal{L}Q\mathcal{L}Q\mathcal{L}u_k^0-\mathcal{L}P\mathcal{L}Q\mathcal{L}u_k^0\right]+O(t^3)\label{t model}
+\end{align}
+The $O(t)$ term is known as the $t$-model. It is the simplest approximation to the memory term, and has been used to successfully construct reduced order models \cite{stinis2013renormalized,chorin2002optimal,stinis2015renormalized,stinis2012numerical,stinis2012mori1,stinis2012mori2,chorin2007problem,hald2007optimal,stinis2007higher,bernstein2007optimal,chandy2009t}. The first $O(t^2)$ term can be computed in a manner similar to the $t$-model, but the second $O(t^2)$ term is not projected prior to its evolution. This makes it impossible to compute as part of a reduced-order model.
+
+One solution we see for this is to construct a reduced order model for this term. We are interested in the term $Pe^{t\mathcal{L}}\mathcal{L}P\mathcal{L}Q\mathcal{L}u_k^0$. First note that
+
+\begin{equation}
+Pe^{t\mathcal{L}}\mathcal{L}P\mathcal{L}Q\mathcal{L}u_k^0=\frac{\partial}{\partial t} Pe^{t\mathcal{L}}P\mathcal{L}Q\mathcal{L}u_k^0.
+\end{equation}That is, it is the derivative of the $t$-model term itself. Now consider a reduced order model for this derivative under the Mori-Zwanzig formalism again:
+
+\begin{equation}
+\frac{\partial}{\partial t} Pe^{t\mathcal{L}}P\mathcal{L}Q\mathcal{L}u_k^0 = Pe^{t\mathcal{L}}P\mathcal{L}P\mathcal{L}Q\mathcal{L}u_k^0+P\int_0^t e^{(t-s)\mathcal{L}}\mathcal{L}P\mathcal{L}e^{sQ\mathcal{L}}Q\mathcal{L}P\mathcal{L}Q\mathcal{L}u_k^0\,\mathrm{d}s.
+\end{equation}
+
+The memory term is $O(t)$ and is multiplied through by the $\frac{t^2}{2}$. Thus, in order to fully describe the $O(t^2)$ behavior, we keep only the Markovian term of this reduced order model. The result is another reduced order model:
+
+\begin{equation}
+P\int_0^te^{(t-s)\mathcal{L}}P\mathcal{L}e^{sQ\mathcal{L}}Q\mathcal{L}u_k^0\,\mathrm{d}s=\label{t2model}
+\end{equation}
+
+ This line of inquiry will be pursued upon my return in September. We can also continue to construct higher order approximations by keeping additional terms.
+
+There is an alternative derivation of the $t$-model that allows for the explicit computation of higher ordered terms under certain assumptions. We begin by rewriting the memory term by reversing our use of Dyson's formula
+\begin{align*}
+P\int_0^te^{(t-s)\mathcal{L}}P\mathcal{L}e^{sQ\mathcal{L}}Q\mathcal{L}u_k^0\,\mathrm{d}s=&Pe^{t\mathcal{L}}Q\mathcal{L}u_k^0-Pe^{tQ\mathcal{L}}Q\mathcal{L}u_k^0\\
+=&P^{t\mathcal{L}}\left(Q\mathcal{L}u_k^0-e^{-t\mathcal{L}}e^{tQ\mathcal{L}}QLu_k^0\right)\\
+=&P^{t\mathcal{L}}\left(Q\mathcal{L}u_0^k -e^{C(t)}Q\mathcal{L}u_0^k\right)
+\end{align*}where $C(t) = -tP\mathcal{L}+[tP\mathcal{L},tQ\mathcal{L}]+\dots$ is the BCH series. In the event that $[tP\mathcal{L},tQ\mathcal{L}]$ is small, as may be the case for particular initial conditions, $C(t)$ can be approximated, and
+\begin{equation}
+P\int_0^te^{(t-s)\mathcal{L}}P\mathcal{L}e^{sQ\mathcal{L}}Q\mathcal{L}u_k^0\,\mathrm{d}s\approx \sum_{j=1}^\infty (-1)^{j+1}\frac{t^j}{j!}Pe^{t\mathcal{L}}(P\mathcal{L})^jQ\mathcal{L}u_k^0.\label{t model again}
+\end{equation}We can find higher order approximations of the memory term by truncating the above series at different values of $j$. For $j=1$, we again have the $t$-model as the optimal first order approximation. Higher order terms are always projected immediately before the evolution operator, and so can be included in a reduced order model without modification.
+
+%----------------------------------------------------------------------------------------
+\section{Reduced Models for KdV}
+%----------------------------------------------------------------------------------------
+
+We will construct several reduced order models for the one-dimensional Korteweg-de Vries equation
+\begin{equation}
+u_t+6uu_x+\epsilon^2 u_{xxx}=0
+\end{equation}
+with periodic boundary conditions on $[0,2\pi]$ and periodic initial condition $u^0(x)$. Because of the periodic boundary conditions, we use Fourier series as a basis for the solution. That is, let \[u(x,t) = \sum_{k\in F\cup G} u_k(t) e^{ikx}\]where $F\cup G = \left[ -\frac{M}{2},\frac{M}{2}-1\right]$ and $F=\left[-\frac{N}{2},\frac{N}{2}-1\right]$ for $N<M$. We call $F$ the \emph{resolved} modes and $G$ the \emph{unresolved} modes. Let $\mathbf{u} =\{u_k(t)\}_{k\in F\cup G}$. We partition $\mathbf{u}=(\hat{\mathbf{u}},\tilde{\mathbf{u}})$ where $\hat{\mathbf{u}} = \{u_k\}_{k\in F}$ and $\tilde{\mathbf{u}}=\{u_k\}_{k\in G}$. Our goal is to construct a reduced order model for $\hat{\mathbf{u}}$. The maximal resolution of the system is of order $O(1/\epsilon)$ \cite{venakides1987zero}. We will consider cases in which $G$ is $O(1/\epsilon)$ but $F$ is not.
+
+We can define the Fourier transform to extract the Fourier modes $u_k(t)$ as follows:
+\[\mathcal{F}_k(u) = \frac{1}{2\pi}\int u(x,t)e^{-ikx}\,dx = \sum_{l\in F\cup G} u_l(t)\int e^{i(l-k)x}\,dx = u_k(t).
+\]
+
+The equation of motion for the Fourier mode $u_k$ is
+\begin{equation}
+\frac{d u_k}{dt} =R_k(\mathbf{u}) = i\epsilon^2 k^3 u_k-3ik\sum_{\substack{p+q=k\\p,q\in F\cup G}}u_p u_q.\label{full}
+\end{equation}
+
+The convolution sum in the second term on the right hand side can be computed efficiently by recognizing that:
+
+\begin{align*}
+\mathcal{F}_k(u^2) =& \frac{1}{2\pi}\int \left(\sum_{p\in F\cup G}u_p(t)e^{ipx}\right)\left(\sum_{q\in F\cup G}u_q(t)e^{iqx}\right)e^{-ikx}\,dx\\
+=&\sum_{p,q\in F\cup G} u_pu_q\left(\frac{1}{2\pi}\int e^{i(p+q-k)x}\,dx\right)\\
+=&\sum_{\substack{p+q=k\\p,q\in F\cup G}}u_pu_q.
+\end{align*}Thus, we can efficiently compute this sum in real space through the fast Fourier transform.
+
+We define $\mathcal{L}$ as in (\ref{L}) such that $\mathcal{L}\mathbf{u}_k^0 = R_k(\mathbf{u}^0)$. We must define the projection operator $P$. Consider a function of all variables $h(\mathbf{u}^0)$. We define $P(h(\mathbf{u}))=P(h(\hat{\mathbf{u}}^0,\tilde{\mathbf{u}}^0))=h(\hat{\mathbf{u}}^0,0)$. That is, we set each unresolved variable to zero. In order to remain consistent with our initial condition, our initial condition must be $\mathbf{u}^0(x) = (\hat{\mathbf{u}}^0,0)$. We must begin with an initial condition that does not have any unresolved modes activated. For example, we will use $u^0(x) = \sin(x)$, for which only the first Fourier mode is nonzero.
+
+The Markovian term for $u_k(t)$ for $k\in F$ is given by $Pe^{t\mathcal{L}}P\mathcal{L}u_k^0$:
+\begin{align*}
+Pe^{t\mathcal{L}}P\mathcal{L}u_k^0&=Pe^{t\mathcal{L}}P\left[i\epsilon^2 k^3u_k^0-3ik\sum_{\substack{p+q=k\\p,q\in F\cup G}}u_p^0 u_q^0\right]\\
+&=Pe^{t\mathcal{L}}\left[i\epsilon^2 k^3u_k^0-3ik\sum_{\substack{p+q=k\\p,q\in F}}u_p^0 u_q^0\right]\\
+&=P\left[i\epsilon^2 k^3u_k-3ik\sum_{\substack{p+q=k\\p,q\in F}}u_p u_q\right]\\
+&=i\epsilon^2 k^3u_k-3ik\sum_{\substack{p+q=k\\p,q\in F}}u_p u_q.
+\end{align*}The Markovian term has the same form as the full system, but has been restricted to sums over the resolved modes. We can easily compute the convolution sum in this expression using fast Fourier transforms, but only retaining the resolved modes of the result. In fact, it will be prudent to define a function representing a convolution of two vector valued functions $\mathbf{f}$ and $\mathbf{g}$ with their respective components labeled $f_i$ and $g_i$. We define the convolution of $\mathbf{f}$ with $\mathbf{g}$ with resolved modes retained as:
+\begin{equation}
+C_k(\mathbf{f}(\mathbf{u}),\mathbf{g}(\mathbf{u})) = -3ik\sum_{\substack{p+q = k\\ k\in F}}f_p(\mathbf{u})g_q(\mathbf{u}).\label{convo}
+\end{equation}With this definition, the Markovian term is
+\[i\epsilon^2 k^3u_k - 3ik \sum_{\substack{p+q=k\\p,q\in F}}u_pu_q = i\epsilon^2 k^3 u_k + C_k(P\mathbf{u},P\mathbf{u}).
+\]In other cases, we will want to make use of the same convolution, but with only unresolved modes retained. Thus we define:
+\[C_k^*(\mathbf{f}(\mathbf{u}),\mathbf{g}(\mathbf{u})) = -3ik\sum_{\substack{p+q = k\\ k\in G}}f_p(\mathbf{u})g_q(\mathbf{u}).
+\]
+
+The Markovian does not allow any transfer of energy out of the resolved modes. That must be accomplished through the memory term. We can now compute the $t$-model approximation of the memory term. First, we compute $Q\mathcal{L}u_k^0$ (again for $k\in F$):
+\begin{align*}
+Q\mathcal{L}u_k^0 &= \mathcal{L}u_k^0-P\mathcal{L}u_k^0\\
+&=\left[i\epsilon^2 k^3 u_k-3ik\sum_{\substack{p+q=k\\p,q\in F\cup G}}u_p u_q\right]-\left[i\epsilon^2 k^3u_k^0-3ik\sum_{\substack{p+q=k\\p,q\in F}}u_p^0 u_q^0\right]\\
+&=-3ik\sum_{\substack{p+q=k\\p\in F,q\in G}}u_p^0 u_q^0-3ik\sum_{\substack{p+q=k\\p\in G,q\in F}}u_p^0 u_q^0-3ik\sum_{\substack{p+q=k\\p,q\in G}}u_p^0 u_q^0.
+\end{align*}Next we compute $P\mathcal{L}Q\mathcal{L}u_k^0$:
+\begin{align*}
+P\mathcal{L}Q\mathcal{L}u_k^0&=P\mathcal{L}\left[-3ik\sum_{\substack{p+q=k\\p\in F,q\in G}}u_p^0 u_q^0-3ik\sum_{\substack{p+q=k\\p\in G,q\in F}}u_p^0 u_q^0-3ik\sum_{\substack{p+q=k\\p,q\in G}}u_p^0 u_q^0\right]\\
+&=-3ik\sum_{\substack{p+q=k\\p\in F,q\in G}}P\mathcal{L}[u_p^0 u_q^0]-3ik\sum_{\substack{p+q=k\\p\in G,q\in F}}P\mathcal{L}[u_p^0 u_q^0]-3ik\sum_{\substack{p+q=k\\p,q\in G}}P\mathcal{L}[u_p^0 u_q^0]\\
+&=-3ik\sum_{\substack{p+q=k\\p\in F,q\in G}}u_p^0\left(-3iq\sum_{\substack{r+s=q\\r,s\in F}}u_r^0u_s^0\right)-3ik\sum_{\substack{p+q=k\\p\in G,q\in F}}u_q^0\left(-3ip\sum_{\substack{r+s=p\\r,s\in F}}u_r^0u_s^0\right)\\
+&=2\left(-3ik\sum_{\substack{p+q=k\\p\in F,q\in G}}u_p^0\left(-3iq\sum_{\substack{r+s=q\\r,s\in F}}u_r^0u_s^0\right)\right)
+\end{align*}
+
+We have here repeatedly used the projection operator $P$ to eliminate terms that become zero. We have also made use of the symmetry of the two sums that remained. Therefore, the $t$-model term is
+\begin{equation}
+Pe^{t\mathcal{L}}P\mathcal{L}Q\mathcal{L}u_k^0 = 2\left(-3ik\sum_{\substack{p+q=k\\p\in F,q\in G}}u_p\left(-3iq\sum_{\substack{r+s=q\\r,s\in F}}u_ru_s\right)\right) = 2C_k(P\mathbf{u},C_k^*(P\mathbf{u},P\mathbf{u})).
+\end{equation}Thus, a reduced order model for the resolved modes using a first order approximation of the memory is:
+
+\begin{equation}
+\frac{du_k}{dt}=i\epsilon^2 k^3u_k+C_k(P\mathbf{u},P\mathbf{u}) + 2tC_k(P\mathbf{u},C_k^*(P\mathbf{u},P\mathbf{u})).\label{tmodel}
+\end{equation}
+
+Because all convolutions involve a function with only resolved modes convolved with a function with only unresolved modes, the result is dealiased by construction without augmenting $u$.
+
+The next term in the sequence, the $t^2$-model, is given by:
+\begin{align*}
+Pe^{t\mathcal{L}}P\mathcal{L}P\mathcal{L}Q\mathcal{L}u_k^0 = Pe^{t\mathcal{L}}P\mathcal{L}&\left(2\left(-3ik\sum_{\substack{p+q=k\\p\in F,q\in G}}u_p^0\left(-3iq\sum_{\substack{r+s=q\\r,s\in F}}u_r^0u_s^0\right)\right)\right)\\
+= 2Pe^{t\mathcal{L}}P&\left(-3ik\sum_{\substack{p+q = k\\p\in F,q\in G}} \left(i\epsilon^2 p^3u_p^0-3ip\sum_{\substack{n+m = p\\n,m\in F}}u_n^0u_m^0\right)\left(-3iq\sum_{\substack{r+s = q\\r,s\in F}}u_r^0u_s^0\right)\right.\\
+&\left.-3ik\sum_{\substack{p+q = k\\p\in F,q\in G}} u_p^0 \left(-3iq\sum_{\substack{r+s = k\\r,s\in F}}\left(i\epsilon^2r^3 u_r^0-3ir\sum_{\substack{n+m = r\\n,m\in F}}u_n^0u_m^0\right)u_s^0\right)\right)\\
+&\left.-3ik\sum_{\substack{p+q = k\\p\in F,q\in G}} u_p^0 \left(-3iq\sum_{\substack{r+s = k\\r,s\in F}}u_r^0\left(i\epsilon^2s^3 u_s^0-3is\sum_{\substack{n+m = s\\n,m\in F}}u_n^0u_m^0\right)\right)\right)\\
+=2&\left(-3ik\sum_{\substack{p+q = k\\p\in F,q\in G}} \left(i\epsilon^2 p^3u_p-3ip\sum_{\substack{n+m = p\\n,m\in F}}u_nu_m\right)\left(-3iq\sum_{\substack{r+s = q\\r,s\in F}}u_ru_s\right)\right.
+\\
+&\left.2(-3ik)\sum_{\substack{p+q = k\\p\in F,q\in G}} u_p \left(-3iq\sum_{\substack{r+s = k\\r,s\in F}}u_r\left(i\epsilon^2s^3 u_s-3is\sum_{\substack{n+m = s\\n,m\in F}}u_nu_m\right)\right)\right)\\
+=&2C_k(i\epsilon^2 P\mathbf{u}^{3k},C_k^*(P\mathbf{u},P\mathbf{u})) + 2C_k(C_k(P\mathbf{u},P\mathbf{u}),C_k^*(P\mathbf{u},P\mathbf{u}))\\
+&+4C_k(P\mathbf{u},C_k^*(P\mathbf{u},i\epsilon^2 P\mathbf{u}^{3k})) + 4C_k(P\mathbf{u},C_k^*(P\mathbf{u},C_k(P\mathbf{u},P\mathbf{u})))
+\end{align*}where $\mathbf{u}^{3k} = [0^3u_1(t),1^3u_1(t),2^3u_2(t),\dots]^T$. This derivation also allows us to see express how the Liouville operator operates on convolutions and compositions of convolutions:
+\begin{align*}
+Pe^{t\mathcal{L}}P\mathcal{L}[2C_k(P\mathbf{u}^0,&C_k^*(P\mathbf{u}^0,P\mathbf{u}^0))1] \\=& 2Pe^{t\mathcal{L}}C_k(P\mathcal{L}P\mathbf{u}^0,C_k^*(P\mathbf{u}^0,P\mathbf{u}^0))\\
+&+2Pe^{t\mathcal{L}}C_k(P\mathbf{u}^0,C_k^*(P\mathcal{L}P\mathbf{u}^0,P\mathbf{u}^0))\\
+&+2Pe^{t\mathcal{L}}C_k(P\mathbf{u}^0,C_k^*(P\mathbf{u}^0,P\mathcal{L}P\mathbf{u}^0))\\
+=& 2C_k(i\epsilon^2P\mathbf{u}^{k3},C_k^*(P\mathbf{u},P\mathbf{u}))\\&+2C_k(C_k(P\mathbf{u},P\mathbf{u}),C_k^*(P\mathbf{u},P\mathbf{u}))\\
+&+4C_k(P\mathbf{u},C_k^*(P\mathbf{u},i\epsilon^2 P \mathbf{u}^{k3}))\\
+&+4C_k(P\mathbf{u},C_k^*(P\mathbf{u},C_k(P\mathbf{u},P\mathbf{u}))).
+\end{align*}This makes clear the pattern for future terms. Namely, applying $P\mathcal{L}$ to a convolution obeys the following rules:
+\begin{enumerate}
+\item Because a convolution sum is a product of terms and $P\mathcal{L}$ is a differential operator, it operates according to the product rule. That is, for every $\mathbf{u}$ in the convolution, we get a term that is a duplicate of that convolution, but with $P\mathcal{L}$ applied to that $\mathbf{u}^0$. For example:
+\begin{align*}
+P\mathcal{L}C_k(P\mathbf{u}^0,C_k^*(P\mathbf{u}^0,P\mathbf{u}^0)) =& C_k(P\mathcal{L}P\mathbf{u}^0,C_k^*(P\mathbf{u}^0,P\mathbf{u}^0)) \\&+ C_k(P\mathbf{u}^0,C_k^*(P\mathcal{L}P\mathbf{u}^0,P\mathbf{u}^0)) \\&+ C_k(P\mathbf{u}^0,C_k^*(P\mathbf{u}^0,P\mathcal{L}P\mathbf{u}^0)).
+\end{align*}
+\item Each $Pe^{t\mathcal{L}}P\mathcal{L}P\mathbf{u}^0$ term is expanded as $Pe^{t\mathcal{L}}P\mathcal{L}P\mathbf{u}^0 = i\epsilon^2 P \mathbf{u}^{k3} + C_k(P\mathbf{u},\mathbf{u})$.
+\item When $e^{t\mathcal{L}}P\mathcal{L}$ is applied to terms involving powers of $k$, the following occurs:
+\begin{align*}
+P\mathcal{L}P (i\epsilon^2\mathbf{u}^{k3})_k &= P\mathcal{L}P i\epsilon^2k^3 u_k \\&= P(i\epsilon^2 k^3)^2 u_k + P(i\epsilon^2 k^3)C_k(\mathbf{u}\\&=\left(P(i\epsilon^2)\mathbf{u}^{k6}+PC_k^{k3}(\mathbf{u},\mathbf{u}),\mathbf{u})\right)_k
+\end{align*}where $(\mathbf{u}^{k6})_k=k^6 u_k$. That is, the further expansion of powers of $k$ proceed in an easily understandable manner.
+\end{enumerate}
+
+Using these rules, we can derive the $t^3$ approximation term:
+\begin{align*}
+Pe^{t\mathcal{L}}P\mathcal{L}\bigg[&2C_k(i\epsilon^2P\mathbf{u}^{k3,0},C_k^*(P\mathbf{u}^0,P\mathbf{u}^0))+2C_k(C_k(P\mathbf{u}^0,P\mathbf{u}^0),C_k^*(P\mathbf{u}^0,P\mathbf{u}^0))\\
+&+4C_k(P\mathbf{u}^0,C_k^*(P\mathbf{u}^0,i\epsilon^2 P \mathbf{u}^{k3,0}))+4C_k(P\mathbf{u}^0,C_k^*(P\mathbf{u}^0,C_k(P\mathbf{u}^0,P\mathbf{u}^0)))\bigg]\\
+=&2C_k((i\epsilon^2)^2P\mathbf{u}^{k6},C_k^*(P\mathbf{u},P\mathbf{u})) + 2C_k(C_k^{k3}(P\mathbf{u},P\mathbf{u}),C_k^*(P\mathbf{u},P\mathbf{u}))\\
+&+4C_k(P\mathbf{u}^{k3},C_k^*(i\epsilon^2P\mathbf{u}^{k3},P\mathbf{u}))+4C_k(P\mathbf{u}^{k3},C_k^*(C_k(P\mathbf{u},P\mathbf{u}),P\mathbf{u}))\\
+&+4C_k(C_k(i\epsilon^2P\mathbf{u}^{k3},P\mathbf{u}),C_k^*(P\mathbf{u},P\mathbf{u}))+4C_k(C_k(C_k(P\mathbf{u},P\mathbf{u}),P\mathbf{u}),C_k^*(P\mathbf{u},P\mathbf{u}))\\
+&+4C_k(C_k(P\mathbf{u},P\mathbf{u}),C_k^*(i\epsilon^2P\mathbf{u}^{k3},P\mathbf{u}))+4C_k(C_k(P\mathbf{u},P\mathbf{u}),C_k^*(C_k(P\mathbf{u},P\mathbf{u}),P\mathbf{u}))\\
+&+4C_k(i\epsilon^2 P \mathbf{u}^{k3},C_k^*(P\mathbf{u},i\epsilon^2 P \mathbf{u}^{k3}))+4C_k(C_k(P\mathbf{u},P\mathbf{u}),C_k^*(P\mathbf{u},i\epsilon^2 P \mathbf{u}^{k3}))\\
+&+4C_k(P \mathbf{u},C_k^*(i\epsilon^2P\mathbf{u}^{k3},i\epsilon^2 P \mathbf{u}^{k3}))
++4C_k(P \mathbf{u},C_k^*(C_k(P\mathbf{u},P\mathbf{u}),i\epsilon^2 P \mathbf{u}^{k3}))\\
+&+4C_k(P\mathbf{u},C_k^*(P\mathbf{u},(i\epsilon^2) P \mathbf{u}^{k6})) 
++4C_k(P\mathbf{u},C_k^*(P\mathbf{u},C_k^{k3}(P\mathbf{u},P\mathbf{u})))\\
+&+4C_k(i\epsilon^2 P \mathbf{u}^{k3},C_k^*(P\mathbf{u},C_k(P\mathbf{u},P\mathbf{u})))
++4C_k(C_k(P\mathbf{u},P\mathbf{u}),C_k^*(P\mathbf{u},C_k(P\mathbf{u},P\mathbf{u})))\\
+&+4C_k(P\mathbf{u},C_k^*(i\epsilon^2 P \mathbf{u}^{k3},C_k(P\mathbf{u},P\mathbf{u})))
++4C_k(P\mathbf{u},C_k^*(C_k(P\mathbf{u},P\mathbf{u}),C_k(P\mathbf{u},P\mathbf{u})))\\
+&+8C_k(P\mathbf{u},C_k(P\mathbf{u},C_k(i\epsilon^2 P\mathbf{u}^{k3},P\mathbf{u})))
++8C_k(P\mathbf{u},C_k(P\mathbf{u},C_k(C_k(P\mathbf{u},P\mathbf{u}),P\mathbf{u}))).
+\end{align*}Obviously, future terms will only become more complicated. The algorithmic way of deriving these terms surely gives way to a symmetry and pattern to construct them recursively, but the pattern is difficult to ascertain.
+
+%----------------------------------------------------------------------------------------
+\section{Numerical Results}
+%----------------------------------------------------------------------------------------
+
+We conducted simulations with $u^0(x) = \sin(x)$ and $\epsilon = 0.1$. Both formulations of the problem are linearly stiff, especially for large $k$. We employed a fourth order composite Runge-Kutta integrator in our simulations \cite{driscoll2002composite}. By simulating the full system, we found that the problem is fully resolved for $k\in \left[-\frac{M}{2},\frac{M}{2}+1\right]$ with $M=TBD$ (re-examine data to confirm). try this
+
+The $t$-model is only able to drain energy from modes. For problems that develop singularities, this  is consistent with the full system --- modes slowly drain energy into ever finer modes \cite{stinis2012numerical}. The dispersive term in KdV opposes the transfer of energy to ever finer modes. Thus, in the full simulation we observe the energy in modes rising and falling. The $t$-model cannot capture these effects.
+
+However, if we look not at the energy in all modes of the $t$-model, but the energy in a subset of the modes of the $t$-model, we find close agreement with the fully resolved results, provided the $t$-model is constructed with respect to a ``full'' system that itself remains fully resolved for all time.
+
+%----------------------------------------------------------------------------------------
+\section{Conclusion}
+%----------------------------------------------------------------------------------------
+
+
+
+\newpage
+
+\bibliographystyle{unsrt}
+\bibliography{../../MultiScale.bib}
+\end{document}

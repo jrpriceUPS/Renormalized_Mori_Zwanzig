@@ -1,0 +1,109 @@
+\begin{thebibliography}{10}
+
+\bibitem{stinis2012numerical}
+Panos Stinis.
+\newblock Numerical computation of solutions of the critical nonlinear
+  schr{\"o}dinger equation after the singularity.
+\newblock {\em Multiscale Modeling \& Simulation}, 10(1):48--60, 2012.
+
+\bibitem{zwanzig1961memory}
+Robert Zwanzig.
+\newblock Memory effects in irreversible thermodynamics.
+\newblock {\em Physical Review}, 124(4):983, 1961.
+
+\bibitem{chorin2000optimal}
+Alexandre~J Chorin, Ole~H Hald, and Raz Kupferman.
+\newblock Optimal prediction and the mori--zwanzig representation of
+  irreversible processes.
+\newblock {\em Proceedings of the National Academy of Sciences},
+  97(7):2968--2973, 2000.
+
+\bibitem{chorin2002optimal}
+Alexandre~J Chorin, Ole~H Hald, and Raz Kupferman.
+\newblock Optimal prediction with memory.
+\newblock {\em Physica D: Nonlinear Phenomena}, 166(3):239--257, 2002.
+
+\bibitem{chorin2007problem}
+Alexandre Chorin and Panagiotis Stinis.
+\newblock Problem reduction, renormalization, and memory.
+\newblock {\em Communications in Applied Mathematics and Computational
+  Science}, 1(1):1--27, 2007.
+
+\bibitem{hald2007optimal}
+Ole~H Hald and Panagiotis Stinis.
+\newblock Optimal prediction and the rate of decay for solutions of the euler
+  equations in two and three dimensions.
+\newblock {\em Proceedings of the National Academy of Sciences},
+  104(16):6527--6532, 2007.
+
+\bibitem{bernstein2007optimal}
+David Bernstein.
+\newblock Optimal prediction of burgers's equation.
+\newblock {\em Multiscale Modeling \& Simulation}, 6(1):27--52, 2007.
+
+\bibitem{beck2009model}
+Carolyn~L Beck, Sanjay Lall, Tzuchen Liang, and Matthew West.
+\newblock Model reduction, optimal prediction, and the mori-zwanzig
+  representation of markov chains.
+\newblock In {\em Decision and Control, 2009 held jointly with the 2009 28th
+  Chinese Control Conference. CDC/CCC 2009. Proceedings of the 48th IEEE
+  Conference on}, pages 3282--3287. IEEE, 2009.
+
+\bibitem{stinis2007higher}
+Panagiotis Stinis.
+\newblock Higher order mori-zwanzig models for the euler equations.
+\newblock {\em Multiscale Modeling \& Simulation}, 6(3):741--760, 2007.
+
+\bibitem{stinis2009phase}
+Panagiotis Stinis.
+\newblock A phase transition approach to detecting singularities of partial
+  differential equations.
+\newblock {\em Communications in Applied Mathematics and Computational
+  Science}, 4(1):217--239, 2009.
+
+\bibitem{stinis2013renormalized}
+Panos Stinis.
+\newblock Renormalized reduced models for singular pdes.
+\newblock {\em Communications in Applied Mathematics and Computational
+  Science}, 8(1):39--66, 2013.
+
+\bibitem{stinis2015renormalized}
+Panos Stinis.
+\newblock Renormalized mori--zwanzig-reduced models for systems without scale
+  separation.
+\newblock In {\em Proceedings of the Royal Society of London A: Mathematical,
+  Physical and Engineering Sciences}, volume 471, page 20140446. The Royal
+  Society, 2015.
+
+\bibitem{stinis2012mori1}
+Panagiotis Stinis.
+\newblock Mori-zwanzig reduced models for uncertainty quantification i:
+  Parametric uncertainty.
+\newblock {\em arXiv preprint arXiv:1211.4285}, 2012.
+
+\bibitem{stinis2012mori2}
+Panagiotis Stinis.
+\newblock Mori-zwanzig reduced models for uncertainty quantification ii:
+  Initial condition uncertainty.
+\newblock {\em arXiv preprint arXiv:1212.6360}, 2012.
+
+\bibitem{chandy2009t}
+Abhilash~J Chandy and Steven~H Frankel.
+\newblock The t-model as a large eddy simulation model for the navier-stokes
+  equations.
+\newblock {\em Multiscale Modeling \& Simulation}, 8(2):445--462, 2009.
+
+\bibitem{venakides1987zero}
+Stephanos Venakides.
+\newblock The zero dispersion limit of the korteweg-de vries equation with
+  periodic initial data.
+\newblock {\em Transactions of the American Mathematical Society}, pages
+  189--226, 1987.
+
+\bibitem{driscoll2002composite}
+Tobin~A Driscoll.
+\newblock A composite runge--kutta method for the spectral solution of
+  semilinear pdes.
+\newblock {\em Journal of Computational physics}, 182(2):357--367, 2002.
+
+\end{thebibliography}
