@@ -69,14 +69,22 @@ results_style4 = {'k.','ko','k*','kx','k+'};
 j = 0;
 for i = 1:3:length(N_list)
     j = j+1;
-   
+    
     t_eps = figure(1);
     set(gca,'FontSize',16)
     
-    semilogy(log(Re_nondim),-t2_nondim(i,:),results_style2{j},'markersize',10)
+    if i == 1
+        semilogy(log(Re_nondim),-t2_nondim(i,:),results_style2{j},'markersize',20)
+    else
+        semilogy(log(Re_nondim),-t2_nondim(i,:),results_style2{j},'markersize',10)
+    end
     hold on
     loglog(log(Re_nondim),t2_form(1)*N_list_nondim(i)^t2_form(2)*Re_nondim.^t2_form(3),'b')
-    semilogy(log(Re_nondim),-t4_nondim(i,:),results_style4{j},'markersize',10)
+    if i == 1
+        semilogy(log(Re_nondim),-t4_nondim(i,:),results_style4{j},'markersize',20)
+    else
+        semilogy(log(Re_nondim),-t4_nondim(i,:),results_style4{j},'markersize',10)
+    end
     loglog(log(Re_nondim),t4_form(1)*N_list_nondim(i)^t4_form(2)*Re_nondim.^t4_form(3),'k')
     xlabel('log(Re)')
     ylabel('log(|Pi_i|)')
@@ -91,13 +99,21 @@ for i = 1:2:length(Re_nondim)
     
     t_N = figure(2);
     set(gca,'FontSize',16)
-    semilogy(log(N_list_nondim),-t2_nondim(:,i),results_style2{j},'markersize',10)
+    if j == 1
+        semilogy(log(N_list_nondim),-t2_nondim(:,i),results_style2{j},'markersize',20)
+    else
+        semilogy(log(N_list_nondim),-t2_nondim(:,i),results_style2{j},'markersize',10)
+    end
     xlabel('log(Lambda)')
     ylabel('log(|Pi_i|)')
     
     hold on
     loglog(log(N_list_nondim),t2_form(1)*N_list_nondim.^t2_form(2)*Re_nondim(i)^t2_form(3),'b')
-    semilogy(log(N_list_nondim),-t4_nondim(:,i),results_style4{j},'markersize',10)
+    if j == 1
+        semilogy(log(N_list_nondim),-t4_nondim(:,i),results_style4{j},'markersize',20)
+    else
+        semilogy(log(N_list_nondim),-t4_nondim(:,i),results_style4{j},'markersize',10)
+    end
     loglog(log(N_list_nondim),t4_form(1)*N_list_nondim.^t4_form(2)*Re_nondim(i)^t4_form(3),'k')
     
 end
