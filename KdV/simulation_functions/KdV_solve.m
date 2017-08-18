@@ -82,6 +82,10 @@ if strcmp(simulation_params.name,'complete_k')
     simulation_params = complete_k_init(simulation_params);
 end
 
+if strcmp(simulation_params.name,'BCH')
+    simulation_params = BCH_init(simulation_params);
+end
+
 %default to no time dependence
 if ~isfield(simulation_params,'time_dependence')
     simulation_params.time_dependence = 0;

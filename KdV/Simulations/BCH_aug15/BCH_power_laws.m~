@@ -1,11 +1,11 @@
 %produces coefficients, finds scaling law behavior for them, and plots the
 %results to demonstrate how well they fit!
 
-clear all;close all;
+%clear all;close all;
 
-addpath ../simulation_functions
-addpath ../nonlinear
-addpath ../analysis
+addpath ../../simulation_functions
+addpath ../../nonlinear
+addpath ../../analysis
 
 %use N values that will yield valid ROMs for all chosen epsilon values
 N_list = 32:2:60;
@@ -15,7 +15,6 @@ save N_list N_list
 save epsilon epsilon
 
 t2 = zeros(length(N_list),length(epsilon));
-t4 = zeros(length(N_list),length(epsilon));
 
 %run exact solution to time 10 and use to find t2 and t4 coefficients for
 %each ROM
@@ -38,11 +37,10 @@ for j = 1:length(epsilon)
     
     simulation_params = full_init(simulation_params);
     
-    [u_deriv_list,energy_flow_list,nonlin0_energy_flow,nonlin1_energy_flow,nonlin2_energy_flow,nonlin3_energy_flow,nonlin4_energy_flow] = generate_deriv_data_4func(t_list,u_list,simulation_params,N_list);
-    coeffs_list = no_k_dependence_coeffs(t_list,energy_flow_list,nonlin0_energy_flow,nonlin1_energy_flow,nonlin2_energy_flow,nonlin3_energy_flow,nonlin4_energy_flow,N_list,0,10,0);
+    [u_deriv_list,energy_flow_list,nonlin0_energy_flow,nonlin1_energy_flow,nonlin2_energy_flow] = generate_deriv_data_BCH(t_list,u_list,simulation_params,N_list);
+    coeffs_list = no_k_dependence_coeffs2(t_list,energy_flow_list,nonlin0_energy_flow,nonlin1_energy_flow,nonlin2_energy_flow,N_list,0,10,0);
     
     t2(:,j) = coeffs_list(:,2);
-    t4(:,j) = coeffs_list(:,4);
     
 end
 
@@ -50,16 +48,12 @@ end
 N_list_nondim = N_list*2*pi;
 Re_nondim = 2*pi*(1/sqrt(2))^(1/2)./epsilon;
 t2_nondim = t2./(2*sqrt(2)*pi)^2;
-t4_nondim = t4./(2*sqrt(2)*pi)^4;
 
 t2_form = find_scaling_law(t2_nondim.',Re_nondim,N_list_nondim)
-t4_form = find_scaling_law(t4_nondim.',Re_nondim,N_list_nondim)
 
 save t2 t2
-save t4 t4
 
 save t2_form t2_form
-save t4_form t4_form
 
 
 results_style2 = {'.','o','*','x','+'};
@@ -81,12 +75,6 @@ for i = 1:3:length(N_list)
     end
     hold on
     loglog(log(Re_nondim),t2_form(1)*N_list_nondim(i)^t2_form(2)*Re_nondim.^t2_form(3),'b')
-    if j == 1
-        semilogy(log(Re_nondim),-t4_nondim(i,:),results_style4{j},'markersize',30)
-    else
-        semilogy(log(Re_nondim),-t4_nondim(i,:),results_style4{j},'markersize',10)
-    end
-    loglog(log(Re_nondim),t4_form(1)*N_list_nondim(i)^t4_form(2)*Re_nondim.^t4_form(3),'k')
     xlabel('log(Re)')
     ylabel('log(|Pi_i|)')
     
@@ -110,12 +98,6 @@ for i = 1:2:length(Re_nondim)
     
     hold on
     loglog(log(N_list_nondim),t2_form(1)*N_list_nondim.^t2_form(2)*Re_nondim(i)^t2_form(3),'b')
-    if j == 1
-        semilogy(log(N_list_nondim),-t4_nondim(:,i),results_style4{j},'markersize',30)
-    else
-        semilogy(log(N_list_nondim),-t4_nondim(:,i),results_style4{j},'markersize',10)
-    end
-    loglog(log(N_list_nondim),t4_form(1)*N_list_nondim.^t4_form(2)*Re_nondim(i)^t4_form(3),'k')
     
 end
 ax = axis;

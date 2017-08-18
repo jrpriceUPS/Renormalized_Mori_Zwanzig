@@ -1,7 +1,7 @@
 %A script to compute and compare the energy derivative of KdV up to time 10
 %against those results as would come from a memory model
 %
-%Figure 1 in current text
+%Figure 1 in SI
 
 clear all;close all;
 

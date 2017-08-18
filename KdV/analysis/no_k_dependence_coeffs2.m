@@ -105,8 +105,13 @@ for j = 1:length(window_edges)
           
         b2 = [sum(sum(x2.*r2));sum(sum(y2.*r2))];
         
-        A = A1 + A2;
-        b = b1 + b2;
+        %fit both individual modes and net flow
+        %A = A1 + A2;
+        %b = b1 + b2;
+        
+        %fit only individual modes
+        A = A2;
+        b = b2;
         
         coeffs = A\b;
         coeffs_list(i,:,j) = coeffs;
@@ -141,6 +146,4 @@ for j = 1:length(window_edges)
         
         
     end
-end
-    
 end

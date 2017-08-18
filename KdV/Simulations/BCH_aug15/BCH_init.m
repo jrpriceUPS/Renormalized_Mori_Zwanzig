@@ -1,4 +1,4 @@
-function simulation_params = complete_init(simulation_params)
+function simulation_params = BCH_init(simulation_params)
 %
 %[simulation_params] = complete_fixed_init(simulation_params)
 %
@@ -117,21 +117,15 @@ end
 if ~isfield(simulation_params,'coeffs')
     
     if simulation_params.order == 4
-        simulation_params.coeffs = zeros(4,1);
+        %simulation_params.coeffs = zeros(4,1);
         
-        if strcmp(simulation_params.name,'energy')
-            simulation_params.coeffs(2) = -1.247305524368270*epsilon^-3.691035548147778*N^-5.735647633869585;
-            simulation_params.coeffs(4) = -0.367534773367482*epsilon^-7.388110167590709*N^-11.471931044430530;
-        end
+        %simulation_params.coeffs(2) = -1.200557496049101*epsilon^-3.701319784646586*N^-5.738411475366152;
+        %simulation_params.coeffs(4) = -0.331765896671333*epsilon^-7.405248509731031*N^-11.471487980232354;
         
-        if strcmp(simulation_params.name,'phase')
-            simulation_params.coeffs(2) = -1.089273283118017*epsilon^-3.691035548147778*N^-5.735647633869585;
-            simulation_params.coeffs(4) = -0.367534773367482*epsilon^-7.388110167590709*N^-11.471931044430530;
-        end
         
     elseif simulation_params.order == 2
         simulation_params.coeffs = zeros(2,1);
-        simulation_params.coeffs(2) = -0.761461697699619*epsilon^-3.768112452272879*N^-5.808123274868924;
+        simulation_params.coeffs(2) = -0.116258360896817*epsilon^-1.580524354435573*N^-3.239384163516301;
     end
     
 end
@@ -139,9 +133,9 @@ end
 simulation_params.A = A;
 
 if simulation_params.order == 4
-    simulation_params.B=@(x,t) renormalized_complete_4th_order(x,t,simulation_params);
+    %simulation_params.B=@(x,t) renormalized_complete_4th_order(x,t,simulation_params);
 elseif simulation_params.order == 2
-    simulation_params.B=@(x,t) renormalized_complete_2nd_order(x,t,simulation_params);
+    simulation_params.B=@(x,t) renormalized_BCH_2nd_order(x,t,simulation_params);
 end
 
 simulation_params.As = As;

@@ -119,13 +119,13 @@ if ~isfield(simulation_params,'coeffs')
     if simulation_params.order == 4
         simulation_params.coeffs = zeros(4,1);
         
-        simulation_params.coeffs(2) = -1.247305524368270*epsilon^-3.691035548147778*N^-5.735647633869585;
-        simulation_params.coeffs(4) = -0.367534773367482*epsilon^-7.388110167590709*N^-11.471931044430530;
+        simulation_params.coeffs(2) = -1.200557496049101*epsilon^-3.701319784646586*N^-5.738411475366152;
+        simulation_params.coeffs(4) = -0.331765896671333*epsilon^-7.405248509731031*N^-11.471487980232354;
         
         
     elseif simulation_params.order == 2
         simulation_params.coeffs = zeros(2,1);
-        simulation_params.coeffs(2) = -0.761461697699619*epsilon^-3.768112452272879*N^-5.808123274868924;
+        simulation_params.coeffs(2) = -0.792320392542639*epsilon^-3.783222616952010*N^-5.825426679579797;
     end
     
 end
