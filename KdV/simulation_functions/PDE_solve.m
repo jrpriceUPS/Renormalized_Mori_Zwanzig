@@ -1,12 +1,9 @@
-function [t_list,u_list]=KdV_solve(simulation_params)
+function [t_list,u_list]=PDE_solve(simulation_params)
 %
-%[t_list,u_list]=KdV_solve(simulation_params,model)
+%[t_list,u_list]=PDE_solve(simulation_params,model)
 %
-%Solves the KdV equation using one of the many methods developed by myself
+%Solves a PDE using one of the many methods developed by myself
 %and Panos.
-%
-%u_t + alpha*u*u_x + epsilon^2*u_{xxx} = 0
-%Periodic boundary conditions, initial condition u(x,0)=sin(x)
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -66,36 +63,11 @@ if ~isfield(simulation_params,'initial_condition')
 end
 
 %specific model parameters
-if strcmp(simulation_params.name,'full')
-    simulation_params = full_init(simulation_params);
-end
-
-if strcmp(simulation_params.name,'tmodel')
-    simulation_params = tmodel_init(simulation_params);
-end
-
-if strcmp(simulation_params.name,'complete')
-    simulation_params = complete_init(simulation_params);
-end
-
-if strcmp(simulation_params.name,'complete_k')
-    simulation_params = complete_k_init(simulation_params);
-end
-
-if strcmp(simulation_params.name,'BCH')
-    simulation_params = BCH_init(simulation_params);
-end
-
-%default to no time dependence
-if ~isfield(simulation_params,'time_dependence')
-    simulation_params.time_dependence = 0;
-end
+simulation_params = simulation_params.initialization(simulation_params);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Initialize Time-Stepping Variables%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-simulation_params.M
 
 %construct vector of times
 if ~isfield(simulation_params,'starttime')

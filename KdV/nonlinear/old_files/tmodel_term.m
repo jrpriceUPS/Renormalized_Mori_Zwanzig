@@ -1,6 +1,6 @@
-function [nonlin1,uu_star] = tmodel_term(u_full,nonlin0,alpha,F_modes)
+function [nonlin1,uu_star] = tmodel_term_KdV(u_full,nonlin0,alpha,F_modes)
 %
-%Computes the t-model term for a given state vector
+%Computes the t-model term of KdV for a given state vector
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

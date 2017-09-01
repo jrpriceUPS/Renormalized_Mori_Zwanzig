@@ -1,4 +1,4 @@
-function nonlin=renormalized_complete_4th_order(u,t,simulation_params)
+function nonlin=renormalized_complete_4th_order_KdV(u,t,simulation_params)
 %
 %Computes the nonlinear part of the right hand side of the t^4-model of the
 %KdV equation based upon a "full" model with M positive modes (M>N) and no
@@ -50,19 +50,19 @@ M = simulation_params.M;
 epsilon =simulation_params.epsilon;
 
 %compute Markov term
-[nonlin0,u_full] = markov_term(u,M,N,alpha);
+[nonlin0,u_full] = markov_term_KdV(u,M,N,alpha);
 
 %compute t-model term
-[nonlin1,uu_star] = tmodel_term(u_full,nonlin0,alpha,F_modes);
+[nonlin1,uu_star] = tmodel_term_KdV(u_full,nonlin0,alpha,F_modes);
 
 %compute t^2-model term
-[nonlin2,uk3,uu,A,A_star,B,B_star,C,C_star,D,D_star] = t2model_term_complete(u_full,nonlin0,uu_star,alpha,F_modes,G_modes,k,epsilon);
+[nonlin2,uk3,uu,A,A_star,B,B_star,C,C_star,D,D_star] = t2model_term_complete_KdV(u_full,nonlin0,uu_star,alpha,F_modes,G_modes,k,epsilon);
 
 %compute t^3-model term
-[nonlin3,uk6,E,E_star,F,F_star] = t3model_term_complete(alpha,F_modes,G_modes,k,epsilon,u_full,uu,uu_star,uk3,A,A_star,B,B_star,C,C_star,D_star);
+[nonlin3,uk6,E,E_star,F,F_star] = t3model_term_complete_KdV(alpha,F_modes,G_modes,k,epsilon,u_full,uu,uu_star,uk3,A,A_star,B,B_star,C,C_star,D_star);
 
 %compute t^4-model term
-nonlin4 = t4model_term_complete(alpha,F_modes,G_modes,k,epsilon,u_full,uu,uu_star,uk3,uk6,A,A_star,B,B_star,C,C_star,D,D_star,E,E_star,F,F_star);
+nonlin4 = t4model_term_complete_KdV(alpha,F_modes,G_modes,k,epsilon,u_full,uu,uu_star,uk3,uk6,A,A_star,B,B_star,C,C_star,D,D_star,E,E_star,F,F_star);
 
 
 %compute nonlinear part of right hand side

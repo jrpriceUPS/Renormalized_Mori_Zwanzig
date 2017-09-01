@@ -1,4 +1,4 @@
-function simulation_params = complete_init(simulation_params)
+function simulation_params = complete_init_KdV(simulation_params)
 %
 %[simulation_params] = complete_fixed_init(simulation_params)
 %
@@ -72,11 +72,15 @@ x=linspace(0,2*pi*(2*N-1)/(2*N),2*N);
 %errors
 u_complete=fft_norm(simulation_params.initial_condition(x).');
 
-%initialize cells indicating index information, and populate them
-simulation_params.F_modes = [1:N,2*N:4*N+2,5*N+2:6*N];
-simulation_params.G_modes = N+1:5*N+1;
-simulation_params.k = [0:3*N-1,-3*N:-1].';
-simulation_params.M = 3*N;
+
+if ~isfield(simulation_params,'M')
+    simulation_params.M = 3*N;
+    
+    %initialize cells indicating index information, and populate them
+    simulation_params.F_modes = [1:N,2*N:4*N+2,5*N+2:6*N];
+    simulation_params.G_modes = N+1:5*N+1;
+    simulation_params.k = [0:3*N-1,-3*N:-1].';
+end
 
 %compute cutoff for different regimes of behavior
 cutoff = ceil((2.8/(dt*epsilon^2))^(1/3));
@@ -133,9 +137,9 @@ end
 simulation_params.A = A;
 
 if simulation_params.order == 4
-    simulation_params.B=@(x,t) renormalized_complete_4th_order(x,t,simulation_params);
+    simulation_params.B=@(x,t) renormalized_complete_4th_order_KdV(x,t,simulation_params);
 elseif simulation_params.order == 2
-    simulation_params.B=@(x,t) renormalized_complete_2nd_order(x,t,simulation_params);
+    simulation_params.B=@(x,t) renormalized_complete_2nd_order_KdV(x,t,simulation_params);
 end
 
 simulation_params.As = As;

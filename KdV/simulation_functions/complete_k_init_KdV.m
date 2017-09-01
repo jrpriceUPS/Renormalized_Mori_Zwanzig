@@ -1,9 +1,9 @@
-function simulation_params = tmodel_init(simulation_params)
+function simulation_params = complete_k_init_KdV(simulation_params)
 %
-%[simulation_params] = tmodel_init(simulation_params)
+%[simulation_params] = complete_init_KdV(simulation_params)
 %
-%Takes initial model and simulation_params structures and initializes them
-%for a standard t-model simulation.
+%Takes simulation_params structures and initializes them
+%for a complete memory approximation with known effective coefficients simulation.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Inputs:
@@ -19,6 +19,8 @@ function simulation_params = tmodel_init(simulation_params)
 %       alpha     =  coefficient of nonlinearity
 %
 %       dt        =  timestep
+%
+%       coeffs    =  4*(N-1) or 2*(N-1) array of k-dependent coefficients
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -56,7 +58,6 @@ N = simulation_params.N;
 %general simulation parameters
 epsilon = simulation_params.epsilon;
 dt      = simulation_params.dt;
-simulation_params.coeffs = [1;0;0];
 
 
 %define the ordinates in real space
@@ -68,10 +69,10 @@ x=linspace(0,2*pi*(2*N-1)/(2*N),2*N);
 u_complete=fft_norm(simulation_params.initial_condition(x).');
 
 %initialize cells indicating index information, and populate them
-simulation_params.F_modes = [1:N,2*N+1:2*N+3,3*N+4:4*N+2];
-simulation_params.G_modes = 0;
-simulation_params.k = 0;
-simulation_params.M = 2*N+1;
+simulation_params.F_modes = [1:N,2*N:4*N+2,5*N+2:6*N];
+simulation_params.G_modes = N+1:5*N+1;
+simulation_params.k = [0:3*N-1,-3*N:-1].';
+simulation_params.M = 3*N;
 
 %compute cutoff for different regimes of behavior
 cutoff = ceil((2.8/(dt*epsilon^2))^(1/3));
@@ -86,7 +87,6 @@ end
 
 %define the linear and nonlinear portions of the right hand side
 A=diag(1j*((1:N)-1).^3*epsilon^2);
-B=@(x,t) renormalized_3rd_order(x,t,simulation_params);
 
 %isolate the stiff portion of the linear portion of the right hand side
 As = A(s,s);
@@ -98,8 +98,9 @@ u(:) = u_complete(1:N);
 
 %save data into simulation_params
 simulation_params.u = u;
+
 simulation_params.A = A;
-simulation_params.B = B;
+simulation_params.B=@(x,t) renormalized_complete_4th_order_fixed_coeff_k(x,t,simulation_params);
 simulation_params.As = As;
 simulation_params.s = s;
 simulation_params.ns = ns;

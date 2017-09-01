@@ -1,8 +1,9 @@
-function nonlin=renormalized_complete_4th_order(u,t,simulation_params)
+function nonlin=renormalized_complete_4th_order_k_KdV(u,t,simulation_params)
 %
 %Computes the nonlinear part of the right hand side of the t^4-model of the
-%KdV equation based upon a "full" model with M positive modes (M>N) and no
-%t dependence
+%KdV equation based upon a "full" model with M positive modes (M>N) with no
+%time-dependence in the coefficients, and different coefficients for each
+%mode (will also do t^2-model if coeff vector is different size
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -24,7 +25,7 @@ function nonlin=renormalized_complete_4th_order(u,t,simulation_params)
 %
 %      k        =  vector of wavenumbers corresponding to entries of u_full
 %
-%      coeffs   =  4x1 vector of coefficients for terms in memory expansion
+%      coeffs   =  4(N-1) x 1 vector of coefficients for terms in memory expansion
 %
 %      N        =  resolution of ROM
 %
@@ -58,20 +59,20 @@ epsilon =simulation_params.epsilon;
 %compute t^2-model term
 [nonlin2,uk3,uu,A,A_star,B,B_star,C,C_star,D,D_star] = t2model_term_complete(u_full,nonlin0,uu_star,alpha,F_modes,G_modes,k,epsilon);
 
-%compute t^3-model term
-[nonlin3,uk6,E,E_star,F,F_star] = t3model_term_complete(alpha,F_modes,G_modes,k,epsilon,u_full,uu,uu_star,uk3,A,A_star,B,B_star,C,C_star,D_star);
+if length(coeffs) == 4*(N-1)
+    %compute t^3-model term
+    [nonlin3,uk6,E,E_star,F,F_star] = t3model_term_complete(alpha,F_modes,G_modes,k,epsilon,u_full,uu,uu_star,uk3,A,A_star,B,B_star,C,C_star,D_star);
+end
 
-%compute t^4-model term
-nonlin4 = t4model_term_complete(alpha,F_modes,G_modes,k,epsilon,u_full,uu,uu_star,uk3,uk6,A,A_star,B,B_star,C,C_star,D,D_star,E,E_star,F,F_star);
+if length(coeffs) == 4*(N-1)
+    %compute t^4-model term
+    nonlin4 = t4model_term_complete(alpha,F_modes,G_modes,k,epsilon,u_full,uu,uu_star,uk3,uk6,A,A_star,B,B_star,C,C_star,D,D_star,E,E_star,F,F_star);
+end
 
 
 %compute nonlinear part of right hand side
-if simulation_params.time_dependence == 1
-    
-    nonlin = nonlin0(1:N) + t*coeffs(1)*nonlin1(1:N) - t^2/2*coeffs(2)*nonlin2(1:N) + t^3/6*coeffs(3)*nonlin3(1:N) - t^4/24*coeffs(4)*nonlin4(1:N);
-    
-elseif simulation_params.time_dependence == 0
-
-    nonlin = nonlin0(1:N) + coeffs(1)*nonlin1(1:N) + coeffs(2)*nonlin2(1:N) + coeffs(3)*nonlin3(1:N) + coeffs(4)*nonlin4(1:N);
-
+if length(coeffs) == 4*(N-1)
+    nonlin = nonlin0(1:N) + [0;coeffs(1:N-1).'].*nonlin1(1:N) + [0;coeffs((N-1)+1:2*(N-1)).'].*nonlin2(1:N) + [0;coeffs(2*(N-1)+1:3*(N-1)).'].*nonlin3(1:N) + [0;coeffs(3*(N-1)+1:4*(N-1)).'].*nonlin4(1:N);
+else
+    nonlin = nonlin0(1:N) + [0;coeffs(1:N-1).'].*nonlin1(1:N) + [0;coeffs((N-1)+1:2*(N-1)).'].*nonlin2(1:N);
 end
