@@ -97,8 +97,12 @@ current_index = 1;
 for i=1:nsteps
     %update the current time
     simulation_params.current_time = t(i);
-    t(i)
-    
+    if isfield(simulation_params,'t_scaling')
+        t(i)*simulation_params.t_scaling
+    else
+        t(i)
+    end
+     
     %advance the simulation using the current ODE
     simulation_params.u = RK4_stiff_nonstiff_step(simulation_params);
     
