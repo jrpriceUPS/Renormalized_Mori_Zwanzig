@@ -1,7 +1,7 @@
 %a script to produce plots of the error in a long time integration for a
 %fixed epsilon and compare them against the markov model
 
-clear all;close all;
+%clear all;close all;
 
 addpath ../simulation_functions
 addpath ../nonlinear
@@ -21,11 +21,11 @@ simulation_params.howoften = howoften;   %how often to save state vector
 simulation_params.blowup = 1;     %if 1, instabilities cause simulation to end, but not give error
 simulation_params.tol = inf;    %tolerance for identifying instabilities
 simulation_params.N = 256;          %number of positive modes to simulate
-simulation_params.name = 'full';  %full simulation
+simulation_params.initialization = @(x) full_init_KdV(x);  %full simulation
 
 simulation_params.initial_condition = @(x) sin(x);
 
-[t_list,u_list] = KdV_solve(simulation_params);
+[t_list,u_list] = PDE_solve(simulation_params);
 
 u_list_markov = cell(length(N_list),1);
 u_list4 = cell(length(N_list),1);
@@ -39,19 +39,19 @@ for i = 1:length(N_list)
     
     N_list(i)
     
-    simulation_params.name = 'full';
+    simulation_params.initialization = @(x) full_init_KdV(x);
     simulation_params.N = N_list(i);
-    [t_markov,u_markov] = KdV_solve(simulation_params);
+    [t_markov,u_markov] = PDE_solve(simulation_params);
     
-    simulation_params.name = 'complete';
+    simulation_params.initialization = @(x) complete_init_KdV(x);
     simulation_params.order = 4;
     simulation_params.N = N_list(i);
-    [t4,u4] = KdV_solve(simulation_params);
+    [t4,u4] = PDE_solve(simulation_params);
     
-    simulation_params.name = 'complete';
+    simulation_params.initialization = @(x) complete_init_KdV(x);
     simulation_params.order = 2;
     simulation_params.N = N_list(i);
-    [t2,u2] = KdV_solve(simulation_params);
+    [t2,u2] = PDE_solve(simulation_params);
     
     
     u_list_markov{i} = u_markov;

@@ -1,0 +1,106 @@
+\documentclass{article}
+\usepackage{setspace}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+
+\graphicspath{{figures/}}
+ 
+%----------------------------------------------------------------------------------------
+%     AUTHORS and ABSTRACT
+%----------------------------------------------------------------------------------------
+
+\title{Notes on the Change of Variables in KdV-Burgers}
+\author{Jacob Price}
+
+\begin{document}
+\maketitle
+
+
+%----------------------------------------------------------------------------------------
+\section{Changes of Variables}
+%----------------------------------------------------------------------------------------
+
+The KdV-Burgers equation is:
+
+\begin{equation}
+u_t + uu_x = \epsilon^2 u_{xxx}+\alpha u_{xx}.
+\end{equation}We will transform this to a nondimensional form. Choose a unit velocity $U$. Then define nondimensional $x'$ and $t'$ as:
+\begin{align}
+x' &= \frac{\sqrt{U}}{\epsilon }x\\
+t' &= \frac{U^{3/2}}{\epsilon}t.
+\end{align}Then,
+\begin{align}
+f_x &= \frac{\partial f}{\partial x'}\frac{dx'}{dx} = f_{x'}\frac{\sqrt{U}}{\epsilon}\\
+f_t &= \frac{\partial f}{\partial t'}\frac{dt'}{dt} = f_{t'}\frac{U^{3/2}}{\epsilon}.
+\end{align}Plugging these into the above, we find:
+\begin{align*}
+u_t &= - \frac{1}{2}(u^2)_x + \epsilon^2 u_{xxx}+\alpha u_{xx}\\
+\frac{U^{3/2}}{\epsilon} u_{t'} &= -\frac{1}{2}(u^2)_{x'}\frac{\sqrt{U}}{\epsilon}+\epsilon^2 u_{x'x'x'}\frac{U^{3/2}}{\epsilon^3}+\alpha u_{x'x'}\frac{U}{\epsilon^2}\\
+\frac{\epsilon}{U^{5/2}}\frac{U^{3/2}}{\epsilon} u_{t'} &= -\frac{1}{2}\frac{\epsilon}{U^{5/2}}(u^2)_{x'}\frac{\sqrt{U}}{\epsilon}+\frac{\epsilon}{U^{5/2}}\epsilon^2 u_{x'x'x'}\frac{U^{3/2}}{\epsilon^3}+\alpha \frac{\epsilon}{U^{5/2}}u_{x'x'}\frac{U}{\epsilon^2}\\
+u'_{t'} &= -\frac{1}{2}(u'^2)_{x'}+u'_{x'x'x'}+\frac{\alpha}{\epsilon \sqrt{U}}u'_{x'x'}.
+\end{align*}If we define $R = \frac{\epsilon\sqrt{U}}{\alpha}$ and drop the primes, we are left with:
+\begin{equation}
+u_t = -\frac{1}{2}(u^2)_x+u_{xxx}+\frac{1}{R}u_{xx}.
+\end{equation}This is the nondimensionalized version of KdV-Burgers.
+
+\section{Effect on Fourier Transforms}
+
+In these changed variables, the domain is no longer $[0,2\pi]$. Instead, it is $[0,L]$ where $L = 2\pi\frac{\sqrt{U}}{\epsilon}$. Let's see how we can factor this in to our FFT routine. The current FFT routine defines:
+\begin{equation}f(x) = \sum_k f_ke^{ikx},
+\end{equation}which means
+\begin{equation}
+f_k = \frac{1}{2\pi}\int_0^{2\pi} f(x)e^{-ikx}\,\mathrm{d}x.\label{FFT}
+\end{equation}This quantity \eqref{FFT} is what is calculated by the FFT algorithm in Matlab. We want to use new basis functions that are orthogonal in our new units. They are:
+\begin{equation}
+\phi_k(x') = e^{ik\frac{2\pi}{L}x'}.
+\end{equation}Let's demonstrate what happens when we compute the inner product of one of these basis functions with another on our new domain:
+\begin{align*}
+\int_0^L \phi_k(x')\phi^*_j(x')\,\mathrm{d}x' &= \int_0^L e^{i(k-j)\frac{2\pi}{L}x'}\,\mathrm{d}x'.
+\end{align*}We'll now do a subsitution $x = \frac{2\pi}{L}x'$, $\mathrm{d}x' = \frac{L}{2\pi}\mathrm{d}x$, $x(0) = 0$, $x(L) = 2\pi$:
+\begin{equation}
+\int_0^L e^{i(k-j)\frac{2\pi}{L}x'}\,\mathrm{d}x' = \int_0^{2\pi}e^{i(k-j)x}\frac{L}{2\pi}\,\mathrm{d}x=\begin{cases}
+L & k=j\\0 &k\neq j.
+\end{cases}\label{cases}
+\end{equation}Our expansion of $f(x)$ in the new basis would be 
+\begin{equation}
+f(x') = \sum_k f_k e^{ik\frac{2\pi}{L}x'}.
+\end{equation}Now, the FFT in the new units would be defined as:
+\begin{equation}
+\int_0^L f(x')e^{-ij\frac{2\pi}{L}x'}\mathrm{d}x' = \sum_k f_k\int_0^L e^{i(k-j)\frac{2\pi}{L}x'}\,\mathrm{d}x'.
+\end{equation}Using the results from \eqref{cases}, we find:
+\begin{equation}
+\sum_k f_k\int_0^L e^{i(k-j)\frac{2\pi}{L}x'}\,\mathrm{d}x' = \sum_k Lf_k\delta_{kj} = Lf_j.
+\end{equation}Therefore, we have shown:
+\begin{equation}
+f_k = \frac{1}{L}\int_0^L f(x')e^{-ik\frac{2\pi}{L}x'}\,\mathrm{d}x.
+\end{equation}Using the same substitution as above, we find:
+\begin{align*}
+f_k &= \frac{1}{L}\int_0^L f(x')e^{-ik\frac{2\pi}{L}x'}\,\mathrm{d}x' \\
+&= \frac{1}{L}\int_0^{2\pi} f\left(\frac{L}{2\pi}x\right)e^{-ikx}\frac{L}{2\pi}\,\mathrm{d}x \\
+&= \frac{1}{2\pi}\int_0^{2\pi}f\left(\frac{L}{2\pi}x\right)e^{-ikx}\,\mathrm{d}x.
+\end{align*}This is simply the standard FFT of a function evaluated at the points $\frac{L}{2\pi}x$, which comprises the points $x'$. Thus, no modifications of the FFT need to be made. In order to check if any modifications to the IFFT need to be made, we plug this result into the original sum:
+\begin{align*}
+\sum_k f_k e^{ik\frac{2\pi}{L}x'}&=\sum_k \left(\frac{1}{2\pi}\int_0^{2\pi} f\left(\frac{L}{2\pi}x\right)e^{-ikx}\,\mathrm{d}x\right)e^{ik\frac{L}{2\pi}x'}.
+\end{align*}This is the IFFT of a function defined at the points $\frac{L}{2\pi}x$, which are the points $x'$. Thus, the IFFT also does not need any modification due to the change of variables.
+
+\section{Fourier Transform of KdV-Burgers in New Variables}
+
+We now take the nondimensionalized version of KdV-Burgers, expand each $u$ as $u(x,t) = \sum_k u_k(t)e^{ik\frac{2\pi}{L}x}$:
+\begin{align*}
+u_t =& -\frac{1}{2}(u^2)_x+u_{xxx}+\frac{1}{R}u_{xx}\\
+\frac{\partial}{\partial t}\left[\sum_k u_ke^{ik\frac{2\pi}{L}x}\right] =& -\frac{1}{2}\frac{\partial}{\partial x}\left[\left(\sum_p u_p e^{ip\frac{2\pi}{L}x}\right)\left(\sum_q u_q e^{iq\frac{2\pi}{L}x}\right)\right]+\frac{\partial^3}{\partial x^3}\left[\sum_k u_ke^{ik\frac{2\pi}{L}x}\right] \\&+ \frac{1}{R}\frac{\partial^2}{\partial x^2}\left[\sum_k u_ke^{ik\frac{2\pi}{L}x}\right]\\
+\sum_k \frac{du_k}{dt}e^{ik\frac{2\pi}{L}x}=& -\frac{1}{2}\frac{\partial}{\partial x}\left[\sum_k \sum_{p+q=k}u_pu_q e^{ik\frac{2\pi}{L}x}\right]-\sum_k i\left(\frac{2\pi k}{L}\right)^3u_k e^{ik\frac{2\pi}{L}x}\\
+&-\frac{1}{R}\sum_k \left(\frac{2\pi k}{L}\right)^2u_ke^{ik\frac{2\pi}{L}x}\\
+\sum_k \frac{du_k}{dt}e^{ik\frac{2\pi}{L}x}=& -\frac{1}{2}\sum_k \sum_{p+q=k}i\left(\frac{2\pi k}{L}\right)u_pu_q e^{ik\frac{2\pi}{L}x}-\sum_k i\left(\frac{2\pi k}{L}\right)^3u_k e^{ik\frac{2\pi}{L}x}\\
+&-\frac{1}{R}\sum_k \left(\frac{2\pi k}{L}\right)^2u_ke^{ik\frac{2\pi}{L}x}.
+\end{align*}Now we compute the inner product of each side with $\phi_j = e^{ij\frac{2\pi}{L}x}$
+\begin{align*}
+\sum_k \frac{du_k}{dt}\int_0^Le^{ik\frac{2\pi}{L}x}e^{-ij\frac{2\pi}{j}x}\,\mathrm{d}x =&-\frac{1}{2}\sum_k \sum_{p+q=k}i\left(\frac{2\pi k}{L}\right)u_pu_q \int e^{ik\frac{2\pi}{L}x}e^{-ij\frac{2\pi}{L}x}\,\mathrm{d}x\\
+&-\sum_k i\left(\frac{2\pi k}{L}\right)^3u_k \int_0^Le^{ik\frac{2\pi}{L}x}e^{-ij\frac{2\pi}{L}x}\,\mathrm{d}x\\
+&-\frac{1}{R}\sum_k \left(\frac{2\pi k}{L}\right)^2u_k\int_0^Le^{ik\frac{2\pi}{L}x}e^{-ij\frac{2\pi}{L}x}\,\mathrm{d}x\\
+L\frac{du_j}{dt}=& -L\frac{i\hat{j}}{2}\sum_{p+q=j}u_pu_q - Li\hat{j}^3u_j - L\frac{\hat{j}^2}{R}u_j\\
+\frac{du_k}{dt} =& \frac{i\hat{k}}{2}\sum_{p+q=k}u_pu_q - i\hat{k}^3u_k - \frac{\hat{k}^2}{R}u_k,
+\end{align*}where $\hat{k} = \frac{2\pi k}{L}$. From this, it appears I need to redefine $k\to \hat{k}$, and make no other changes. Importantly, the FFT and IFFT algorithms will work correctly without any changes.
+\end{document}

@@ -56,6 +56,7 @@ N = simulation_params.N;
 %general simulation parameters
 R  = simulation_params.R;
 dt = simulation_params.dt;
+k = ((1:N)-1)*2*pi/simulation_params.L;
 
 
 %define the ordinates in real space
@@ -84,7 +85,7 @@ else
 end
 
 %define the linear and nonlinear portions of the right hand side
-A=diag(-((1:N)-1).^2/R-1j*((1:N)-1).^3);
+A=diag(-k.^2/R-1j*k.^3);
 B=@(x,t) nonlinear_full_BKdV(x,simulation_params.N);
 
 %isolate the stiff portion of the linear portion of the right hand side
