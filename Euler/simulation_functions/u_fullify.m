@@ -21,7 +21,8 @@ function u_full = u_fullify(u,M)
 %            Fourier modes
 
 
-N = length(u); % find size of array
+s = size(u); % find size of array
+N = s(1);
 
 % create hotkeys for different index ranges
 a = 2:N;

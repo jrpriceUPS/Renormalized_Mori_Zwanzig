@@ -1,4 +1,4 @@
-function du_dt = full_euler(u,k,N,M)
+function du_dt = full_euler(u,k,N,t)
 %
 % The ODE for the full 3D Euler's equations:
 %
@@ -26,8 +26,6 @@ function du_dt = full_euler(u,k,N,M)
 %
 % N  =  the resolution of the model
 %
-% M  =  the resolution of the FFT to use (for dealiasing)
-%
 %
 %%%%%%%%%%
 %OUTPUTS:%
@@ -35,6 +33,8 @@ function du_dt = full_euler(u,k,N,M)
 %
 % du_dt  =  the time derivative of the state vector (NxNxNx3 unspooled into
 %           a vector for ode45)
+
+M = 3*N;
 
 u = reshape(u,[N,N,N,3,4]);
 
@@ -44,10 +44,9 @@ b = 2*M:-1:2*M-N+2;
 
 % find the convolution of uu.'
 u_full = u_fullify(u,M);
-convo = convolve(u_full,u_full);
 
 % fill the appropriate entries of du_dt with the full euler RHS
-du_dt = RHS(a,b,@(x,y,z) full_euler_matfill(x,y,z,k,convo));
+du_dt = full_RHS(u_full,a,b,k,N);
 
 % unspool the derivative so it can be used by ode45
 du_dt = du_dt(:);

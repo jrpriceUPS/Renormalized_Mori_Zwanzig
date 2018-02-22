@@ -7,7 +7,7 @@ addpath ../../analysis
 
 N = 4; % resolution
 M = 3*N;
-end_time = 10;
+end_time = 5;
 
 % uniform grid
 x = linspace(0,2*pi*(2*M-1)/(2*M),2*M).';
