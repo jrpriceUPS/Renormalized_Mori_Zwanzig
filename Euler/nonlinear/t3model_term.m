@@ -1,4 +1,4 @@
-function [t3,t3hat,t3tilde,E,Ehat,Etilde,F,Fhat,Ftilde] = t3model_term(u_full,t0hat,t0tilde,t1hat,t1tilde,Ahat,Atilde,Bhat,Btilde,a,b,k,a_tilde)
+function [t3,t3hat,t3tilde,E,Ehat,Etilde,F,Fhat,Ftilde] = t3model_term(u_full,t0hat,t0tilde,t1hat,t1tilde,Ahat,Atilde,Btilde,a,b,k,a_tilde)
 %
 % Computes the RHS for every mode in the t^3-model term for 3D Euler
 %
