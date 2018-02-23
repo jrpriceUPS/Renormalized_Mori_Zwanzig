@@ -1,4 +1,4 @@
-function [t2,t2hat,t2tilde,A,Ahat,Atilde,B,Bhat,Btilde] = t2model_term(u_full,t0hat,t0tilde,t1tilde,a,b,k,a_tilde)
+function [t2,t2hat,t2tilde] = t2model_term(u_full,t0hat,t0tilde,t1tilde,a,b,k,a_tilde)
 %
 % Computes the RHS for every mode in the full model for 3D Euler
 %
@@ -34,11 +34,19 @@ function [t2,t2hat,t2tilde,A,Ahat,Atilde,B,Bhat,Btilde] = t2model_term(u_full,t0
 %
 %  t2tilde  =  unresolved part of the t-model term of derivative of each resolved mode
 
-[A,Ahat,Atilde] = Dk(u_full,t0hat,a,b,k,a_tilde);
+[~,~,term1] = Dk(u_full,t0hat,a,b,k,a_tilde);
+[A,Ahat,Atilde] = Dk(u_full,t1tilde-term1,a,b,k,a_tilde);
 [B,Bhat,Btilde] = Ck(t0tilde,t0tilde,a,b,k,a_tilde);
 
-[first_term,ft_hat,ft_tilde] = Dk(u_full,t1tilde-Atilde,a,b,k,a_tilde);
+t2 = 1/2*A + B;
+t2hat = 1/2*Ahat + Bhat;
+t2tilde = 1/2*Atilde + Btilde;
 
-t2 = 1/2*first_term + B;
-t2hat = 1/2*ft_hat + Bhat;
-t2tilde = 1/2*ft_tilde + Btilde;
+
+[A,Ahat,Atilde] = Dk(u_full,t0tilde,a,b,k,a_tilde);
+[B,Bhat,Btilde] = Dk(u_full,t0hat,a,b,k,a_tilde);
+[E,Ehat,Etilde] = Ck(2*t0tilde,t0tilde,a,b,k,a_tilde);
+
+first_term = Dk(u_full,
+
+t2_alt = 

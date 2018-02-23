@@ -1,8 +1,8 @@
-function du_dt = t2model_euler(u,k,N,time,coeff)
+function du_dt = t3model_euler(u,k,N,time,coeff)
 %
-% The ODE for the t^2-model term of 3D Euler's equations:
+% The ODE for the t^3-model term of 3D Euler's equations:
 %
-% du_k/dt = R^0(u) + Sum_{i=1}^2 R^i(u)
+% du_k/dt = R^0(u) + Sum_{i=1}^3 R^i(u)
 %
 %
 %%%%%%%%%
@@ -26,7 +26,7 @@ function du_dt = t2model_euler(u,k,N,time,coeff)
 %
 % du_dt  =  the time derivative of the state vector (NxNxNx3 unspooled into
 %           a vector for ode45)
-
+time
 % full model has twice as many modes in each direction
 M = 2*N;
 
@@ -43,7 +43,7 @@ a_tilde = N+1:M;
 u_full = u_fullify(u,M);
 
 % fill the appropriate entries of du_dt with the full euler RHS
-du_dt = t2model_RHS(u_full,a,b,k,a_tilde,N,time,coeff);
+du_dt = t3model_RHS(u_full,a,b,k,a_tilde,N,time,coeff);
 
 % unspool the derivative so it can be used by ode45
 du_dt = du_dt(:);
