@@ -34,10 +34,6 @@ function [t4,t4hat,t4tilde] = t4model_term(u_full,t0hat,t0tilde,t1hat,t1tilde,Ah
 %
 %  t4tilde  =  unresolved part of the t^4-model term of derivative of each resolved mode
 
-
-[E,Ehat,Etilde] = Dk(t0tilde,t0hat,a,b,k,a_tilde);
-[F,Fhat,Ftilde] = Ck(t0hat,t0hat,a,b,k,a_tilde);
-
 [term1aa,term1aa_hat,term1aa_tilde] = Dk(u_full,Ahat - 3*t1hat + 3*t1tilde - 5*Atilde,a,b,k,a_tilde);
 [term1ab,term1ab_hat,term1ab_tilde] = Dk(u_full,5*t1hat - 3*Ahat + 3*Atilde - t1tilde,a,b,k,a_tilde);
 
@@ -62,3 +58,38 @@ function [t4,t4hat,t4tilde] = t4model_term(u_full,t0hat,t0tilde,t1hat,t1tilde,Ah
 t4 = 1/24*term1 + 1/6*term2 + 1/8*term3 - 1/8*term4;
 t4hat = 1/24*term1_hat + 1/6*term2_hat + 1/8*term3_hat - 1/8*term4_hat;
 t4tilde = 1/24*term1_tilde + 1/6*term2_tilde + 1/8*term3_tilde - 1/8*term4_tilde;
+
+
+
+
+
+
+
+
+% testing other version!
+
+[term1,~,~] = Dk(Ahat,Ahat,a,b,k,a_tilde);
+[term2,~,~] = Dk(Ahat+t1hat,Ahat+t1hat,a,b,k,a_tilde);
+[term3,~,~] = Dk(Ahat+Atilde,Ahat+Atilde,a,b,k,a_tilde);
+[term4,~,~] = Dk(Ahat+Atilde+t1hat+t1tilde,Ahat+Atilde+t1hat+t1tilde,a,b,k,a_tilde);
+
+[~,term5aa_hat,~] = Dk(u_full,Ahat-3*t1hat+3*t1tilde-5*Atilde,a,b,k,a_tilde);
+[~,~,term5ab_tilde] = Dk(u_full,5*t1hat-3*Ahat+3*Atilde-t1tilde,a,b,k,a_tilde);
+[~,~,term5a_tilde] = Dk(u_full,12*Fhat+6*Fhat+3*Ehat+6*Bhat-12*Ftilde-2*Ftilde-Etilde-2*Btilde+term5aa_hat+term5ab_tilde-16*Fhat-8*Ehat+8*Ftilde+4*Etilde,a,b,k,a_tilde);
+[~,~,term5b_tilde] = Dk(t0hat,4*Ahat-8*t1hat+4*t1tilde-8*Atilde,a,b,k,a_tilde);
+[~,~,term5c_tilde] = Dk(t0hat+t0tilde,3*t1hat-Ahat+5*Atilde-3*t1tilde,a,b,k,a_tilde);
+[term5,~,~] = Dk(u_full,term5a_tilde+term5b_tilde+term5c_tilde,a,b,k,a_tilde);
+
+[~,~,term6a_tilde] = Dk(u_full,4*Ahat-8*t1hat-8*Atilde+4*t1tilde,a,b,k,a_tilde);
+[term6,~,~] = Dk(t0hat,24*Ftilde+8*Btilde+8*Etilde+8*Ftilde-24*Ftilde-12*Etilde+term6a_tilde,a,b,k,a_tilde);
+
+[~,~,term7a_tilde] = Dk(u_full,-4*Ahat+8*t1hat+8*Atilde-4*t1tilde,a,b,k,a_tilde);
+[term7,~,~] = Dk(t0hat+t0tilde,-24*Ftilde-8*Btilde-8*Etilde-8*Ftilde+24*Ftilde+12*Etilde+term7a_tilde,a,b,k,a_tilde);
+
+[term8,~,~] = Dk(Ahat,3*Ahat+t1hat+2*Atilde,a,b,k,a_tilde);
+[term9,~,~] = Dk(-6*Ahat+6*t1hat,Ahat+Atilde+t1hat+t1tilde,a,b,k,a_tilde);
+[term10,~,~] = Dk(Ahat+Atilde,Atilde+t1tilde,a,b,k,a_tilde);
+
+alt_t4 = -1/2*term1 - 1/8*term2 - 1/2*term3 - 1/8*term4 + 1/24*term5 + 1/24*term6 + 1/24*term7 + 1/2*term8 + 1/24*term9 + 1/2*term10;
+
+max(abs(t4(:) - alt_t4(:)))

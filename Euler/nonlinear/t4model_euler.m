@@ -26,7 +26,7 @@ function du_dt = t4model_euler(u,k,N,time,coeff)
 %
 % du_dt  =  the time derivative of the state vector (NxNxNx3 unspooled into
 %           a vector for ode45)
-time
+%time
 % full model has twice as many modes in each direction
 M = 2*N;
 
