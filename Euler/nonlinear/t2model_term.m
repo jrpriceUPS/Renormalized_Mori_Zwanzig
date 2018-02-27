@@ -42,3 +42,17 @@ function [t2,t2hat,t2tilde,A,Ahat,Atilde,B,Bhat,Btilde] = t2model_term(u_full,t0
 t2 = 1/2*first_term + B;
 t2hat = 1/2*ft_hat + Bhat;
 t2tilde = 1/2*ft_tilde + Btilde;
+
+
+% double checking!
+
+
+t0 = t0hat + t0tilde;
+
+[A1,~,~] = Ck(t0hat,t0hat,a,b,k,a_tilde);
+[A2,~,~] = Ck(t0,t0,a,b,k,a_tilde);
+[A3,~,~] = Dk(t0hat,t0,a,b,k,a_tilde);
+
+t2_check = A1 + A2 + 1/2*first_term - A3;
+
+max(abs(t2_check(:) - t2(:)))

@@ -32,7 +32,7 @@ k(:,:,:,3) = kz;
 
 % run the simulation
 options = odeset('RelTol',1e-10,'Stats','on');
-[t_t3model,u_raw_t3model] = ode45(@(t,u) t4model_euler(u,k,N,t,[1 1 1 1]),[0,end_time],u(:),options);
+[t_t4model,u_rawmodel] = ode45(@(t,u) t4model_euler(u,k,N,t,[1 1 1 1]),[0,end_time],u(:),options);
 
 
 % reshape the output array into an intelligible shape (should make this a
