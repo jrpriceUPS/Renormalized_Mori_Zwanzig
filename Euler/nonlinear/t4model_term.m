@@ -80,8 +80,8 @@ P2_simpler = 1/6*term2;
 % P1 = P11 + 1/4*P12 + P13 + 1/4*P14 - 1/2*P15 -1/24*P16 - 1/2*P17;
 
 [~,~,Xtilde] = Ck(t0hat+t0tilde,t0hat+t0tilde,a,b,k,a_tilde);
-[~,~,Y1tilde] = Dk(uhat,4*Ahat-8*t1hat-8*Atilde+4*t1tilde,a,b,k,a_tilde);
-[~,~,Y2tilde] = Dk(uhat,-4*Ahat+8*t1hat+8*Atilde-4*t1tilde,a,b,k,a_tilde);
+[~,~,Y1tilde] = Dk(u_full,4*Ahat-8*t1hat-8*Atilde+4*t1tilde,a,b,k,a_tilde);
+[~,~,Y2tilde] = Dk(u_full,-4*Ahat+8*t1hat+8*Atilde-4*t1tilde,a,b,k,a_tilde);
 [~,~,Ztilde] = Dk(t0hat,t0hat+t0tilde,a,b,k,a_tilde);
 
 [P21,~,~] = Dk(t0hat,24*Ftilde+8*Xtilde+Y1tilde-12*Ztilde,a,b,k,a_tilde);
