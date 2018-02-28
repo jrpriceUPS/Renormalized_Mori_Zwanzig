@@ -1,4 +1,4 @@
-function [t3,t3hat,t3tilde,E,Ehat,Etilde,F,Fhat,Ftilde] = t3model_term(u_full,t0hat,t0tilde,t1hat,t1tilde,Ahat,Atilde,Btilde,a,b,k,a_tilde)
+function [t3,Ehat,Etilde,Fhat,Ftilde] = t3model_term(u_full,t0hat,t0tilde,t1hat,t1tilde,Ahat,Atilde,Btilde,a,b,k,a_tilde)
 %
 % Computes the RHS for every mode in the t^3-model term for 3D Euler
 %
@@ -35,29 +35,12 @@ function [t3,t3hat,t3tilde,E,Ehat,Etilde,F,Fhat,Ftilde] = t3model_term(u_full,t0
 %  t3tilde  =  unresolved part of the t^3-model term of derivative of each resolved mode
 
 
-[E,Ehat,Etilde] = Dk(t0tilde,t0hat,a,b,k,a_tilde);
-[F,Fhat,Ftilde] = Ck(t0hat,t0hat,a,b,k,a_tilde);
+[~,Ehat,Etilde] = Dk(t0tilde,t0hat,a,b,k,a_tilde);
+[~,Fhat,Ftilde] = Ck(t0hat,t0hat,a,b,k,a_tilde);
 
-[term1,t1_hat,t1_tilde] = Dk(t0tilde,t1tilde-Atilde,a,b,k,a_tilde);
+[term1,~,~] = Dk(t0tilde,t1tilde-Atilde,a,b,k,a_tilde);
 [~,~,t2_tilde] = Dk(u_full,Ahat-2*t1hat+t1tilde-2*Atilde,a,b,k,a_tilde);
-[term3,t3_hat,t3_tilde] = Dk(u_full,t2_tilde+2*Btilde-Etilde+2*Ftilde,a,b,k,a_tilde);
+[term3,~,~] = Dk(u_full,t2_tilde+2*Btilde-Etilde+2*Ftilde,a,b,k,a_tilde);
 
 
 t3 = 1/2*term1 + 1/6*term3;
-t3hat = 1/2*t1_hat + 1/6*t3_hat;
-t3tilde = 1/2*t1_tilde + 1/6*t3_tilde;
-
-
-% double checking
-
-t0 = t0hat+t0tilde;
-
-[~,~,A1] = Ck(t0,t0,a,b,k,a_tilde);
-[~,~,A2] = Dk(t0hat,t0,a,b,k,a_tilde);
-[A,~,~] = Dk(u_full,6*Ftilde + 2*A1 - 3*A2 + t2_tilde,a,b,k,a_tilde);
-[B,~,~] = Dk(t0hat,Atilde-t1tilde,a,b,k,a_tilde);
-[C,~,~] = Dk(t0,-3*Atilde+3*t1tilde,a,b,k,a_tilde);
-
-t3_check = 1/6*A + 1/2*B + 1/6*C;
-
-max(abs(t3_check(:) - t3(:)))

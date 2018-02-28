@@ -1,4 +1,4 @@
-function [t4,t4hat,t4tilde] = t4model_term(u_full,t0hat,t0tilde,t1hat,t1tilde,Ahat,Atilde,Bhat,Btilde,Ehat,Etilde,Fhat,Ftilde,a,b,k,a_tilde)
+function t4 = t4model_term(u_full,t0hat,t0tilde,t1hat,t1tilde,Ahat,Atilde,Bhat,Btilde,Ehat,Etilde,Fhat,Ftilde,a,b,k,a_tilde)
 %
 % Computes the RHS for every mode in the t^4-model term for 3D Euler
 %
@@ -56,8 +56,6 @@ function [t4,t4hat,t4tilde] = t4model_term(u_full,t0hat,t0tilde,t1hat,t1tilde,Ah
 
 
 t4 = 1/24*term1 + 1/6*term2 + 1/8*term3 - 1/8*term4;
-t4hat = 1/24*term1_hat + 1/6*term2_hat + 1/8*term3_hat - 1/8*term4_hat;
-t4tilde = 1/24*term1_tilde + 1/6*term2_tilde + 1/8*term3_tilde - 1/8*term4_tilde;
 
 
 
