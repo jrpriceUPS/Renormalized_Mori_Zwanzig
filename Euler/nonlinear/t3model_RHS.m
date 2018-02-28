@@ -29,7 +29,7 @@ function du_dt = t3model_RHS(u_full,a,b,k,a_tilde,N,time,coeff)
 %%%%%%%%%%
 %
 %  du_dt  =  derivative of each mode
-time
+
 % compute the full model term
 [t0,t0hat,t0tilde] = markov_term(u_full,a,b,k,a_tilde);
 
