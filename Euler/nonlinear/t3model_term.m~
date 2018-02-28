@@ -50,14 +50,3 @@ t3tilde = 1/2*t1_tilde + 1/6*t3_tilde;
 
 % double checking
 
-t0 = t0hat+t0tilde;
-
-[~,~,A1] = Ck(t0,t0,a,b,k,a_tilde);
-[~,~,A2] = Dk(t0hat,t0,a,b,k,a_tilde);
-[A,~,~] = Dk(u_full,6*Ftilde + 2*A1 - 3*A2 + t2_tilde,a,b,k,a_tilde);
-[B,~,~] = Dk(t0hat,Atilde-t1tilde,a,b,k,a_tilde);
-[C,~,~] = Dk(t0,-3*Atilde+3*t1tilde,a,b,k,a_tilde);
-
-t3_check = 1/6*A + 1/2*B + 1/6*C;
-
-max(abs(t3_check(:) - t3(:)))
