@@ -5,7 +5,7 @@ addpath ../../simulation_functions
 addpath ../../nonlinear
 addpath ../../analysis
 
-end_time = 0.2;
+end_time = 8;
 
 N_full = 8; % resolution
 M_full = 3*N_full;
