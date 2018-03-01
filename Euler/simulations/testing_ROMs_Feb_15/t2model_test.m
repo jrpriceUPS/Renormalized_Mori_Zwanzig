@@ -49,7 +49,7 @@ options = odeset('RelTol',1e-10,'Stats','on');
 
 % reshape the output array into an intelligible shape (should make this a
 % separate function later)
-u_array_t2model = zeros([size(u) length(t_tmodel)]);
+u_array_t2model = zeros([size(u) length(t_t2model)]);
 for i = 1:length(t_t2model)
     u_array_t2model(:,:,:,:,:,i) = reshape(u_raw_t2model(i,:),[N,N,N,3,4]);
 end
