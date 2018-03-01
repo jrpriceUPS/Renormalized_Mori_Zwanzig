@@ -1,5 +1,7 @@
 clear all;close all;
 
+format long
+
 addpath ../../simulation_functions
 addpath ../../nonlinear
 addpath ../../analysis

@@ -1,10 +1,12 @@
 clear all;close all;
 
+format long
+
 addpath ../../simulation_functions
 addpath ../../nonlinear
 addpath ../../analysis
 
-end_time = 8; % point of instability
+end_time = 6.543; % point of instability
 
 N = 4;
 M = 2*N;
