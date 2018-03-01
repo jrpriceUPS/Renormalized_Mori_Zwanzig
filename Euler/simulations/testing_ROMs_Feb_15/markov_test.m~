@@ -1,11 +1,11 @@
 % original testbed for full Euler implementation
 
-clear all;close all;
+%clear all;close all;
 addpath ../../simulation_functions
 addpath ../../nonlinear
 addpath ../../analysis
 
-end_time = 0.2;
+end_time = 8;
 
 N_full = 8; % resolution
 M_full = 3*N_full;
@@ -46,27 +46,19 @@ k_markov(:,:,:,3) = kz_markov;
 params_full.k = k_full;
 params_full.N = N_full;
 params_full.M = M_full;
-params_full.func = @(x) full_RHS(x);
+params_full.func = @(x) full_R(x);
 params_full.coeff = [];
-params_full.a = 2:M_full;
-params_full.b = 2*M_full:-1:M_full+2;
-params_full.a_tilde = N_full+1:M_full;
-params_full.print_time = 1;
 
 params_markov.k = k_markov;
 params_markov.N = N_markov;
 params_markov.M = M_markov;
-params_markov.func = @(x) markov_RHS(x);
+params_markov.func = 'markov_RHS';
 params_markov.coeff = [];
-params_markov.a = 2:M_markov;
-params_markov.b = 2*M_markov:-1:M_markov+2;
-params_markov.a_tilde = N_markov+1:M_markov;
-params_markov.print_time = 1;
 
 % run the simulation
 options = odeset('RelTol',1e-10,'Stats','on');
 [t_full,u_raw_full] = ode45(@(t,u) RHS(u,t,params_full),[0,end_time],u1(:),options);
-[t_markov,u_raw_markov] = ode45(@(t,u) RHS(u,t,params_markov),[0,end_time],u2(:),options);
+[t_markov,u_raw_markov] = ode45(@(t,u) RHS(u,t,params_markov),[0,end_time],u1(:),options);
 
 % reshape the output array into an intelligible shape (should make this a
 % separate function later)

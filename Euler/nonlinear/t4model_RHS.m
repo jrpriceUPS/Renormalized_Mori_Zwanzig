@@ -1,4 +1,4 @@
-function du_dt = t4model_RHS(u_full,a,b,k,a_tilde,N,time,coeff)
+function du_dt = t4model_RHS(params)
 %
 % Computes the t^4-model for every mode in 3D Euler
 %
@@ -29,6 +29,15 @@ function du_dt = t4model_RHS(u_full,a,b,k,a_tilde,N,time,coeff)
 %%%%%%%%%%
 %
 %  du_dt  =  derivative of each mode
+
+u_full = params.u_full;
+a = params.a;
+b = params.b;
+k = params.k;
+a_tilde = params.a_tilde;
+N = params.N;
+time = params.time;
+coeff = params.coeff;
 
 % compute the full model term
 [t0,t0hat,t0tilde] = markov_term(u_full,a,b,k,a_tilde);

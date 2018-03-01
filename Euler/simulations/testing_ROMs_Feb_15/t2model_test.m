@@ -1,4 +1,4 @@
-%clear all;close all;
+clear all;close all;
 
 addpath ../../simulation_functions
 addpath ../../nonlinear
@@ -30,9 +30,19 @@ k(:,:,:,1) = kx;
 k(:,:,:,2) = ky;
 k(:,:,:,3) = kz;
 
+params_t2model.k = k;
+params_t2model.N = N;
+params_t2model.M = M;
+params_t2model.func = @(x) t2model_RHS(x);
+params_t2model.coeff = [1,1];
+params_t2model.a = 2:M;
+params_t2model.b = 2*M:-1:M+2;
+params_t2model.a_tilde = N+1:M;
+params_t2model.print_time = 1;
+
 % run the simulation
 options = odeset('RelTol',1e-10,'Stats','on');
-[t_t2model,u_raw_t2model] = ode45(@(t,u) t2model_euler(u,k,N,t,[1 1]),[0,end_time],u(:),options);
+[t_t2model,u_raw_t2model] = ode45(@(t,u) RHS(u,t,params_t2model),[0,end_time],u(:),options);
 
 
 % reshape the output array into an intelligible shape (should make this a

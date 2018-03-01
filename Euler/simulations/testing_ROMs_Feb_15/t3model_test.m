@@ -30,9 +30,19 @@ k(:,:,:,1) = kx;
 k(:,:,:,2) = ky;
 k(:,:,:,3) = kz;
 
+params_t3model.k = k;
+params_t3model.N = N;
+params_t3model.M = M;
+params_t3model.func = @(x) t3model_RHS(x);
+params_t3model.coeff = [1,1,1];
+params_t3model.a = 2:M;
+params_t3model.b = 2*M:-1:M+2;
+params_t3model.a_tilde = N+1:M;
+params_t3model.print_time = 1;
+
 % run the simulation
 options = odeset('RelTol',1e-10,'Stats','on');
-[t_t3model,u_raw_t3model] = ode45(@(t,u) t3model_euler(u,k,N,t,[1 1 1]),[0,end_time],u(:),options);
+[t_t3model,u_raw_t3model] = ode45(@(t,u) RHS(u,t,params_t3model),[0,end_time],u(:),options);
 
 
 % reshape the output array into an intelligible shape (should make this a

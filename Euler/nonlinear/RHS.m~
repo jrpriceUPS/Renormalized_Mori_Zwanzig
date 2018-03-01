@@ -1,0 +1,63 @@
+function du_dt = RHS(u,time,params)
+%
+% The ODE a RHS of 3D Euler's equations:
+%
+% du_k/dt = func(u)
+%
+%
+%%%%%%%%%
+%INPUTS:%
+%%%%%%%%%
+%
+%      u  =  the current state array (NxNxNx3 unspooled into a vector for ode45)
+%
+%   time  =  current time in simulation
+%
+%
+% The structure params contains the other necessary parameters for
+% simulation
+%
+%      k  =  the array of wavevectors (NxNxNx3)
+%
+%      N  =  the resolution of the model
+%
+%      M  =  the resolution of the full model (ROM) / array size for dealiasing (full)
+%
+%   func  =  the equation for the RHS (for example, t4model_RHS)
+%
+%  coeff  =  constant coefficient assigned to t-model
+%
+%
+%%%%%%%%%%
+%OUTPUTS:%
+%%%%%%%%%%
+%
+% du_dt  =  the time derivative of the state vector (NxNxNx3 unspooled into
+%           a vector for ode45)
+
+N = params.N;
+M = 
+
+if ~isfield(params,'a')
+    params.a = 2:M;
+end
+
+if ~isfield(params,'b')
+    params.a = 2*M:-1:M+2;
+end
+
+if ~isfield(params,'a_tilde')
+    params.a = N+1:M;
+end
+
+u = reshape(u,[N,N,N,3,4]);
+
+% find the full state of u
+params.u_full = u_fullify(u,M);
+
+% fill the appropriate entries of du_dt with the full euler RHS
+du_dt = func(params);
+
+% unspool the derivative so it can be used by ode45
+du_dt = du_dt(:);
+

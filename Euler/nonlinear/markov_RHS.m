@@ -1,4 +1,4 @@
-function du_dt = markov_RHS(u_full,a,b,k,a_tilde,N)
+function du_dt = markov_RHS(params)
 %
 % Computes the RHS for every mode in the markov model for 3D Euler
 %
@@ -23,6 +23,13 @@ function du_dt = markov_RHS(u_full,a,b,k,a_tilde,N)
 %%%%%%%%%%
 %
 %  du_dt  =  derivative of each mode
+
+u_full = params.u_full;
+a = params.a;
+b = params.b;
+k = params.k;
+N = params.N;
+a_tilde = params.a_tilde;
 
 % the full model is a simple convolution Ck(u,u)
 du_dt = markov_term(u_full,a,b,k,a_tilde);
