@@ -34,18 +34,18 @@ function t4 = t4model_term(u_full,t0hat,t0tilde,t1hat,t1tilde,Ahat,Atilde,Bhat,B
 %
 %  t4tilde  =  unresolved part of the t^4-model term of derivative of each resolved mode
 
-[term1aa,term1aa_hat,term1aa_tilde] = Dk(u_full,Ahat - 3*t1hat + 3*t1tilde - 5*Atilde,a,b,k,a_tilde);
-[term1ab,term1ab_hat,term1ab_tilde] = Dk(u_full,5*t1hat - 3*Ahat + 3*Atilde - t1tilde,a,b,k,a_tilde);
+[~,term1aa_hat,~] = Dk(u_full,Ahat - 3*t1hat - 5*Atilde + 3*t1tilde,a,b,k,a_tilde);
+[~,~,term1ab_tilde] = Dk(u_full,-3*Ahat + 5*t1hat + 3*Atilde - t1tilde,a,b,k,a_tilde);
 
 
-[term1a,term1a_hat,term1a_tilde] = Dk(u_full,2*Fhat - 2*Ehat + 6*Bhat + 2*Etilde ...
+[~,~,term1a_tilde] = Dk(u_full,2*Fhat - 2*Ehat + 6*Bhat + 2*Etilde ...
                                            - 6*Ftilde - 2*Btilde + term1aa_hat ...
                                            + term1ab_tilde,a,b,k,a_tilde);
                                        
-[term1b,term1b_hat,term1b_tilde] = Dk(t0hat,3*Ahat - 5*t1hat + t1tilde - 3*Atilde,a,b,k,a_tilde);
-[term1c,term1c_hat,term1c_tilde] = Dk(t0tilde,3*t1hat - Ahat + 5*Atilde - 3*t1tilde,a,b,k,a_tilde);
+[~,~,term1b_tilde] = Dk(t0hat,3*Ahat - 5*t1hat - 3*Atilde + t1tilde,a,b,k,a_tilde);
+[~,~,term1c_tilde] = Dk(t0tilde,-Ahat + 3*t1hat + 5*Atilde - 3*t1tilde,a,b,k,a_tilde);
 
-[term1,term1_hat,term1_tilde] = Dk(u_full,term1a_tilde + term1b_tilde + term1c_tilde,a,b,k,a_tilde);
+[term1,~,~] = Dk(u_full,term1a_tilde + term1b_tilde + term1c_tilde,a,b,k,a_tilde);
 
 [~,~,term2a_tilde] = Dk(u_full,Ahat-2*t1hat-2*Atilde+t1tilde,a,b,k,a_tilde);
 [term2,~,~] = Dk(t0tilde,-Etilde + 2*Ftilde + 2*Btilde + term2a_tilde,a,b,k,a_tilde);
@@ -57,8 +57,9 @@ function t4 = t4model_term(u_full,t0hat,t0tilde,t1hat,t1tilde,Ahat,Atilde,Bhat,B
 
 t4 = 1/24*term1 + 1/6*term2 + 1/8*term3 + 1/8*term4;
 
-P1_simpler = 1/8*term3 + 1/8*term4;
-P2_simpler = 1/6*term2;
+% P1_simpler = 1/8*term3 + 1/8*term4;
+% P2_simpler = 1/6*term2;
+P3_simpler = 1/24*term1;
 
 
 
@@ -79,15 +80,26 @@ P2_simpler = 1/6*term2;
 % 
 % P1 = P11 + 1/4*P12 + P13 + 1/4*P14 - 1/2*P15 -1/24*P16 - 1/2*P17;
 
-[~,~,Xtilde] = Ck(t0hat+t0tilde,t0hat+t0tilde,a,b,k,a_tilde);
-[~,~,Y1tilde] = Dk(u_full,4*Ahat-8*t1hat-8*Atilde+4*t1tilde,a,b,k,a_tilde);
-[~,~,Y2tilde] = Dk(u_full,-4*Ahat+8*t1hat+8*Atilde-4*t1tilde,a,b,k,a_tilde);
-[~,~,Ztilde] = Dk(t0hat,t0hat+t0tilde,a,b,k,a_tilde);
+% [~,~,Xtilde] = Ck(t0hat+t0tilde,t0hat+t0tilde,a,b,k,a_tilde);
+% [~,~,Y1tilde] = Dk(u_full,4*Ahat-8*t1hat-8*Atilde+4*t1tilde,a,b,k,a_tilde);
+% [~,~,Y2tilde] = Dk(u_full,-4*Ahat+8*t1hat+8*Atilde-4*t1tilde,a,b,k,a_tilde);
+% [~,~,Ztilde] = Dk(t0hat,t0hat+t0tilde,a,b,k,a_tilde);
+% 
+% [P21,~,~] = Dk(t0hat,24*Ftilde+8*Xtilde+Y1tilde-12*Ztilde,a,b,k,a_tilde);
+% [P22,~,~] = Dk(t0hat+t0tilde,-24*Ftilde-8*Xtilde+Y2tilde+12*Ztilde,a,b,k,a_tilde);
+% P2 = -1/24*P21 - 1/24*P22;
 
-[P21,~,~] = Dk(t0hat,24*Ftilde+8*Xtilde+Y1tilde-12*Ztilde,a,b,k,a_tilde);
-[P22,~,~] = Dk(t0hat+t0tilde,-24*Ftilde-8*Xtilde+Y2tilde+12*Ztilde,a,b,k,a_tilde);
-P2 = -1/24*P21 - 1/24*P22;
+
+[~,Xhat,Xtilde] = Ck(t0hat+t0tilde,t0hat+t0tilde,a,b,k,a_tilde);
+[~,Yhat,Ytilde] = Dk(t0hat,t0hat+t0tilde,a,b,k,a_tilde);
+[~,~,P3a_tilde] = Dk(u_full,12*Fhat + 6*Xhat - 12*Ftilde - 2*Xtilde + term1aa_hat ...
+                            -8*Yhat + term1ab_tilde + 4*Ytilde,a,b,k,a_tilde);
+[~,~,P3b_tilde] = Dk(t0hat,4*Ahat-8*t1hat-8*Atilde+4*t1tilde,a,b,k,a_tilde);
+[~,~,P3c_tilde] = Dk(t0hat+t0tilde,-Ahat+3*t1hat+5*Atilde-3*t1tilde,a,b,k,a_tilde);
+
+[result,~,~] = Dk(u_full,P3a_tilde+P3b_tilde+P3c_tilde,a,b,k,a_tilde);
+P3 = result/24;
 
 
-max(abs(P2_simpler(:) - P2(:)))
+max(abs(P3_simpler(:) - P3(:)))
 
