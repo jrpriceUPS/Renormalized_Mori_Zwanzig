@@ -3,10 +3,11 @@ function coeff_array = renormalize(u,N_list,t_list,time)
 s = size(u);
 N_full = s(1);
 M_full = 3*N_full;
-%t = s(6);
-t = 2;
+t = s(6);
 
 exact_everything = zeros(s);
+
+coeff_array = zeros(4,length(N_list));
 
 
 % make k array
@@ -38,7 +39,7 @@ end
 
 
 for j = 1:length(N_list);
-    N = N_list(j);
+    N = N_list(j)
     M = 2*N;
     
     exact = zeros(M,M,M,3,t);
@@ -64,7 +65,8 @@ for j = 1:length(N_list);
     a_tilde = N+1:M;
     
     for i = 1:t
-        
+        current_t = t_list(i)
+
         exact_full = u_fullify(squeeze(exact_everything(:,:,:,:,:,i)),M_full);
         exact(:,:,:,:,i) = exact_full(res_exact,res_exact,res_exact,:);
         
@@ -87,9 +89,9 @@ for j = 1:length(N_list);
         if time
             
             t1 = t1*t_list(i);
-            t2hat = t2hat*t_list(i)^2;
-            t3hat = t3hat*t_list(i)^3;
-            t4hat = t4hat*t_list(i)^4;
+            t2 = t2*t^2;
+            t3 = t3*t^3;
+            t4 = t4*t^4;
             
         end
         
@@ -148,11 +150,10 @@ for j = 1:length(N_list);
      A44 = sum(R4(:).*R4(:));
     
     
-    A = [A11 A
-        
-    ]
-    coeff_array = 0;
+     A = [A11 A12 A13 A14
+          A21 A22 A23 A24
+          A31 A32 A33 A34
+          A41 A42 A43 A44];
+      
+    coeff_array(:,j) = A\b
 end
-
-
-coeff_array = 0;

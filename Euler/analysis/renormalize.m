@@ -39,7 +39,7 @@ end
 
 
 for j = 1:length(N_list);
-    N = N_list(j);
+    N = N_list(j)
     M = 2*N;
     
     exact = zeros(M,M,M,3,t);
@@ -65,7 +65,7 @@ for j = 1:length(N_list);
     a_tilde = N+1:M;
     
     for i = 1:t
-        t_list(i)
+        current_t = t_list(i)
 
         exact_full = u_fullify(squeeze(exact_everything(:,:,:,:,:,i)),M_full);
         exact(:,:,:,:,i) = exact_full(res_exact,res_exact,res_exact,:);
@@ -88,10 +88,10 @@ for j = 1:length(N_list);
         
         if time
             
-            t1 = t1*t_list(i);
-            t2hat = t2hat*t_list(i)^2;
-            t3hat = t3hat*t_list(i)^3;
-            t4hat = t4hat*t_list(i)^4;
+            t1 = t1*current_t;
+            t2 = t2*current_t^2;
+            t3 = t3*current_t^3;
+            t4 = t4*current_t^4;
             
         end
         
@@ -155,5 +155,5 @@ for j = 1:length(N_list);
           A31 A32 A33 A34
           A41 A42 A43 A44];
       
-    coeff_array(:,j) = A\b;
+    coeff_array(:,j) = A\b
 end

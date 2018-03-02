@@ -32,8 +32,9 @@ while t_model_size < tol
     
     [~,~,t0tilde] = markov_term(u_full,a,b,k,a_tilde);
     [~,t1hat,~] = tmodel_term(u_full,t0tilde,a,b,k,a_tilde);
+    t1 = u_squishify(t1hat,N);
     
-    t_model_size = sum(abs(t1hat(:)).^2)
+    t_model_size = sum(t1(:).*conj(current_u_temp(:))+conj(t1(:)).*current_u_temp(:))
     tmodel_size_list(i) = t_model_size;
 end
 
