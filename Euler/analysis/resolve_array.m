@@ -1,4 +1,4 @@
-function [u_trim,tmodel_size_list] = resolve_array(u,tol)
+function [u_trim,t_trim,tmodel_size_list] = resolve_array(u,t,tol)
 
 s = size(u);
 N = s(1);
@@ -37,3 +37,4 @@ while t_model_size < tol
 end
 
 u_trim = u(:,:,:,:,:,1:i);
+t_trim = t(1:i);

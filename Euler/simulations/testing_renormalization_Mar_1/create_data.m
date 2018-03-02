@@ -51,4 +51,6 @@ for i = 1:length(t_full)
     u_full_data(:,:,:,:,:,i) = reshape(u_raw_full(i,:),[N,N,N,3,4]);
 end
 
+save t_full t_full
+
 save u_full_data u_full_data
