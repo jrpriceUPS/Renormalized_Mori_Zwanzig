@@ -28,11 +28,11 @@ while t_model_size < tol
     current_u_temp = squeeze(u(:,:,:,:,:,i));
     
     u_full = u_fullify(current_u_temp,M);
+    time = t(i)
     
     [~,~,t0tilde] = markov_term(u_full,a,b,k,a_tilde);
     [~,t1hat,~] = tmodel_term(u_full,t0tilde,a,b,k,a_tilde);
     
-    time = t(i)
     t_model_size = sum(abs(t1hat(:)).^2)
     tmodel_size_list(i) = t_model_size;
 end
