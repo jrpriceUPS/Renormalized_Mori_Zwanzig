@@ -99,21 +99,15 @@ for j = 1:length(N_list);
         R1(res,res,res,:,i,j) = t1_energy(res_exact,res_exact,res_exact,:,:);
         
         
-        t2_energy = t2hat.*conj(t2hat);
-        t2_energy = u_squishify(t2_energy,N);
-        t2_energy = u_fullify(t2_energy,M_full);
+        t2_energy = t2.*conj(t2);
         R2(res,res,res,:,i,j) = t2_energy(res_exact,res_exact,res_exact,:,:);
         
         
-        t3_energy = t3hat.*conj(t3hat);
-        t3_energy = u_squishify(t3_energy,N);
-        t3_energy = u_fullify(t3_energy,M_full);
+        t3_energy = t3.*conj(t3);
         R3(res,res,res,:,i,j) = t3_energy(res_exact,res_exact,res_exact,:,:);
         
         
-        t4_energy = t4hat.*conj(t4hat);
-        t4_energy = u_squishify(t4_energy,N);
-        t4_energy = u_fullify(t4_energy,M_full);
+        t4_energy = t4.*conj(t4);
         R4(res,res,res,:,i,j) = t4_energy(res_exact,res_exact,res_exact,:,:);
         
     end

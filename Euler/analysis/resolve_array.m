@@ -4,9 +4,17 @@ s = size(u);
 N = s(1);
 M = 3*N;
 
-a = 2:M_full;
-b = 2*M_full:-1:M_full+2;
-a_tilde = N_full+1:M_full;
+a = 2:M;
+b = 2*M:-1:M+2;
+a_tilde = N+1:M;
+
+% make k array
+k_vec = [0:M-1,-M:1:-1];
+[kx,ky,kz] = ndgrid(k_vec,k_vec,k_vec);
+k = zeros(2*M,2*M,2*M,3);
+k(:,:,:,1) = kx;
+k(:,:,:,2) = ky;
+k(:,:,:,3) = kz;
 
 t_index = s(6);
 
@@ -16,7 +24,6 @@ i = 0;
 tmodel_size_list = zeros(t_index,1);
 
 while t_model_size < tol
-    
     i = i + 1;
     current_u_temp = squeeze(u(:,:,:,:,:,i));
     
@@ -27,7 +34,6 @@ while t_model_size < tol
     
     t_model_size = sum(abs(t1hat(:)).^2);
     tmodel_size_list(i) = t_model_size;
-    
 end
 
 u_trim = u(:,:,:,:,:,1:i);
