@@ -124,10 +124,10 @@ for j = 1:length(N_list);
     
     R0 = R0 - exact;
     
-    b = [sum(R0(:).*R1(:))
-         sum(R0(:).*R2(:))
-         sum(R0(:).*R3(:))
-         sum(R0(:).*R4(:))];
+    b = -[sum(R0(:).*R1(:))
+          sum(R0(:).*R2(:))
+          sum(R0(:).*R3(:))
+          sum(R0(:).*R4(:))];
      
      A11 = sum(R1(:).*R1(:));
      A12 = sum(R1(:).*R2(:));
