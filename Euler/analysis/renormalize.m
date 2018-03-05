@@ -73,7 +73,7 @@ for j = 1:length(N_list);
         temp_u = squeeze(u(:,:,:,:,:,i));
         temp_u_full = u_fullify(temp_u,M_full);
         u_current = u_squishify(temp_u_full,N);
-        u_full = u_fullify(u,M);
+        u_full = u_fullify(u_current,M);
         
         [~,t0hat,t0tilde] = markov_term(u_full,a,b,k,a_tilde);
         t0 = u_squishify(t0hat,N);
