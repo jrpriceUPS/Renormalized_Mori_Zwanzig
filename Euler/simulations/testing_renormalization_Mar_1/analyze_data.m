@@ -14,6 +14,7 @@ tol = 1e-10;
 [u,t,tmodel_size_list] = resolve_array(u_full_data,t_full,tol);
 save u u
 save t t
+save tmodel_size_list
 
 time = 1;
 

@@ -82,6 +82,10 @@ while t_model_size < tol && i < length(t)
     tmodel_size_list(i) = abs(t_model_size);
 end
 
+% minimum time to include (do not include data where the energy derivative of the t-model 
+% is 10^-16 or less)
+min_time = find(tmodel_size_list<=1e-16,1,'last')+1;
+
 % trim u and t based upon the results
-u_trim = u(:,:,:,:,:,1:i);
-t_trim = t(1:i);
+u_trim = u(:,:,:,:,:,min_time:i);
+t_trim = t(min_time:i);
