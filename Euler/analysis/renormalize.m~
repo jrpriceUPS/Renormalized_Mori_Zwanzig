@@ -14,7 +14,7 @@ function coeff_array = renormalize(u,N_list,t_list,time)
 %
 %  t_list  =  a vector of the times corresponding to the solution u
 %
-%    time  =  a logical variable (1 if algebraic time dependence of
+%    time  =  a logical variable (1 if algebraic time dependence of 
 %             renormalization coefficients is retained, 0 if they are not)
 %
 %
@@ -46,7 +46,7 @@ k_full(:,:,:,1) = kx_full;
 k_full(:,:,:,2) = ky_full;
 k_full(:,:,:,3) = kz_full;
 
-% make vectors of resolved and unresolved modes in the full simulation
+% make vectors of resolved and unresolved modes in the full simulation 
 a_full = 2:M_full;
 b_full = 2*M_full:-1:M_full+2;
 
@@ -104,7 +104,7 @@ for j = 1:length(N_list);
     % loop through every timestep
     for i = 1:t
         current_t = t_list(i)
-        
+
         % find the exact derivative for the terms in this ROM
         exact_full = u_fullify(squeeze(exact_everything(:,:,:,:,:,i)),M_full);
         exact(:,:,:,:,i) = exact_full(res_exact,res_exact,res_exact,:);
@@ -116,7 +116,6 @@ for j = 1:length(N_list);
         u_current = u_squishify(temp_u_full,N);
         u_full = u_fullify(u_current,M);
         
-        % compute the R_k^i terms for i = 1,2,3,4
         [~,t0hat,t0tilde] = markov_term(u_full,a,b,k,a_tilde);
         t0 = u_squishify(t0hat,N);
         [~,t1hat,t1tilde] = tmodel_term(u_full,t0tilde,a,b,k,a_tilde);
@@ -128,7 +127,6 @@ for j = 1:length(N_list);
         t4 = t4model_term(u_full,t0hat,t0tilde,t1hat,t1tilde,Ahat,Atilde,Bhat,Btilde,Ehat,Etilde,Fhat,Ftilde,a,b,k,a_tilde);
         t4 = u_squishify(t4,N);
         
-        % if time dependence is included, scale the terms
         if time
             
             t1 = t1*current_t;
@@ -138,65 +136,65 @@ for j = 1:length(N_list);
             
         end
         
-        % compute the energy derivative due to the R_0 term
+        
         t0_energy = t0.*conj(u_current) + conj(t0).*u_current;
         t0_energy = u_fullify(t0_energy,M_full);
         R0(:,:,:,:,i) = t0_energy(res_exact,res_exact,res_exact,:);
         
-        % compute the energy derivative due to the R_1 term
+        
         t1_energy = t1.*conj(u_current) + conj(t1).*u_current;
         t1_energy = u_fullify(t1_energy,M_full);
         R1(:,:,:,:,i) = t1_energy(res_exact,res_exact,res_exact,:);
         
-        % compute the energy derivative due to the R_2 term
+        
         t2_energy = t2.*conj(u_current) + conj(t2).*u_current;
         t2_energy = u_fullify(t2_energy,M_full);
         R2(:,:,:,:,i) = t2_energy(res_exact,res_exact,res_exact,:);
         
-        % compute the energy derivative due to the R_3 term
+        
         t3_energy = t3.*conj(u_current) + conj(t3).*u_current;
         t3_energy = u_fullify(t3_energy,M_full);
         R3(:,:,:,:,i) = t3_energy(res_exact,res_exact,res_exact,:);
         
-        % compute the energy derivative due to the R_4 term
+        
         t4_energy = t4.*conj(u_current) + conj(t4).*u_current;
         t4_energy = u_fullify(t4_energy,M_full);
         R4(:,:,:,:,i) = t4_energy(res_exact,res_exact,res_exact,:);
         
     end
     
-    % compute the RHS for the least squares solve
     R0 = R0 - exact;
+    
     b = -[sum(R0(:).*R1(:))
-        sum(R0(:).*R2(:))
-        sum(R0(:).*R3(:))
-        sum(R0(:).*R4(:))];
+          sum(R0(:).*R2(:))
+          sum(R0(:).*R3(:))
+          sum(R0(:).*R4(:))];
+     
+     A11 = sum(R1(:).*R1(:));
+     A12 = sum(R1(:).*R2(:));
+     A13 = sum(R1(:).*R3(:));
+     A14 = sum(R1(:).*R4(:));
+     
+     A21 = A12;
+     A22 = sum(R2(:).*R2(:));
+     A23 = sum(R2(:).*R3(:));
+     A24 = sum(R2(:).*R4(:));
+     
+     A31 = A13;
+     A32 = A23;
+     A33 = sum(R3(:).*R3(:));
+     A34 = sum(R3(:).*R4(:));
+     
+     A41 = A14;
+     A42 = A24;
+     A43 = A34;
+     A44 = sum(R4(:).*R4(:));
     
-    % construct the matrix for the least squares solve
-    A11 = sum(R1(:).*R1(:));
-    A12 = sum(R1(:).*R2(:));
-    A13 = sum(R1(:).*R3(:));
-    A14 = sum(R1(:).*R4(:));
     
-    A21 = A12;
-    A22 = sum(R2(:).*R2(:));
-    A23 = sum(R2(:).*R3(:));
-    A24 = sum(R2(:).*R4(:));
-    
-    A31 = A13;
-    A32 = A23;
-    A33 = sum(R3(:).*R3(:));
-    A34 = sum(R3(:).*R4(:));
-    
-    A41 = A14;
-    A42 = A24;
-    A43 = A34;
-    A44 = sum(R4(:).*R4(:));
-    
-    % solve the system and store the result
-    A = [A11 A12 A13 A14
-        A21 A22 A23 A24
-        A31 A32 A33 A34
-        A41 A42 A43 A44];
+     A = [A11 A12 A13 A14
+          A21 A22 A23 A24
+          A31 A32 A33 A34
+          A41 A42 A43 A44];
+      
     coeff_array(:,j) = A\b
 end
