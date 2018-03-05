@@ -5,7 +5,7 @@ addpath ../../analysis
 
 end_time = 2;
 
-N = 32; % resolution
+N = 32;
 M = 3*N;
 
 % uniform grid
