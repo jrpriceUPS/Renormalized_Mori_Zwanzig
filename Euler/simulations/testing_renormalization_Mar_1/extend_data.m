@@ -1,13 +1,17 @@
-clear all;close all;
 
-load t
-load u
+
+addpath ../../simulation_functions
+addpath ../../nonlinear
+addpath ../../analysis
+
+load t_save
+load u_save
 
 N = 16;
 M = 3*N;
 
 start_time = t(end);
-initial_condition = u(:,:,:,:,:,end);
+initial_condition = u_save(:,:,:,:,:,end);
 
 u0 = initial_condition(:);
 

@@ -1,4 +1,4 @@
-function [u_trim,t_trim,tmodel_size_list] = resolve_array(u,t,tol)
+function tmodel_size_list = resolve_array(u,t)
 %
 % A function to take an output array of a full simulation and discard the
 % point beyond which it can be taken to be unresolved.
@@ -12,21 +12,14 @@ function [u_trim,t_trim,tmodel_size_list] = resolve_array(u,t,tol)
 %
 %    t  =  list of times associated with the solution
 %
-%  tol  =  maximum tolerated magnitude of t-model energy derivative
-%
 %
 %%%%%%%%%%
 %OUTPUTS:%
 %%%%%%%%%%
 %
-%            u_trim  =  a trimmed version of u where the t-model energy derivative
-%                       is less than tol in magnitude
-%
-%            t_trim  =  a trimmed version of t where the t-model energy derivative
-%                       is less than tol in magnitude
-%
 %  tmodel_size_list  =  a list of the magnitude of the t-model energy
-%                       derivatives at each time
+%                       derivatives at each time (to be used for slicing
+%                       arrays to different tolerances)
 
 % compute the size of the array and extract the number of resolved modes as
 % well as the magnitude of M needed for dealiasing
@@ -47,21 +40,13 @@ k(:,:,:,1) = kx;
 k(:,:,:,2) = ky;
 k(:,:,:,3) = kz;
 
-% identify how many times are included in the solution
-t_index = s(6);
-
 % initialize loop variables
-t_model_size = 0;
-i = 0;
-tmodel_size_list = zeros(t_index,1);
+tmodel_size_list = zeros(length(t),1);
 
 
 % as long as the t-model energy derivative is less than tol, compute the
 % t-model energy derivative of the next timestep
-while t_model_size < tol && i < length(t)
-    
-    % update the current index
-    i = i + 1;
+for i = 1:length(t)
     
     % extract the current u array
     current_u_temp = squeeze(u(:,:,:,:,:,i));
@@ -81,11 +66,3 @@ while t_model_size < tol && i < length(t)
     t_model_size = time*sum(t1(:).*conj(current_u_temp(:))+conj(t1(:)).*current_u_temp(:))
     tmodel_size_list(i) = abs(t_model_size);
 end
-
-% minimum time to include (do not include data where the energy derivative of the t-model 
-% is 10^-16 or less)
-min_time = find(tmodel_size_list<=1e-16,1,'last')+1;
-
-% trim u and t based upon the results
-u_trim = u(:,:,:,:,:,min_time:i);
-t_trim = t(min_time:i);

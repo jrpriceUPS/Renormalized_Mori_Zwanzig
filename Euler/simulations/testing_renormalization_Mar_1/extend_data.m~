@@ -1,7 +1,0 @@
-clear all;close all;
-
-load t
-load u
-
-start_time = t(end);
-initial_condition = u(:,:,:,:,:,end);

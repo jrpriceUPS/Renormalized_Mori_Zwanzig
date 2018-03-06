@@ -64,7 +64,7 @@ end
 
 if exist(sprintf('u%i.mat',N),'file') == 2
     
-    u(:,:,:,:,:,length(t)+1:length(t)+length(t_new)-1) = u_new(:,:,:,:,:,2:end);
+    u(:,:,:,:,:,length(t)+1:length(t)+length(t_new)) = u_new(:,:,:,:,:,2:end);
     t = [t;t_new(2:end)];
     
     

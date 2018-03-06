@@ -53,6 +53,10 @@ b_full = 2*M_full:-1:M_full+2;
 % compute exact derivative of the energy in each mode at each timestep
 for i = 1:t
     
+    disp('Current analyzing exact solution')
+    current_t = t_list(i);
+    disp(sprintf('Current time is t = %i\n',t_list(i)))
+    
     % extract the current u
     u_current = squeeze(u(:,:,:,:,:,i));
     
@@ -73,7 +77,7 @@ end
 for j = 1:length(N_list);
     
     % compute N and M for the current ROM
-    N = N_list(j)
+    N = N_list(j);
     M = 2*N;
     
     % construct output arrays of the proper size
@@ -103,8 +107,9 @@ for j = 1:length(N_list);
     
     % loop through every timestep
     for i = 1:t
-        current_t = t_list(i)
-        
+        disp(sprintf('Current resolution is N = %i',N))
+        current_t = t_list(i);
+        disp(sprintf('Current time is t = %i\n',current_t))
         % find the exact derivative for the terms in this ROM
         exact_full = u_fullify(squeeze(exact_everything(:,:,:,:,:,i)),M_full);
         exact(:,:,:,:,i) = exact_full(res_exact,res_exact,res_exact,:);
