@@ -1,4 +1,4 @@
-function coeff_array = analyze_data(N,min_tol,max_tol)
+function coeff_array = analyze_data(N,min_tol,max_tol,time,print)
 
 addpath ../../simulation_functions
 addpath ../../nonlinear
@@ -15,6 +15,5 @@ t_array = t(viable_snapshots);
 
 s = size(u);
 N_list = 2:2:s(1)-1;
-time = 1;
 
-coeff_array = renormalize(u_array,N_list,t_array,time);
+coeff_array = renormalize(u_array,N_list,t_array,time,print);

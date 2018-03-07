@@ -1,4 +1,4 @@
-function coeff_array = renormalize(u,N_list,t_list,time)
+function coeff_array = renormalize(u,N_list,t_list,time,print)
 %
 % A function to take a fully resolved u to compute optimal renormalization
 % coefficients for several ROMs
@@ -16,6 +16,9 @@ function coeff_array = renormalize(u,N_list,t_list,time)
 %
 %    time  =  a logical variable (1 if algebraic time dependence of
 %             renormalization coefficients is retained, 0 if they are not)
+%
+%   print  =  a logical variable (1 if figures are to be printed and saved,
+%             0 otherwise)
 %
 %
 %%%%%%%%%%
@@ -53,9 +56,9 @@ b_full = 2*M_full:-1:M_full+2;
 % compute exact derivative of the energy in each mode at each timestep
 for i = 1:t
     
-    disp('Current analyzing exact solution')
+    disp('Currently analyzing exact solution')
     current_t = t_list(i);
-    disp(sprintf('Current time is t = %i\n',t_list(i)))
+    disp(sprintf('Current time is t = %i out of %i\n',t_list(i),t_list(end)))
     
     % extract the current u
     u_current = squeeze(u(:,:,:,:,:,i));
@@ -109,7 +112,7 @@ for j = 1:length(N_list);
     for i = 1:t
         disp(sprintf('Current resolution is N = %i',N))
         current_t = t_list(i);
-        disp(sprintf('Current time is t = %i\n',current_t))
+        disp(sprintf('Current time is t = %i out of %i\n',current_t,t_list(end)))
         % find the exact derivative for the terms in this ROM
         exact_full = u_fullify(squeeze(exact_everything(:,:,:,:,:,i)),M_full);
         exact(:,:,:,:,i) = exact_full(res_exact,res_exact,res_exact,:);
@@ -171,11 +174,11 @@ for j = 1:length(N_list);
     end
     
     % compute the RHS for the least squares solve
-    R0 = R0 - exact;
-    b = -[sum(R0(:).*R1(:))
-        sum(R0(:).*R2(:))
-        sum(R0(:).*R3(:))
-        sum(R0(:).*R4(:))];
+    RHS = R0 - exact;
+    b = -[sum(RHS(:).*R1(:))
+        sum(RHS(:).*R2(:))
+        sum(RHS(:).*R3(:))
+        sum(RHS(:).*R4(:))];
     
     % construct the matrix for the least squares solve
     A11 = sum(R1(:).*R1(:));
@@ -204,4 +207,60 @@ for j = 1:length(N_list);
         A31 A32 A33 A34
         A41 A42 A43 A44];
     coeff_array(:,j) = A\b
+    
+    
+    if print
+        
+        figure
+        subplot(2,3,1)
+        plot(t_list,squeeze(sum(sum(sum(sum(exact,1),2),3),4)),'linewidth',2)
+        hold on
+        plot(t_list,squeeze(sum(sum(sum(sum(R0+coeff_array(1,j)*R1+coeff_array(2,j)*R2+coeff_array(3,j)*R3+coeff_array(4,j)*R4,1),2),3),4)),'r','linewidth',2)
+        title(sprintf('Energy derivative (N = %i)',N))
+        xlabel('time')
+        ylabel('Sum of d|u_k|^2/dt')
+        legend('Exact','Renormalized ROM')
+        
+        subplot(2,3,2)
+        plot(t_list,squeeze(sum(sum(sum(sum(R0,1),2),3),4)),'linewidth',2)
+        title(sprintf('Markov model (N = %i)',N))
+        xlabel('time')
+        ylabel('Sum of R0')
+        
+        subplot(2,3,3)
+        plot(t_list,squeeze(sum(sum(sum(sum(R1,1),2),3),4)),'linewidth',2)
+        title(sprintf('t-model (N = %i)',N))
+        xlabel('time')
+        ylabel('Sum of R1')
+        
+        subplot(2,3,4)
+        plot(t_list,squeeze(sum(sum(sum(sum(R2,1),2),3),4)),'linewidth',2)
+        title(sprintf('t^2-model (N = %i)',N))
+        xlabel('time')
+        ylabel('Sum of R2')
+        
+        subplot(2,3,5)
+        plot(t_list,squeeze(sum(sum(sum(sum(R3,1),2),3),4)),'linewidth',2)
+        title(sprintf('t^3-model (N = %i)',N))
+        xlabel('time')
+        ylabel('Sum of R3')
+        
+        subplot(2,3,6)
+        plot(t_list,squeeze(sum(sum(sum(sum(R4,1),2),3),4)),'linewidth',2)
+        title(sprintf('t^4-model (N = %i)',N))
+        xlabel('time')
+        ylabel('Sum of R4')
+        
+        if time
+            
+            saveas(gcf,sprintf('energy_derivatives%i_%it',N,N_full),'png')
+            
+        else
+            
+            saveas(gcf,sprintf('energy_derivatives%i_%i',N,N_full),'png')
+            
+        end
+        
+    end
+    
 end
