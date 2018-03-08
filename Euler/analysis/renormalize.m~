@@ -266,3 +266,10 @@ for j = 1:length(N_list);
     end
     
 end
+
+
+if print
+   
+    
+    
+end

@@ -266,3 +266,35 @@ for j = 1:length(N_list);
     end
     
 end
+
+
+if print
+    
+    figure
+    subplot(2,2,1)
+    plot(log(N_list),log(coeff_array(1,2:end)),'.','markersize',20)
+    title('t-model coefficient','fontsize',16)
+    xlabel('log(N)')
+    ylabel('log(a_1)')
+    
+    subplot(2,2,2)
+    plot(log(N_list),log(coeff_array(2,2:end)),'.','markersize',20)
+    title('t-model coefficient','fontsize',16)
+    xlabel('log(N)')
+    ylabel('log(a_2)')
+    
+    subplot(2,2,3)
+    plot(log(N_list),log(coeff_array(3,2:end)),'.','markersize',20)
+    title('t-model coefficient','fontsize',16)
+    xlabel('log(N)')
+    ylabel('log(a_3)')
+    
+    subplot(2,2,4)
+    plot(log(N_list),log(coeff_array(4,2:end)),'.','markersize',20)
+    title('t-model coefficient','fontsize',16)
+    xlabel('log(N)')
+    ylabel('log(a_4)')
+    
+    saveas(gcf,sprintf('coeff_plot%i',N_full),'png')
+    close
+end
