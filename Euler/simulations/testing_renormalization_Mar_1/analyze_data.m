@@ -14,6 +14,6 @@ u_array = u(:,:,:,:,:,viable_snapshots);
 t_array = t(viable_snapshots);
 
 s = size(u);
-N_list = 2:2:s(1)-1;
+N_list = 4:2:s(1)-2;
 
 [coeff_array,scaling_laws] = renormalize(u_array,N_list,t_array,time,print);

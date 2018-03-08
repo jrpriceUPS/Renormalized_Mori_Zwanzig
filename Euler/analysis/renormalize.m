@@ -269,14 +269,14 @@ end
 
 scaling_laws = zeros(4,2);
 for i = 1:4
-    scaling_laws(i,:) = polyfit(log(N_list),log(coeff_array(i,2:end)),1);
+    scaling_laws(i,:) = polyfit(log(N_list),log(coeff_array(i,:)),1);
 end
 
 if print
     
     figure
     subplot(2,2,1)
-    plot(log(N_list),log(coeff_array(1,2:end)),'.','markersize',20)
+    plot(log(N_list),log(coeff_array(1,:)),'.','markersize',20)
     hold on
     plot([1,3],polyval(scaling_laws(1,:),[1,3]),'r')
     title('t-model coefficient','fontsize',16)
@@ -284,7 +284,7 @@ if print
     ylabel('log(a_1)')
     
     subplot(2,2,2)
-    plot(log(N_list),log(coeff_array(2,2:end)),'.','markersize',20)
+    plot(log(N_list),log(coeff_array(2,:)),'.','markersize',20)
     hold on
     plot([1,3],polyval(scaling_laws(2,:),[1,3]),'r')
     title('t-model coefficient','fontsize',16)
@@ -292,7 +292,7 @@ if print
     ylabel('log(a_2)')
     
     subplot(2,2,3)
-    plot(log(N_list),log(coeff_array(3,2:end)),'.','markersize',20)
+    plot(log(N_list),log(coeff_array(3,:)),'.','markersize',20)
     hold on
     plot([1,3],polyval(scaling_laws(3,:),[1,3]),'r')
     title('t-model coefficient','fontsize',16)
@@ -300,7 +300,7 @@ if print
     ylabel('log(a_3)')
     
     subplot(2,2,4)
-    plot(log(N_list),log(coeff_array(4,2:end)),'.','markersize',20)
+    plot(log(N_list),log(coeff_array(4,:)),'.','markersize',20)
     hold on
     plot([1,3],polyval(scaling_laws(4,:),[1,3]),'r')
     title('t-model coefficient','fontsize',16)
