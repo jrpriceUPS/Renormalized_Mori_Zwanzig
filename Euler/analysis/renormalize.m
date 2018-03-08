@@ -285,6 +285,7 @@ if print
     
     subplot(2,2,2)
     plot(log(N_list),log(coeff_array(2,2:end)),'.','markersize',20)
+    hold on
     plot([1,3],polyval(scaling_laws(2,:),[1,3]),'r')
     title('t-model coefficient','fontsize',16)
     xlabel('log(N)')
@@ -292,6 +293,7 @@ if print
     
     subplot(2,2,3)
     plot(log(N_list),log(coeff_array(3,2:end)),'.','markersize',20)
+    hold on
     plot([1,3],polyval(scaling_laws(3,:),[1,3]),'r')
     title('t-model coefficient','fontsize',16)
     xlabel('log(N)')
@@ -299,6 +301,7 @@ if print
     
     subplot(2,2,4)
     plot(log(N_list),log(coeff_array(4,2:end)),'.','markersize',20)
+    hold on
     plot([1,3],polyval(scaling_laws(4,:),[1,3]),'r')
     title('t-model coefficient','fontsize',16)
     xlabel('log(N)')
