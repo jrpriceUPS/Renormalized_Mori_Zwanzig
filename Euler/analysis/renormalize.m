@@ -261,6 +261,8 @@ for j = 1:length(N_list);
             
         end
         
+        close
+        
     end
     
 end

@@ -25,7 +25,7 @@ function tmodel_size_list = resolve_array(u,t)
 % well as the magnitude of M needed for dealiasing
 s = size(u);
 N = s(1);
-M = 3*N;
+M = 2*N;
 
 % construct index lists
 a = 2:M;
