@@ -9,7 +9,7 @@ addpath ../../analysis
 end_time = 3.144; % point of instability
 
 N = 4;
-M = 2*N;
+M = 3*N;
 
 % uniform grid
 x = linspace(0,2*pi*(2*M-1)/(2*M),2*M).';

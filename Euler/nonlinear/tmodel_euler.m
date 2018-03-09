@@ -30,7 +30,7 @@ function du_dt = tmodel_euler(u,k,N,time,coeff)
 %           a vector for ode45)
 
 % full model has twice as many modes in each direction
-M = 2*N;
+M = 3*N;
 
 u = reshape(u,[N,N,N,3,4]);
 
