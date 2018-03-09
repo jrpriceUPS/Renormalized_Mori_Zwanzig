@@ -43,7 +43,7 @@ params_t3model.a_tilde = N+1:M;
 params_t3model.print_time = 1;
 
 % run the simulation
-options = odeset('RelTol',1e-10,'Stats','on');
+options = odeset('RelTol',1e-10,'Stats','on','InitialStep',1e-3);
 [t_t3model,u_raw_t3model] = ode45(@(t,u) RHS(u,t,params_t3model),[0,end_time],u(:),options);
 
 

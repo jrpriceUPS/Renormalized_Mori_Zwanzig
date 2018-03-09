@@ -52,7 +52,7 @@ params.a_tilde = N+1:M;
 params.print_time = 1;
 
 % run the simulation
-options = odeset('RelTol',1e-10,'Stats','on');
+options = odeset('RelTol',1e-10,'Stats','on','InitialStep',1e-3);
 [t_new,u_raw] = ode45(@(t,u) RHS(u,t,params),[start_time,end_time],u0(:),options);
 
 % reshape the output array into an intelligible shape (should make this a

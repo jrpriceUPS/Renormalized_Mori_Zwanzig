@@ -64,7 +64,7 @@ params_markov.a_tilde = N_markov+1:M_markov;
 params_markov.print_time = 1;
 
 % run the simulation
-options = odeset('RelTol',1e-10,'Stats','on');
+options = odeset('RelTol',1e-10,'Stats','on','InitialStep',1e-3);
 [t_full,u_raw_full] = ode45(@(t,u) RHS(u,t,params_full),[0,end_time],u1(:),options);
 [t_markov,u_raw_markov] = ode45(@(t,u) RHS(u,t,params_markov),[0,end_time],u2(:),options);
 
