@@ -56,6 +56,7 @@ b_full = 2*M_full:-1:M_full+2;
 % compute exact derivative of the energy in each mode at each timestep
 for i = 1:t
     
+    % compute and display the current time
     disp('Currently analyzing exact solution')
     current_t = t_list(i);
     disp(sprintf('Current time is t = %i out of %i\n',t_list(i),t_list(end)))
@@ -176,9 +177,9 @@ for j = 1:length(N_list);
     % compute the RHS for the least squares solve
     RHS = R0 - exact;
     b = -[sum(RHS(:).*R1(:))
-        sum(RHS(:).*R2(:))
-        sum(RHS(:).*R3(:))
-        sum(RHS(:).*R4(:))];
+          sum(RHS(:).*R2(:))
+          sum(RHS(:).*R3(:))
+          sum(RHS(:).*R4(:))];
     
     % construct the matrix for the least squares solve
     A11 = sum(R1(:).*R1(:));
@@ -209,8 +210,11 @@ for j = 1:length(N_list);
     coeff_array(:,j) = A\b
     
     
+    % plot figures if desired
     if print
         
+        % display the exact rate of flow out of the current mode and
+        % compare it to the rate of flow due to the renormalized ROM
         figure
         subplot(2,3,1)
         plot(t_list,squeeze(sum(sum(sum(sum(exact,1),2),3),4)),'linewidth',2)
@@ -221,24 +225,28 @@ for j = 1:length(N_list);
         ylabel('Sum of d|u_k|^2/dt')
         legend('Exact','Renormalized ROM')
         
+        % display the rate of flow due to the Markov term
         subplot(2,3,2)
         plot(t_list,squeeze(sum(sum(sum(sum(R0,1),2),3),4)),'linewidth',2)
         title(sprintf('Markov model (N = %i)',N))
         xlabel('time')
         ylabel('Sum of R0')
         
+        % display the rate of flow due to the t-model term
         subplot(2,3,3)
         plot(t_list,squeeze(sum(sum(sum(sum(R1,1),2),3),4)),'linewidth',2)
         title(sprintf('t-model (N = %i)',N))
         xlabel('time')
         ylabel('Sum of R1')
         
+        % display the rate of flow due to the t^2-model term
         subplot(2,3,4)
         plot(t_list,squeeze(sum(sum(sum(sum(R2,1),2),3),4)),'linewidth',2)
         title(sprintf('t^2-model (N = %i)',N))
         xlabel('time')
         ylabel('Sum of R2')
         
+        % display the rate of flow due to the t^3-model term
         subplot(2,3,5)
         plot(t_list,squeeze(sum(sum(sum(sum(R3,1),2),3),4)),'linewidth',2)
         title(sprintf('t^3-model (N = %i)',N))
@@ -269,37 +277,40 @@ end
 
 scaling_laws = zeros(4,2);
 for i = 1:4
-    scaling_laws(i,:) = polyfit(log(N_list),log(coeff_array(i,2:end)),1);
+    scaling_laws(i,:) = polyfit(log(N_list),log(coeff_array(i,:)),1);
 end
 
 if print
     
     figure
     subplot(2,2,1)
-    plot(log(N_list),log(coeff_array(1,2:end)),'.','markersize',20)
+    plot(log(N_list),log(coeff_array(1,:)),'.','markersize',20)
     hold on
-    plot(log(N_list),polyval(scaling_laws(1,:),log(N_list)),'r')
+    plot([1,3],polyval(scaling_laws(1,:),[1,3]),'r')
     title('t-model coefficient','fontsize',16)
     xlabel('log(N)')
     ylabel('log(a_1)')
     
     subplot(2,2,2)
-    plot(log(N_list),log(coeff_array(2,2:end)),'.','markersize',20)
-    plot(log(N_list),polyval(log(N_list),scaling_laws(2,:)),'r')
+    plot(log(N_list),log(coeff_array(2,:)),'.','markersize',20)
+    hold on
+    plot([1,3],polyval(scaling_laws(2,:),[1,3]),'r')
     title('t-model coefficient','fontsize',16)
     xlabel('log(N)')
     ylabel('log(a_2)')
     
     subplot(2,2,3)
-    plot(log(N_list),log(coeff_array(3,2:end)),'.','markersize',20)
-    plot(log(N_list),polyval(log(N_list),scaling_laws(3,:)),'r')
+    plot(log(N_list),log(coeff_array(3,:)),'.','markersize',20)
+    hold on
+    plot([1,3],polyval(scaling_laws(3,:),[1,3]),'r')
     title('t-model coefficient','fontsize',16)
     xlabel('log(N)')
     ylabel('log(a_3)')
     
     subplot(2,2,4)
-    plot(log(N_list),log(coeff_array(4,2:end)),'.','markersize',20)
-    plot(log(N_list),polyval(log(N_list),scaling_laws(4,:)),'r')
+    plot(log(N_list),log(coeff_array(4,:)),'.','markersize',20)
+    hold on
+    plot([1,3],polyval(scaling_laws(4,:),[1,3]),'r')
     title('t-model coefficient','fontsize',16)
     xlabel('log(N)')
     ylabel('log(a_4)')

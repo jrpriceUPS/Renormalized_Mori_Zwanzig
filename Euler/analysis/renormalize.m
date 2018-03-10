@@ -56,6 +56,7 @@ b_full = 2*M_full:-1:M_full+2;
 % compute exact derivative of the energy in each mode at each timestep
 for i = 1:t
     
+    % compute and display the current time
     disp('Currently analyzing exact solution')
     current_t = t_list(i);
     disp(sprintf('Current time is t = %i out of %i\n',t_list(i),t_list(end)))
@@ -176,9 +177,9 @@ for j = 1:length(N_list);
     % compute the RHS for the least squares solve
     RHS = R0 - exact;
     b = -[sum(RHS(:).*R1(:))
-        sum(RHS(:).*R2(:))
-        sum(RHS(:).*R3(:))
-        sum(RHS(:).*R4(:))];
+          sum(RHS(:).*R2(:))
+          sum(RHS(:).*R3(:))
+          sum(RHS(:).*R4(:))];
     
     % construct the matrix for the least squares solve
     A11 = sum(R1(:).*R1(:));
@@ -209,10 +210,13 @@ for j = 1:length(N_list);
     coeff_array(:,j) = A\b
     
     
+    % plot figures if desired
     if print
         
+        % display the exact rate of flow out of the current mode and
+        % compare it to the rate of flow due to the renormalized ROM
         figure
-        subplot(2,3,1)
+        subplot(3,2,1)
         plot(t_list,squeeze(sum(sum(sum(sum(exact,1),2),3),4)),'linewidth',2)
         hold on
         plot(t_list,squeeze(sum(sum(sum(sum(R0+coeff_array(1,j)*R1+coeff_array(2,j)*R2+coeff_array(3,j)*R3+coeff_array(4,j)*R4,1),2),3),4)),'r','linewidth',2)
@@ -221,36 +225,42 @@ for j = 1:length(N_list);
         ylabel('Sum of d|u_k|^2/dt')
         legend('Exact','Renormalized ROM')
         
-        subplot(2,3,2)
+        % display the rate of flow due to the Markov term
+        subplot(3,2,2)
         plot(t_list,squeeze(sum(sum(sum(sum(R0,1),2),3),4)),'linewidth',2)
         title(sprintf('Markov model (N = %i)',N))
         xlabel('time')
         ylabel('Sum of R0')
         
-        subplot(2,3,3)
+        % display the rate of flow due to the t-model term
+        subplot(3,2,3)
         plot(t_list,squeeze(sum(sum(sum(sum(R1,1),2),3),4)),'linewidth',2)
         title(sprintf('t-model (N = %i)',N))
         xlabel('time')
         ylabel('Sum of R1')
         
-        subplot(2,3,4)
+        % display the rate of flow due to the t^2-model term
+        subplot(3,2,4)
         plot(t_list,squeeze(sum(sum(sum(sum(R2,1),2),3),4)),'linewidth',2)
         title(sprintf('t^2-model (N = %i)',N))
         xlabel('time')
         ylabel('Sum of R2')
         
-        subplot(2,3,5)
+        % display the rate of flow due to the t^3-model term
+        subplot(3,2,5)
         plot(t_list,squeeze(sum(sum(sum(sum(R3,1),2),3),4)),'linewidth',2)
         title(sprintf('t^3-model (N = %i)',N))
         xlabel('time')
         ylabel('Sum of R3')
         
-        subplot(2,3,6)
+        % display the rate of flow due to the t^4-model term
+        subplot(3,2,6)
         plot(t_list,squeeze(sum(sum(sum(sum(R4,1),2),3),4)),'linewidth',2)
         title(sprintf('t^4-model (N = %i)',N))
         xlabel('time')
         ylabel('Sum of R4')
         
+        % save the ones including time dependence separately
         if time
             
             saveas(gcf,sprintf('energy_derivatives%i_%it',N,N_full),'png')
@@ -267,11 +277,13 @@ for j = 1:length(N_list);
     
 end
 
+% compute the scaling laws associated with the observed coefficients
 scaling_laws = zeros(4,2);
 for i = 1:4
     scaling_laws(i,:) = polyfit(log(N_list),log(coeff_array(i,:)),1);
 end
 
+% save plots of the scaling laws
 if print
     
     figure
