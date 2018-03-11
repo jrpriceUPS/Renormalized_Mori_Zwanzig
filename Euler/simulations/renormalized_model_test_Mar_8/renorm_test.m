@@ -8,7 +8,7 @@ addpath ../../analysis
 
 end_time = 100; % point of instability
 
-N = 4;
+N = 8;
 M = 3*N;
 
 % uniform grid
@@ -36,10 +36,10 @@ params_t4model.k = k;
 params_t4model.N = N;
 params_t4model.M = M;
 params_t4model.func = @(x) t4model_RHS(x);
-params_t4model.coeff = [0.588310871673644
-                        0.282891580315576
-                        0.084088726982454
-                        0.011141626846929];
+params_t4model.coeff = [0.294993329423964
+                        0.061807015500965
+                        0.006603479352696
+                        0.000064019786475];
 params_t4model.a = 2:M;
 params_t4model.b = 2*M:-1:M+2;
 params_t4model.a_tilde = N+1:M;
