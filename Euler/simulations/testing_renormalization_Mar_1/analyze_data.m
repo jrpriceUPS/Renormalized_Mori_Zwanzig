@@ -52,7 +52,7 @@ t_array = t(viable_snapshots);
 % compute the coefficients for all even modes smaller than the full
 % simulation (except N = 2)
 s = size(u);
-N_list = 4:2:s(1)-2;
+N_list = 4:2:s(1)/2;
 
 % compute the renormalization coefficients
 [coeff_array,scaling_laws] = renormalize(u_array,N_list,t_array,time,print);

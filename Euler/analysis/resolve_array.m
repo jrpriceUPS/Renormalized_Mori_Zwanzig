@@ -24,8 +24,9 @@ function tmodel_size_list = resolve_array(u,t)
 % compute the size of the array and extract the number of resolved modes as
 % well as the magnitude of M needed for dealiasing
 s = size(u);
-N = s(1);
-M = 2*N;
+N = s(1)/2;
+M = 3*N;
+M_full = 6*N;
 
 % construct index lists
 a = 2:M;
@@ -49,10 +50,10 @@ tmodel_size_list = zeros(length(t),1);
 for i = 1:length(t)
     
     % extract the current u array
-    current_u_temp = squeeze(u(:,:,:,:,:,i));
-    
-    % create the full version of the current u
-    u_full = u_fullify(current_u_temp,M);
+    temp_u = squeeze(u(:,:,:,:,:,i));
+    temp_u_full = u_fullify(temp_u,M_full);
+    u_current = u_squishify(temp_u_full,N);
+    u_full = u_fullify(u_current,M);
     
     % display and save the current time
     time = t(i)
@@ -63,6 +64,6 @@ for i = 1:length(t)
     t1 = u_squishify(t1hat,N);
     
     % compute the energy derivative due to the t-model and record it
-    t_model_size = time*sum(t1(:).*conj(current_u_temp(:))+conj(t1(:)).*current_u_temp(:));
+    t_model_size = time*sum(t1(:).*conj(u_current(:))+conj(t1(:)).*u_current(:))
     tmodel_size_list(i) = abs(t_model_size);
 end
