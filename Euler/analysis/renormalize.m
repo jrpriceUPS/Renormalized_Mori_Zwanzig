@@ -1,4 +1,4 @@
-function [coeff_array,scaling_laws] = renormalize(u,N_list,t_list,time,print,min_tol,max_tol)
+function [coeff_array,scaling_laws] = renormalize(u,N_list,t_list,time,print)
 %
 % A function to take a fully resolved u to compute optimal renormalization
 % coefficients for several ROMs
@@ -230,7 +230,7 @@ for j = 1:length(N_list);
         title(sprintf('Energy derivative (N = %i)',N))
         xlabel('time')
         ylabel('Sum of d|u_k|^2/dt')
-        legend('Exact','Renormalized ROM')
+        legend('Exact','Renormalized ROM','location','southwest')
         
         % display the rate of flow due to the Markov term
         subplot(3,2,2)
@@ -306,7 +306,7 @@ if print
     plot(log(N_list),log(coeff_array(2,:)),'.','markersize',20)
     hold on
     plot([1,3],polyval(scaling_laws(2,:),[1,3]),'r')
-    title('t-model coefficient','fontsize',16)
+    title('t^2-model coefficient','fontsize',16)
     xlabel('log(N)')
     ylabel('log(a_2)')
     
@@ -314,7 +314,7 @@ if print
     plot(log(N_list),log(coeff_array(3,:)),'.','markersize',20)
     hold on
     plot([1,3],polyval(scaling_laws(3,:),[1,3]),'r')
-    title('t-model coefficient','fontsize',16)
+    title('t^3-model coefficient','fontsize',16)
     xlabel('log(N)')
     ylabel('log(a_3)')
     
@@ -322,7 +322,7 @@ if print
     plot(log(N_list),log(coeff_array(4,:)),'.','markersize',20)
     hold on
     plot([1,3],polyval(scaling_laws(4,:),[1,3]),'r')
-    title('t-model coefficient','fontsize',16)
+    title('t^4-model coefficient','fontsize',16)
     xlabel('log(N)')
     ylabel('log(a_4)')
     

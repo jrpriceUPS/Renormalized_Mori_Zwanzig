@@ -8,7 +8,7 @@ addpath ../../analysis
 
 end_time = 100; % point of instability
 
-N = 4;
+N = 8;
 M = 3*N;
 
 % uniform grid
