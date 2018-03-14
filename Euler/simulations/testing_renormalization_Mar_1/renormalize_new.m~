@@ -1,7 +1,7 @@
-function [coeff_array,scaling_laws] = renormalize(u,N_list,t_list,time,print)
+function [coeff_array,scaling_laws] = renormalize_new(u,N_list,t_list,time,print)
 %
 % A function to take a fully resolved u to compute optimal renormalization
-% coefficients for several ROMs
+% coefficients for several ROMs using windows unique to each ROM resolution
 %
 %%%%%%%%%
 %INPUTS:%
@@ -19,6 +19,12 @@ function [coeff_array,scaling_laws] = renormalize(u,N_list,t_list,time,print)
 %
 %   print  =  a logical variable (1 if figures are to be printed and saved,
 %             0 otherwise)
+%
+%  min_tol  =  minimum energy flow out of t-model for each ROM (typically
+%              0)
+%
+%  max_tol  =  maximum energy flow out of t-model for each ROM to use in
+%              fit (typically 1e-16)
 %
 %
 %%%%%%%%%%
@@ -58,7 +64,6 @@ for i = 1:t
     
     % compute and display the current time
     disp('Currently analyzing exact solution')
-    current_t = t_list(i);
     disp(sprintf('Current time is t = %i out of %i\n',t_list(i),t_list(end)))
     
     % extract the current u
@@ -108,15 +113,13 @@ for j = 1:length(N_list);
     a = 2:M;
     b = 2*M:-1:M+2;
     a_tilde = N+1:M;
+    index = [];
     
     % loop through every timestep
     for i = 1:t
         disp(sprintf('Current resolution is N = %i',N))
         current_t = t_list(i);
         disp(sprintf('Current time is t = %i out of %i\n',current_t,t_list(end)))
-        % find the exact derivative for the terms in this ROM
-        exact_full = u_fullify(squeeze(exact_everything(:,:,:,:,:,i)),M_full);
-        exact(:,:,:,:,i) = exact_full(res_exact,res_exact,res_exact,:);
         
         % extract u and convert it into a full array with the proper
         % elements eliminated
@@ -127,12 +130,6 @@ for j = 1:length(N_list);
         
         % compute the R_k^i terms for i = 1,2,3,4
         [~,t0hat,t0tilde] = markov_term(u_full,a,b,k,a_tilde);
-        t0 = u_squishify(t0hat,N);
-        % compute the energy derivative due to the R_0 term
-        t0_energy = t0.*conj(u_current) + conj(t0).*u_current;
-        t0_energy = u_fullify(t0_energy,M_full);
-        R0(:,:,:,:,i) = t0_energy(res_exact,res_exact,res_exact,:);
-        
         [~,t1hat,t1tilde] = tmodel_term(u_full,t0tilde,a,b,k,a_tilde);
         t1 = u_squishify(t1hat,N);
         if time
@@ -141,46 +138,72 @@ for j = 1:length(N_list);
         % compute the energy derivative due to the R_1 term
         t1_energy = t1.*conj(u_current) + conj(t1).*u_current;
         t1_energy = u_fullify(t1_energy,M_full);
-        R1(:,:,:,:,i) = t1_energy(res_exact,res_exact,res_exact,:);
         
-        [t2,Ahat,Atilde,Bhat,Btilde] = t2model_term(u_full,t0hat,t0tilde,t1tilde,a,b,k,a_tilde);
-        t2 = u_squishify(t2,N);
-        if time
-            t2 = t2*current_t^2;
-        end
-        % compute the energy derivative due to the R_2 term
-        t2_energy = t2.*conj(u_current) + conj(t2).*u_current;
-        t2_energy = u_fullify(t2_energy,M_full);
-        R2(:,:,:,:,i) = t2_energy(res_exact,res_exact,res_exact,:);
+        % determine whether to use this mode in our fits
+        current_t_deriv = sum(t1_energy(:))
         
-        [t3,Ehat,Etilde,Fhat,Ftilde] = t3model_term(u_full,t0hat,t0tilde,t1hat,t1tilde,Ahat,Atilde,Btilde,a,b,k,a_tilde);
-        t3 = u_squishify(t3,N);
-        if time
-            t3 = t3*current_t^3;
+        if current_t_deriv>min_tol && current_t_deriv<max_tol
+            index = [index;i];
+            
+            % find the exact derivative for the terms in this ROM
+            exact_full = u_fullify(squeeze(exact_everything(:,:,:,:,:,i)),M_full);
+            exact(:,:,:,:,i) = exact_full(res_exact,res_exact,res_exact,:);
+            
+            % compute the energy derivative due to the R_0 and R_1 terms
+            t0 = u_squishify(t0hat,N);
+            % compute the energy derivative due to the R_0 and R_1 terms
+            t0_energy = t0.*conj(u_current) + conj(t0).*u_current;
+            t0_energy = u_fullify(t0_energy,M_full);
+            
+            R0(:,:,:,:,i) = t0_energy(res_exact,res_exact,res_exact,:);
+            R1(:,:,:,:,i) = t1_energy(res_exact,res_exact,res_exact,:);
+            
+            [t2,Ahat,Atilde,Bhat,Btilde] = t2model_term(u_full,t0hat,t0tilde,t1tilde,a,b,k,a_tilde);
+            t2 = u_squishify(t2,N);
+            if time
+                t2 = t2*current_t^2;
+            end
+            % compute the energy derivative due to the R_2 term
+            t2_energy = t2.*conj(u_current) + conj(t2).*u_current;
+            t2_energy = u_fullify(t2_energy,M_full);
+            R2(:,:,:,:,i) = t2_energy(res_exact,res_exact,res_exact,:);
+            
+            [t3,Ehat,Etilde,Fhat,Ftilde] = t3model_term(u_full,t0hat,t0tilde,t1hat,t1tilde,Ahat,Atilde,Btilde,a,b,k,a_tilde);
+            t3 = u_squishify(t3,N);
+            if time
+                t3 = t3*current_t^3;
+            end
+            % compute the energy derivative due to the R_3 term
+            t3_energy = t3.*conj(u_current) + conj(t3).*u_current;
+            t3_energy = u_fullify(t3_energy,M_full);
+            R3(:,:,:,:,i) = t3_energy(res_exact,res_exact,res_exact,:);
+            
+            t4 = t4model_term(u_full,t0hat,t0tilde,t1hat,t1tilde,Ahat,Atilde,Bhat,Btilde,Ehat,Etilde,Fhat,Ftilde,a,b,k,a_tilde);
+            t4 = u_squishify(t4,N);
+            if time
+                t4 = t4*current_t^4;
+            end
+            % compute the energy derivative due to the R_4 term
+            t4_energy = t4.*conj(u_current) + conj(t4).*u_current;
+            t4_energy = u_fullify(t4_energy,M_full);
+            R4(:,:,:,:,i) = t4_energy(res_exact,res_exact,res_exact,:);
         end
-        % compute the energy derivative due to the R_3 term
-        t3_energy = t3.*conj(u_current) + conj(t3).*u_current;
-        t3_energy = u_fullify(t3_energy,M_full);
-        R3(:,:,:,:,i) = t3_energy(res_exact,res_exact,res_exact,:);
-        
-        t4 = t4model_term(u_full,t0hat,t0tilde,t1hat,t1tilde,Ahat,Atilde,Bhat,Btilde,Ehat,Etilde,Fhat,Ftilde,a,b,k,a_tilde);
-        t4 = u_squishify(t4,N);
-        if time
-            t4 = t4*current_t^4;
-        end
-        % compute the energy derivative due to the R_4 term
-        t4_energy = t4.*conj(u_current) + conj(t4).*u_current;
-        t4_energy = u_fullify(t4_energy,M_full);
-        R4(:,:,:,:,i) = t4_energy(res_exact,res_exact,res_exact,:);
         
     end
+    
+    exact = exact(:,:,:,:,index);
+    R0 = R0(:,:,:,:,index);
+    R1 = R1(:,:,:,:,index);
+    R2 = R2(:,:,:,:,index);
+    R3 = R3(:,:,:,:,index);
+    R4 = R4(:,:,:,:,index);
     
     % compute the RHS for the least squares solve
     RHS = R0 - exact;
     b = -[sum(RHS(:).*R1(:))
-          sum(RHS(:).*R2(:))
-          sum(RHS(:).*R3(:))
-          sum(RHS(:).*R4(:))];
+        sum(RHS(:).*R2(:))
+        sum(RHS(:).*R3(:))
+        sum(RHS(:).*R4(:))];
     
     % construct the matrix for the least squares solve
     A11 = sum(R1(:).*R1(:));
