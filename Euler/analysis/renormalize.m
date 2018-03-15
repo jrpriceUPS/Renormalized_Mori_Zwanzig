@@ -82,7 +82,7 @@ else
         exact_everything(:,:,:,:,:,i) = du_dt.*conj(u_current) + conj(du_dt).*u_current;
     end
     
-    save(sprintf('exact_everything%i.mat',N),'exact_everything');
+    save(sprintf('exact_everything%i.mat',N_full),'exact_everything');
     
 end
 
@@ -92,7 +92,7 @@ for j = 1:length(N_list);
     
     % compute N and M for the current ROM
     N = N_list(j);
-    M = 2*N;
+    M = 3*N;
     
     % construct output arrays of the proper size
     exact = zeros(M,M,M,3,t);
