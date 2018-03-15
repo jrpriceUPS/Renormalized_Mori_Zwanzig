@@ -53,27 +53,37 @@ k_full(:,:,:,3) = kz_full;
 a_full = 2:M_full;
 b_full = 2*M_full:-1:M_full+2;
 
-% compute exact derivative of the energy in each mode at each timestep
-for i = 1:t
+if exist(sprintf('exact_everything%i.mat',N),'file') == 2
     
-    % compute and display the current time
-    disp('Currently analyzing exact solution')
-    current_t = t_list(i);
-    disp(sprintf('Current time is t = %i out of %i\n',t_list(i),t_list(end)))
+    load(sprintf('exact_everything%i.mat',N));
+    disp('Loaded saved exact solution')
     
-    % extract the current u
-    u_current = squeeze(u(:,:,:,:,:,i));
+else
     
-    % construct the full version of it
-    u_full = u_fullify(u_current,M_full);
+    % compute exact derivative of the energy in each mode at each timestep
+    for i = 1:t
+        
+        % compute and display the current time
+        disp('Currently analyzing exact solution')
+        disp(sprintf('Current time is t = %i out of %i\n',t_list(i),t_list(end)))
+        
+        % extract the current u
+        u_current = squeeze(u(:,:,:,:,:,i));
+        
+        % construct the full version of it
+        u_full = u_fullify(u_current,M_full);
+        
+        % compute the time derivative and convert it into the same shape as u
+        % itself
+        du_dt = Ck(u_full,u_full,a_full,b_full,k_full,[]);
+        du_dt = u_squishify(du_dt,N_full);
+        
+        % compute the energy derivative of each mode for this timestep
+        exact_everything(:,:,:,:,:,i) = du_dt.*conj(u_current) + conj(du_dt).*u_current;
+    end
     
-    % compute the time derivative and convert it into the same shape as u
-    % itself
-    du_dt = Ck(u_full,u_full,a_full,b_full,k_full,[]);
-    du_dt = u_squishify(du_dt,N_full);
+    save(sprintf('exact_everything%i.mat',N),'exact_everything');
     
-    % compute the energy derivative of each mode for this timestep
-    exact_everything(:,:,:,:,:,i) = du_dt.*conj(u_current) + conj(du_dt).*u_current;
 end
 
 % compute contribution to the derivative of the energy in each mode for
@@ -178,9 +188,9 @@ for j = 1:length(N_list);
     % compute the RHS for the least squares solve
     RHS = R0 - exact;
     b = -[sum(RHS(:).*R1(:))
-          sum(RHS(:).*R2(:))
-          sum(RHS(:).*R3(:))
-          sum(RHS(:).*R4(:))];
+        sum(RHS(:).*R2(:))
+        sum(RHS(:).*R3(:))
+        sum(RHS(:).*R4(:))];
     
     % construct the matrix for the least squares solve
     A11 = sum(R1(:).*R1(:));

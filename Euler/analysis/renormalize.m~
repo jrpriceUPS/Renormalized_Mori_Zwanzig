@@ -1,4 +1,4 @@
-function [coeff_array,scaling_laws] = renormalize(u,N_list,t_list,time,print,min_tol,max_tol)
+function [coeff_array,scaling_laws] = renormalize(u,N_list,t_list,time,print)
 %
 % A function to take a fully resolved u to compute optimal renormalization
 % coefficients for several ROMs
@@ -19,12 +19,6 @@ function [coeff_array,scaling_laws] = renormalize(u,N_list,t_list,time,print,min
 %
 %   print  =  a logical variable (1 if figures are to be printed and saved,
 %             0 otherwise)
-%
-%  min_tol  =  minimum energy flow out of t-model of full model (typically
-%              0)
-%
-%  max_tol  =  maximum energy flow out of t-model of full model to use in
-%              fit (typically 1e-16)
 %
 %
 %%%%%%%%%%
@@ -58,6 +52,8 @@ k_full(:,:,:,3) = kz_full;
 % make vectors of resolved and unresolved modes in the full simulation
 a_full = 2:M_full;
 b_full = 2*M_full:-1:M_full+2;
+
+
 
 % compute exact derivative of the energy in each mode at each timestep
 for i = 1:t
@@ -115,9 +111,6 @@ for j = 1:length(N_list);
     b = 2*M:-1:M+2;
     a_tilde = N+1:M;
     
-    % create index of which timesteps to include
-    index = [];
-    
     % loop through every timestep
     for i = 1:t
         disp(sprintf('Current resolution is N = %i',N))
@@ -152,56 +145,49 @@ for j = 1:length(N_list);
         t1_energy = u_fullify(t1_energy,M_full);
         R1(:,:,:,:,i) = t1_energy(res_exact,res_exact,res_exact,:);
         
-        % if the flow due to the t-model is neither too large nor too
-        % small, continue
-        if sum(abs(t1_energy(:)))>min_tol && sum(abs(t1_energy(:)))<max_tol
-            
-            [t2,Ahat,Atilde,Bhat,Btilde] = t2model_term(u_full,t0hat,t0tilde,t1tilde,a,b,k,a_tilde);
-            t2 = u_squishify(t2,N);
-            if time
-                t2 = t2*current_t^2;
-            end
-            % compute the energy derivative due to the R_2 term
-            t2_energy = t2.*conj(u_current) + conj(t2).*u_current;
-            t2_energy = u_fullify(t2_energy,M_full);
-            R2(:,:,:,:,i) = t2_energy(res_exact,res_exact,res_exact,:);
-            
-            [t3,Ehat,Etilde,Fhat,Ftilde] = t3model_term(u_full,t0hat,t0tilde,t1hat,t1tilde,Ahat,Atilde,Btilde,a,b,k,a_tilde);
-            t3 = u_squishify(t3,N);
-            if time
-                t3 = t3*current_t^3;
-            end
-            % compute the energy derivative due to the R_3 term
-            t3_energy = t3.*conj(u_current) + conj(t3).*u_current;
-            t3_energy = u_fullify(t3_energy,M_full);
-            R3(:,:,:,:,i) = t3_energy(res_exact,res_exact,res_exact,:);
-            
-            t4 = t4model_term(u_full,t0hat,t0tilde,t1hat,t1tilde,Ahat,Atilde,Bhat,Btilde,Ehat,Etilde,Fhat,Ftilde,a,b,k,a_tilde);
-            t4 = u_squishify(t4,N);
-            if time
-                t4 = t4*current_t^4;
-            end
-            % compute the energy derivative due to the R_4 term
-            t4_energy = t4.*conj(u_current) + conj(t4).*u_current;
-            t4_energy = u_fullify(t4_energy,M_full);
-            R4(:,:,:,:,i) = t4_energy(res_exact,res_exact,res_exact,:);
-            
-            index = [index;i];
+        [t2,Ahat,Atilde,Bhat,Btilde] = t2model_term(u_full,t0hat,t0tilde,t1tilde,a,b,k,a_tilde);
+        t2 = u_squishify(t2,N);
+        if time
+            t2 = t2*current_t^2;
         end
+        % compute the energy derivative due to the R_2 term
+        t2_energy = t2.*conj(u_current) + conj(t2).*u_current;
+        t2_energy = u_fullify(t2_energy,M_full);
+        R2(:,:,:,:,i) = t2_energy(res_exact,res_exact,res_exact,:);
+        
+        [t3,Ehat,Etilde,Fhat,Ftilde] = t3model_term(u_full,t0hat,t0tilde,t1hat,t1tilde,Ahat,Atilde,Btilde,a,b,k,a_tilde);
+        t3 = u_squishify(t3,N);
+        if time
+            t3 = t3*current_t^3;
+        end
+        % compute the energy derivative due to the R_3 term
+        t3_energy = t3.*conj(u_current) + conj(t3).*u_current;
+        t3_energy = u_fullify(t3_energy,M_full);
+        R3(:,:,:,:,i) = t3_energy(res_exact,res_exact,res_exact,:);
+        
+        t4 = t4model_term(u_full,t0hat,t0tilde,t1hat,t1tilde,Ahat,Atilde,Bhat,Btilde,Ehat,Etilde,Fhat,Ftilde,a,b,k,a_tilde);
+        t4 = u_squishify(t4,N);
+        if time
+            t4 = t4*current_t^4;
+        end
+        % compute the energy derivative due to the R_4 term
+        t4_energy = t4.*conj(u_current) + conj(t4).*u_current;
+        t4_energy = u_fullify(t4_energy,M_full);
+        R4(:,:,:,:,i) = t4_energy(res_exact,res_exact,res_exact,:);
         
     end
     
     % compute the RHS for the least squares solve
     RHS = R0 - exact;
-    b = -[sum(RHS(:,:,:,:,index).*R1(:,:,:,:,index))
-        sum(RHS(:,:,:,:,index).*R2(:,:,:,:,index))
-        sum(RHS(:,:,:,:,index).*R3(:,:,:,:,index))
-        sum(RHS(:,:,:,:,index).*R4(:,:,:,:,index))];
+    b = -[sum(RHS(:).*R1(:))
+          sum(RHS(:).*R2(:))
+          sum(RHS(:).*R3(:))
+          sum(RHS(:).*R4(:))];
     
     % construct the matrix for the least squares solve
-    A11 = sum(R1(:).*R1(:,:,:,:,index));
-    A12 = sum(R1(:).*R2(:,:,:,:,index));
-    A13 = sum(R1(:).*R3(:,:,:,:,index));
+    A11 = sum(R1(:).*R1(:));
+    A12 = sum(R1(:).*R2(:));
+    A13 = sum(R1(:).*R3(:));
     A14 = sum(R1(:).*R4(:));
     
     A21 = A12;
@@ -240,7 +226,7 @@ for j = 1:length(N_list);
         title(sprintf('Energy derivative (N = %i)',N))
         xlabel('time')
         ylabel('Sum of d|u_k|^2/dt')
-        legend('Exact','Renormalized ROM')
+        legend('Exact','Renormalized ROM','location','southwest')
         
         % display the rate of flow due to the Markov term
         subplot(3,2,2)
@@ -316,7 +302,7 @@ if print
     plot(log(N_list),log(coeff_array(2,:)),'.','markersize',20)
     hold on
     plot([1,3],polyval(scaling_laws(2,:),[1,3]),'r')
-    title('t-model coefficient','fontsize',16)
+    title('t^2-model coefficient','fontsize',16)
     xlabel('log(N)')
     ylabel('log(a_2)')
     
@@ -324,7 +310,7 @@ if print
     plot(log(N_list),log(coeff_array(3,:)),'.','markersize',20)
     hold on
     plot([1,3],polyval(scaling_laws(3,:),[1,3]),'r')
-    title('t-model coefficient','fontsize',16)
+    title('t^3-model coefficient','fontsize',16)
     xlabel('log(N)')
     ylabel('log(a_3)')
     
@@ -332,7 +318,7 @@ if print
     plot(log(N_list),log(coeff_array(4,:)),'.','markersize',20)
     hold on
     plot([1,3],polyval(scaling_laws(4,:),[1,3]),'r')
-    title('t-model coefficient','fontsize',16)
+    title('t^4-model coefficient','fontsize',16)
     xlabel('log(N)')
     ylabel('log(a_4)')
     
