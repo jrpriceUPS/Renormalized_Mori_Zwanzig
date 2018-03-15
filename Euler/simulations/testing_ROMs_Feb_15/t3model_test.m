@@ -6,7 +6,7 @@ addpath ../../simulation_functions
 addpath ../../nonlinear
 addpath ../../analysis
 
-end_time = 3.3738; % point of instability
+end_time = 3.335; % point of instability
 
 N = 4;
 M = 3*N;
