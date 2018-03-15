@@ -1,4 +1,4 @@
-function convolution = convolve(u_full,v_full)
+function convolution = convolve_old(u_full,v_full)
 %
 % Computes a convolution sum of two quantities by transforming them into
 % real space, computing a product, and transforming back into Fourier
@@ -27,14 +27,16 @@ v_real = ifftn_norm(v_full);
 
 s = size(u_real);
 
-v_1 = repmat(v_real(:,:,:,1),[1,1,1,3]);
-v_2 = repmat(v_real(:,:,:,2),[1,1,1,3]);
-v_3 = repmat(v_real(:,:,:,3),[1,1,1,3]);
-
 uv_T = zeros([s 3]);
-uv_T(:,:,:,:,1) = u_real.*v_1;
-uv_T(:,:,:,:,2) = u_real.*v_2;
-uv_T(:,:,:,:,3) = u_real.*v_3;
-
+tic
+for i = 1:s(1)
+    for j = 1:s(2)
+        for k = 1:s(3)
+            
+            uv_T(i,j,k,:,:) = squeeze(u_real(i,j,k,:))*squeeze(v_real(i,j,k,:)).';
+            
+        end
+    end
+end
 
 convolution = fftn_norm_conv(uv_T);

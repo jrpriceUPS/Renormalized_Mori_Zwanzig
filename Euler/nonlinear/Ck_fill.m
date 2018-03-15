@@ -29,33 +29,29 @@ function C = Ck_fill(irange,jrange,lrange,k,convo)
 % find the size of the arrays we are using
 s = size(convo);
 
-% construct full output arrays (we'll only update specific entries)
-C = zeros(s(1:end-1));
 
-% loop through the entries we want to update
-for i = irange
-    for j = jrange
-        for l = lrange
-            
-            if i == 1 && j == 1 && l == 1
-                
-                term1 = zeros(3,1);
-                term2 = zeros(3,1);
-                C(i,j,l,:) = term1 - term2;
-                
-            else
-                
-                wave_vec = squeeze(k(i,j,l,:)); % current wavevector k
-                current_mat = squeeze(convo(i,j,l,:,:)); % associated matrix
-                
-                term1 = -1j*current_mat*wave_vec;
-                term2 = wave_vec*wave_vec.'*squeeze(term1)/norm(wave_vec)^2;
-                C(i,j,l,:) = term1 - term2;
-                
-            end
-        end
-    end
-end
+t1 = zeros(s(1:end-1));
+k1 = repmat(k(irange,jrange,lrange,1),[1,1,1,3]);
+k2 = repmat(k(irange,jrange,lrange,2),[1,1,1,3]);
+k3 = repmat(k(irange,jrange,lrange,3),[1,1,1,3]);
+t1(irange,jrange,lrange,:) = -1j*(k1.*convo(irange,jrange,lrange,:,1) + k2.*convo(irange,jrange,lrange,:,2) + k3.*convo(irange,jrange,lrange,:,3));
+
+
+t2 = zeros(s(1:end-1));
+
+wave_vec_mag = sum(k(irange,jrange,lrange,:).^2,4);
+wave_vec_mag(wave_vec_mag==0)=1;
+wave_vec_mag = repmat(wave_vec_mag,[1,1,1,3]);
+
+t1_1 = repmat(t1(irange,jrange,lrange,1),[1,1,1,3]);
+t1_2 = repmat(t1(irange,jrange,lrange,2),[1,1,1,3]);
+t1_3 = repmat(t1(irange,jrange,lrange,3),[1,1,1,3]);
+
+B = k1.*t1_1 + k2.*t1_2 + k3.*t1_3;
+t2(irange,jrange,lrange,:) = k(irange,jrange,lrange,:).*B./wave_vec_mag;
+
+
+
 
 % retain only relevant terms
-C = C(irange,jrange,lrange,:);
+C = t1(irange,jrange,lrange,:) - t2(irange,jrange,lrange,:);
