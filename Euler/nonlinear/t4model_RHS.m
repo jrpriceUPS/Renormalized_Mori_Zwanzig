@@ -60,5 +60,9 @@ t2 = u_squishify(t2,N);
 t3 = u_squishify(t3,N);
 t4 = u_squishify(t4,N);
 
+if params.no_time
+    time = 1;
+end
+
 % compute the derivative
 du_dt = t0 + t1 * time * coeff(1) + t2 * time^2 * coeff(2) + t3 * time^3 * coeff(3) + t4 * time^4 * coeff(4);
