@@ -53,9 +53,9 @@ k_full(:,:,:,3) = kz_full;
 a_full = 2:M_full;
 b_full = 2*M_full:-1:M_full+2;
 
-if exist(sprintf('exact_everything%i.mat',N),'file') == 2
+if exist(sprintf('exact_everything%i.mat',N_full),'file') == 2
     
-    load(sprintf('exact_everything%i.mat',N));
+    load(sprintf('exact_everything%i.mat',N_full));
     disp('Loaded saved exact solution')
     
 else
