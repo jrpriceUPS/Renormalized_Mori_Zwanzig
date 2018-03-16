@@ -36,10 +36,7 @@ params_t4model.k = k;
 params_t4model.N = N;
 params_t4model.M = M;
 params_t4model.func = @(x) t4model_RHS(x);
-params_t4model.coeff = [0.121864881834313
-                        0.011239467163825
-                        0.000568825111902
-                        0.000009770863486]; % fit from N = 16 data, new Ck, non-variable windows
+params_t4model.coeff = [1;1;1;1]; % fit from N = 16 data, new Ck, non-variable windows
 params_t4model.a = 2:M;
 params_t4model.b = 2*M:-1:M+2;
 params_t4model.a_tilde = N+1:M;
