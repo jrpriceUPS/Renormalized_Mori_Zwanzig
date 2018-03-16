@@ -53,12 +53,7 @@ k_full(:,:,:,3) = kz_full;
 a_full = 2:M_full;
 b_full = 2*M_full:-1:M_full+2;
 
-if exist(sprintf('exact_everything%i.mat',N_full),'file') == 2
-    
-    load(sprintf('exact_everything%i.mat',N_full));
-    disp('Loaded saved exact solution')
-    
-else
+
     
     % compute exact derivative of the energy in each mode at each timestep
     for i = 1:t
@@ -81,10 +76,7 @@ else
         % compute the energy derivative of each mode for this timestep
         exact_everything(:,:,:,:,:,i) = du_dt.*conj(u_current) + conj(du_dt).*u_current;
     end
-    
-    save(sprintf('exact_everything%i.mat',N_full),'exact_everything');
-    
-end
+
 
 % compute contribution to the derivative of the energy in each mode for
 % each ROM at each resolution
@@ -92,7 +84,7 @@ for j = 1:length(N_list);
     
     % compute N and M for the current ROM
     N = N_list(j);
-    M = 3*N;
+    M = 2*N;
     
     % construct output arrays of the proper size
     exact = zeros(M,M,M,3,t);
