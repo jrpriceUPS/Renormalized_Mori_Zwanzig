@@ -7,10 +7,10 @@ addpath ../../analysis
 
 end_time = 8;
 
-N_full = 4; % resolution
+N_full = 8; % resolution
 M_full = 3*N_full;
 
-N_markov = 2;
+N_markov = 4;
 M_markov = 3*N_markov;
 
 % uniform grid

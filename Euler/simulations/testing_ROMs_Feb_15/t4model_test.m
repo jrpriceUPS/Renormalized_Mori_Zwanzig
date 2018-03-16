@@ -6,9 +6,9 @@ addpath ../../simulation_functions
 addpath ../../nonlinear
 addpath ../../analysis
 
-end_time = 100; % point of instability
+end_time = 4; % point of instability
 
-N = 8;
+N = 4;
 M = 3*N;
 
 % uniform grid
