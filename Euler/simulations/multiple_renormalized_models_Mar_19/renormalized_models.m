@@ -52,8 +52,8 @@ for i = 1:length(t1)
     u_array1(:,:,:,:,:,i) = reshape(u_raw1(i,:),[N,N,N,3,4]);
 end
 
-save t1 t1
-save u_array1 u_array1
+save(sprintf('t1_%i',N),'t1');
+save(sprintf('u_array1_%i',N),'u_array1');
 
 
 
@@ -72,8 +72,8 @@ for i = 1:length(t2)
     u_array2(:,:,:,:,:,i) = reshape(u_raw2(i,:),[N,N,N,3,4]);
 end
 
-save t2 t2
-save u_array2 u_array2
+save(sprintf('t2_%i',N),'t2');
+save(sprintf('u_array2_%i',N),'u_array2');
 
 
 
@@ -93,8 +93,8 @@ for i = 1:length(t3)
     u_array3(:,:,:,:,:,i) = reshape(u_raw3(i,:),[N,N,N,3,4]);
 end
 
-save t3 t3
-save u_array3 u_array3
+save(sprintf('t3_%i',N),'t3');
+save(sprintf('u_array3_%i',N),'u_array3');
 
 
 params.func = @(x) t4model_RHS(x);
@@ -112,8 +112,8 @@ for i = 1:length(t4)
     u_array4(:,:,:,:,:,i) = reshape(u_raw4(i,:),[N,N,N,3,4]);
 end
 
-save t4 t4
-save u_array4 u_array4
+save(sprintf('t4_%i',N),'t4');
+save(sprintf('u_array4_%i',N),'u_array4');
 
 
 
@@ -137,7 +137,7 @@ legend(sprintf('ROM order 1, N = %i',N),sprintf('ROM order 2, N = %i',N),sprintf
 title('Energy in resolved modes','fontsize',16)
 xlabel('time','fontsize',16)
 ylabel('energy','fontsize',16)
-saveas(gcf,'energy','png')
+saveas(gcf,sprintf('energy%i',N),'png')
 
 
 
@@ -158,4 +158,4 @@ legend(sprintf('ROM order 1, N = %i',N),sprintf('ROM order 2, N = %i',N),sprintf
 title('Helicity','fontsize',16)
 xlabel('time','fontsize',16)
 ylabel('w','fontsize',16)
-saveas(gcf,'helicity','png')
+saveas(gcf,sprintf('helicity%i',N),'png')
