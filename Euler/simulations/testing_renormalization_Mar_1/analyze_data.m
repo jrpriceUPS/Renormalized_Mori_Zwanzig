@@ -1,4 +1,4 @@
-function [coeff_array,scaling_laws] = analyze_data(N,min_tol,max_tol,time,print)
+function [coeff_array,scaling_laws] = analyze_data(N,min_tol,max_tol,time,print,degree)
 %
 % A function to compute renormalization coefficients from a full simulation
 % of size N using data where the flow out of the full model is between
@@ -21,6 +21,8 @@ function [coeff_array,scaling_laws] = analyze_data(N,min_tol,max_tol,time,print)
 %              not include time dependence)
 %
 %    print  =  a logical variable (if 1, save plots, if 0 do not)
+%
+%   degree  =  degree of ROM to renormalize
 %
 %
 %%%%%%%%%
@@ -55,4 +57,4 @@ s = size(u);
 N_list = 4:2:s(1)/2;
 
 % compute the renormalization coefficients
-[coeff_array,scaling_laws] = renormalize(u_array,N_list,t_array,time,print);
+[coeff_array,scaling_laws] = renormalize(u_array,N_list,t_array,time,print,degree);

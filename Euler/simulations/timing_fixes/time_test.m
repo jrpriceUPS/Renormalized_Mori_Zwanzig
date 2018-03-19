@@ -5,7 +5,7 @@ addpath ../../simulation_functions
 addpath ../../nonlinear
 addpath ../../analysis
 
-N = 16;
+N = 8;
 M = 3*N;
 
 % uniform grid
