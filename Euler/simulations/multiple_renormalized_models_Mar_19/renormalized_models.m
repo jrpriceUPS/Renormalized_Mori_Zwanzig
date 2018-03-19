@@ -171,6 +171,13 @@ d2 = energy_derivative(u_array2,t2,params2);
 d3 = energy_derivative(u_array3,t3,params3);
 d4 = energy_derivative(u_array4,t4,params4);
 
+save(sprintf('d1_%i',N),'d1');
+save(sprintf('d2_%i',N),'d2');
+save(sprintf('d3_%i',N),'d3');
+save(sprintf('d4_%i',N),'d4');
+
+
+
 figure(3)
 hold off
 plot(t1,d1,'linewidth',2)
@@ -183,3 +190,23 @@ title('Energy Derivative','fontsize',16)
 xlabel('time','fontsize',16)
 ylabel('w','fontsize',16)
 saveas(gcf,sprintf('energy_deriv%i',N),'png')
+
+
+
+ens1 = enstrophy(u_array1);
+ens2 = enstrophy(u_array2);
+ens3 = enstrophy(u_array3);
+ens4 = enstrophy(u_array4);
+
+figure(4)
+hold off
+plot(t1,ens1,'linewidth',2)
+hold on
+plot(t2,ens2,'r','linewidth',2)
+plot(t3,ens3,'k','linewidth',2)
+plot(t4,ens4,'c','linewidth',2)
+legend(sprintf('ROM order 1, N = %i',N),sprintf('ROM order 2, N = %i',N),sprintf('ROM order 3, N = %i',N),sprintf('ROM order 4, N = %i',N),'location','southeast')
+title('Enstrophy','fontsize',16)
+xlabel('time','fontsize',16)
+ylabel('enstrophy','fontsize',16)
+saveas(gcf,sprintf('enstrophy%i',N),'png')
