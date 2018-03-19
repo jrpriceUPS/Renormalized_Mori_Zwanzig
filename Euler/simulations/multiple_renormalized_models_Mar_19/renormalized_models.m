@@ -32,17 +32,20 @@ k(:,:,:,3) = kz;
 params.k = k;
 params.N = N;
 params.M = M;
-params.func = @(x) tmodel_RHS(x);
-params.coeff = scaling_law(N,1); 
 params.a = 2:M;
 params.b = 2*M:-1:M+2;
 params.a_tilde = N+1:M;
 params.print_time = 1;
 params.no_time = 1;
 
+params1 = params;
+params1.func = @(x) tmodel_RHS(x);
+params1.coeff = scaling_law(N,1); 
+
+
 % run the simulation
 options = odeset('RelTol',1e-10,'Stats','on','InitialStep',1e-3);
-[t1,u_raw1] = ode45(@(t,u) RHS(u,t,params),[0,end_time],u(:),options);
+[t1,u_raw1] = ode45(@(t,u) RHS(u,t,params1),[0,end_time],u(:),options);
 
 
 % reshape the output array into an intelligible shape (should make this a
@@ -56,13 +59,13 @@ save(sprintf('t1_%i',N),'t1');
 save(sprintf('u_array1_%i',N),'u_array1');
 
 
-
-params.func = @(x) t2model_RHS(x);
-params.coeff = scaling_law(N,2); 
+params2 = params;
+params2.func = @(x) t2model_RHS(x);
+params2.coeff = scaling_law(N,2); 
 
 % run the simulation
 options = odeset('RelTol',1e-10,'Stats','on','InitialStep',1e-3);
-[t2,u_raw2] = ode45(@(t,u) RHS(u,t,params),[0,end_time],u(:),options);
+[t2,u_raw2] = ode45(@(t,u) RHS(u,t,params2),[0,end_time],u(:),options);
 
 
 % reshape the output array into an intelligible shape (should make this a
@@ -77,13 +80,13 @@ save(sprintf('u_array2_%i',N),'u_array2');
 
 
 
-
-params.func = @(x) t3model_RHS(x);
-params.coeff = scaling_law(N,3); 
+params3 = params;
+params3.func = @(x) t3model_RHS(x);
+params3.coeff = scaling_law(N,3); 
 
 % run the simulation
 options = odeset('RelTol',1e-10,'Stats','on','InitialStep',1e-3);
-[t3,u_raw3] = ode45(@(t,u) RHS(u,t,params),[0,end_time],u(:),options);
+[t3,u_raw3] = ode45(@(t,u) RHS(u,t,params3),[0,end_time],u(:),options);
 
 
 % reshape the output array into an intelligible shape (should make this a
@@ -96,13 +99,13 @@ end
 save(sprintf('t3_%i',N),'t3');
 save(sprintf('u_array3_%i',N),'u_array3');
 
-
-params.func = @(x) t4model_RHS(x);
-params.coeff = scaling_law(N,4); 
+params4 = params;
+params4.func = @(x) t4model_RHS(x);
+params4.coeff = scaling_law(N,4); 
 
 % run the simulation
 options = odeset('RelTol',1e-10,'Stats','on','InitialStep',1e-3);
-[t4,u_raw4] = ode45(@(t,u) RHS(u,t,params),[0,end_time],u(:),options);
+[t4,u_raw4] = ode45(@(t,u) RHS(u,t,params4),[0,end_time],u(:),options);
 
 
 % reshape the output array into an intelligible shape (should make this a
@@ -135,8 +138,8 @@ plot(log(t3),log(energy3),'k','linewidth',2)
 plot(log(t4),log(energy4),'c','linewidth',2)
 legend(sprintf('ROM order 1, N = %i',N),sprintf('ROM order 2, N = %i',N),sprintf('ROM order 3, N = %i',N),sprintf('ROM order 4, N = %i',N),'location','southwest')
 title('Energy in resolved modes','fontsize',16)
-xlabel('time','fontsize',16)
-ylabel('energy','fontsize',16)
+xlabel('log(time)','fontsize',16)
+ylabel('log(energy)','fontsize',16)
 saveas(gcf,sprintf('energy%i',N),'png')
 
 
@@ -159,3 +162,24 @@ title('Helicity','fontsize',16)
 xlabel('time','fontsize',16)
 ylabel('w','fontsize',16)
 saveas(gcf,sprintf('helicity%i',N),'png')
+
+
+
+
+d1 = energy_derivative(u_array1,t1,params1);
+d2 = energy_derivative(u_array2,t2,params2);
+d3 = energy_derivative(u_array3,t3,params3);
+d4 = energy_derivative(u_array4,t4,params4);
+
+figure(3)
+hold off
+plot(t1,d1,'linewidth',2)
+hold on
+plot(t2,d2,'r','linewidth',2)
+plot(t3,d3,'k','linewidth',2)
+plot(t4,d4,'c','linewidth',2)
+legend(sprintf('ROM order 1, N = %i',N),sprintf('ROM order 2, N = %i',N),sprintf('ROM order 3, N = %i',N),sprintf('ROM order 4, N = %i',N),'location','southeast')
+title('Energy Derivative','fontsize',16)
+xlabel('time','fontsize',16)
+ylabel('w','fontsize',16)
+saveas(gcf,sprintf('energy_deriv%i',N),'png')

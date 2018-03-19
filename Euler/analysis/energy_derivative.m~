@@ -1,0 +1,15 @@
+function deriv = energy_derivative(u,t,params)
+
+s = size(u)
+deriv = zeros(length(t),1);
+
+for i = 1:length(t)
+    
+    temp_u = squeeze(u(:,:,:,:,:,i));
+    temp_u_full = u_fullify(temp_u,N);
+        u_current = u_squishify(temp_u_full,N);
+        u_full = u_fullify(u_current,M);
+    
+    du_dt = 
+    
+end
