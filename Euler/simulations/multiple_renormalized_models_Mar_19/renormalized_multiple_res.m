@@ -102,7 +102,7 @@ for i = 1:length(N_list)
     title('Energy in resolved modes','fontsize',16)
     xlabel('log(time)','fontsize',16)
     ylabel('log(energy)','fontsize',16)
-    save(gcf,'energy','png')
+    saveas(gcf,'energy','png')
     
     s = polyfit(log(t4(log(t4)>2)),log(energy(log(t4)>2)),1);
     slopes(i) = s(1);
