@@ -106,6 +106,9 @@ for i = 1:length(N_list)
     s = polyfit(log(t4(log(t4)>2)),log(energy(log(t4)>2)),1);
     slopes(i) = s(1);
     
+    current_slopes = slopes(1:i)
+    save current_slopes current_slopes
+    
     figure(5)
     hold on
     plot(log(t4),log(energy),'linewidth',2,'color',colors(i,:))
