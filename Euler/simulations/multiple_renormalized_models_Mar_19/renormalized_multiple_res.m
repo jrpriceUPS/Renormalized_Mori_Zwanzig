@@ -30,7 +30,7 @@ for i = 1:length(N_list)
     leg_sw{i+1} = 'location';
     leg_sw{i+2} = 'southwest';
     leg_se{i+1} = 'location';
-    leg_se{i+2} = 'southwest';
+    leg_se{i+2} = 'southeast';
     
     M = 3*N;
     
