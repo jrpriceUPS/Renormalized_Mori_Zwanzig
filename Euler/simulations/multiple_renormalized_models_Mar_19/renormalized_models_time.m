@@ -1,4 +1,4 @@
-function renormalized_models(N,end_time)
+function renormalized_models_time(N,end_time)
 
 format long
 
@@ -36,11 +36,11 @@ params.a = 2:M;
 params.b = 2*M:-1:M+2;
 params.a_tilde = N+1:M;
 params.print_time = 1;
-params.no_time = 1;
+params.no_time = 0;
 
 params1 = params;
 params1.func = @(x) tmodel_RHS(x);
-params1.coeff = scaling_law(N,1);
+params1.coeff = scaling_law_time(N,1);
 
 
 % run the simulation
@@ -55,8 +55,8 @@ for i = 1:length(t1)
     u_array1(:,:,:,:,:,i) = reshape(u_raw1(i,:),[N,N,N,3,4]);
 end
 
-save(sprintf('t1_%i',N),'t1');
-save(sprintf('u_array1_%i',N),'u_array1');
+save(sprintf('t1_%it',N),'t1');
+save(sprintf('u_array1_%it',N),'u_array1');
 
 
 params2 = params;
@@ -75,8 +75,8 @@ for i = 1:length(t2)
     u_array2(:,:,:,:,:,i) = reshape(u_raw2(i,:),[N,N,N,3,4]);
 end
 
-save(sprintf('t2_%i',N),'t2');
-save(sprintf('u_array2_%i',N),'u_array2');
+save(sprintf('t2_%it',N),'t2');
+save(sprintf('u_array2_%it',N),'u_array2');
 
 
 
@@ -96,8 +96,8 @@ for i = 1:length(t3)
     u_array3(:,:,:,:,:,i) = reshape(u_raw3(i,:),[N,N,N,3,4]);
 end
 
-save(sprintf('t3_%i',N),'t3');
-save(sprintf('u_array3_%i',N),'u_array3');
+save(sprintf('t3_%it',N),'t3');
+save(sprintf('u_array3_%it',N),'u_array3');
 
 params4 = params;
 params4.func = @(x) t4model_RHS(x);
@@ -115,8 +115,8 @@ for i = 1:length(t4)
     u_array4(:,:,:,:,:,i) = reshape(u_raw4(i,:),[N,N,N,3,4]);
 end
 
-save(sprintf('t4_%i',N),'t4');
-save(sprintf('u_array4_%i',N),'u_array4');
+save(sprintf('t4_%it',N),'t4');
+save(sprintf('u_array4_%it',N),'u_array4');
 
 t1_include = 0;
 t2_include = 0;
@@ -174,7 +174,7 @@ legend(sprintf('ROM order 1, N = %i',N),sprintf('ROM order 2, N = %i',N),sprintf
 title('Energy in resolved modes','fontsize',16)
 xlabel('log(time)','fontsize',16)
 ylabel('log(energy)','fontsize',16)
-saveas(gcf,sprintf('energy%i',N),'png')
+saveas(gcf,sprintf('energy%it',N),'png')
 
 
 
@@ -206,27 +206,27 @@ legend(little_legend_sw{:})
 title('Helicity','fontsize',16)
 xlabel('time','fontsize',16)
 ylabel('w','fontsize',16)
-saveas(gcf,sprintf('helicity%i',N),'png')
+saveas(gcf,sprintf('helicity%it',N),'png')
 
 
 
 if t1_include
 d1 = energy_derivative(u_array1,t1,params1);
+save(sprintf('d1_%i',N),'d1');
 end
 if t2_include
 d2 = energy_derivative(u_array2,t2,params2);
+save(sprintf('d2_%i',N),'d2');
 end
 if t3_include
 d3 = energy_derivative(u_array3,t3,params3);
+save(sprintf('d3_%i',N),'d3');
 end
 if t4_include
 d4 = energy_derivative(u_array4,t4,params4);
+save(sprintf('d4_%i',N),'d4');
 end
 
-save(sprintf('d1_%i',N),'d1');
-save(sprintf('d2_%i',N),'d2');
-save(sprintf('d3_%i',N),'d3');
-save(sprintf('d4_%i',N),'d4');
 
 
 
@@ -252,7 +252,7 @@ legend(little_legend_se{:})
 title('Energy Derivative','fontsize',16)
 xlabel('time','fontsize',16)
 ylabel('w','fontsize',16)
-saveas(gcf,sprintf('energy_deriv%i',N),'png')
+saveas(gcf,sprintf('energy_deriv%it',N),'png')
 
 
 if t1_include
@@ -290,4 +290,4 @@ legend(little_legend_se{:})
 title('Enstrophy','fontsize',16)
 xlabel('time','fontsize',16)
 ylabel('enstrophy','fontsize',16)
-saveas(gcf,sprintf('enstrophy%i',N),'png')
+saveas(gcf,sprintf('enstrophy%it',N),'png')
