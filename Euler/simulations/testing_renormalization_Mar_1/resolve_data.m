@@ -8,7 +8,7 @@ function resolve_data(N)
 %INPUTS:%
 %%%%%%%%%
 %
-%         N  =  resolution of full model  
+%         N  =  resolution of full model
 %
 %
 %%%%%%%%%
@@ -23,36 +23,13 @@ addpath ../../simulation_functions
 addpath ../../nonlinear
 addpath ../../analysis
 
-if exist(sprintf('tmodel_size_list%i.mat',N),'file') == 2
-    
-    % if there is already data for this resolution, load it and continue the
-    % simulation from the previous end time up to the proposed end time
-    load(sprintf('tmodel_size_list%i.mat',N))
-    completed = length(tmodel_size_list);
-    
-else
-    
-    % otherwise, start at time 0
-    completed = 0;
-    tmodel_size_list = [];
-    
-end
-
 % load data
 load(sprintf('u%i.mat',N))
 load(sprintf('t%i.mat',N))
 
-if length(t) > completed
-    
-    % gather the new data
-    u_new = u(:,:,:,:,:,completed+1:end);
-    t_new = t(completed+1:end);
-    
-    % use the resolve_array function to resolve each term
-    tmodel_size_list_new = resolve_array(u_new,t_new);
-    
-    % append the results and save it to the directory
-    tmodel_size_list = [tmodel_size_list;tmodel_size_list_new];
-    save(sprintf('tmodel_size_list%i.mat',N),'tmodel_size_list')
-    
-end
+% use the resolve_array function to resolve each term
+[tmodel_size_list,tmodel_size_list_full] = resolve_array(u,t);
+
+% append the results and save it to the directory
+save(sprintf('tmodel_size_list%i.mat',N),'tmodel_size_list')
+save(sprintf('tmodel_size_list_full%i.mat',N),'tmodel_size_list_full')

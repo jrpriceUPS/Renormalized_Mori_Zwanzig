@@ -95,6 +95,6 @@ for i = 1:length(t)
     t1 = u_squishify(t1hat,2*N);
     
     % compute the energy derivative due to the t-model and record it
-    t_model_size = time*sum(t1(:).*conj(temp_u(:))+conj(t1(:)).*temp_u(:))
-    tmodel_size_list_full(i) = abs(t_model_size);
+    t_model_size_full = time*sum(t1(:).*conj(temp_u(:))+conj(t1(:)).*temp_u(:))
+    tmodel_size_list_full(i) = abs(t_model_size_full);
 end
