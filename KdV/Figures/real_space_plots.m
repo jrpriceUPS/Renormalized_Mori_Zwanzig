@@ -7,9 +7,10 @@ addpath ../nonlinear
 addpath ../analysis
 
 clear all;close all;
-M = 512;
-N = 256;
-epsilon = 0.01;
+N = 20;
+epsilon = 0.1;
+endtime = 10;
+howoften = 10;
 
 simulation_params.epsilon = epsilon;  %coefficient on linear term in KdV
 simulation_params.alpha = 1;      %coefficient on nonlinear term in KdV
@@ -18,11 +19,13 @@ simulation_params.endtime = 100;   %end of simulation
 simulation_params.howoften = 100;   %how often to save state vector
 simulation_params.blowup = 1;     %if 1, instabilities cause simulation to end, but not give error
 simulation_params.tol = inf;    %tolerance for identifying instabilities
-simulation_params.N = M;          %number of positive modes to simulate
+simulation_params.N = 256;          %number of positive modes to simulate
 simulation_params.initial_condition = @(x) sin(x);
 simulation_params.initialization = @(x) full_init_KdV(x);  %full simulation
 
 [t_list,u_list] = PDE_solve(simulation_params);
+save t_list t_list
+save u_list u_list
 
 if length(t_list) ~= length(0:simulation_params.dt*simulation_params.howoften:simulation_params.endtime)
     return
@@ -39,52 +42,75 @@ save u_ROM u_ROM
 
 simulation_params.initialization = @(x) full_init_KdV(x);
 simulation_params.N = N;
-
 [t_markov,u_markov] = PDE_solve(simulation_params);
 save t_markov t_markov
 save u_markov u_markov
 
 
 
-energy = figure(1);
-set(gca,'FontSize',16)
-hold off
-plot(t_list,get_energy(u_list,N));
-hold on
-plot(t_markov,get_energy(u_markov,N),'r');
-plot(t_ROM,get_energy(u_ROM,N),'k');
-title(sprintf('Mass in first N = %i modes',N))
-xlabel('time')
-ylabel('mass')
-legend('Exact','Markov','Order 4 ROM','location','southwest')
-saveas(energy,'extrap_energy','png')
-
 
 [x,u_real] = make_real_space(u_list(1:N,:),N);
 [~,u_markov_real] = make_real_space(u_markov,N);
 [~,u_ROM_real] = make_real_space(u_ROM,N);
 
-err_markov = sum((u_real(:,1:length(t_markov))-u_markov_real).^2,1)./sum(u_real(:,1:length(t_markov)).^2,1);
-err_ROM = sum((u_ROM_real-u_real(:,1:length(t_ROM))).^2,1)./sum(u_real(:,1:length(t_ROM)).^2,1);
 
-save u_list u_list
-save t_list t_list
 
-save u_markov u_markov
-save t_markov t_markov
 
-save u_ROM u_ROM
-save t_ROM t_ROM
+real_space = figure(1);
+set(gca,'FontSize',16);
 
-error = figure(2);
-set(gca,'FontSize',16)
+leg{1} = 'Exact';
+leg{2} = 'Markov';
+leg{3} = '4th Order ROM';
+leg{4} = 'location';
+leg{5} = 'southwest';
 
-hold off
-plot(t_markov,err_markov,'k--')
+t1 = 1;
+t2 = find(t_list == 5);
+t3 = find(t_list == 20);
+t4 = find(t_list == 80);
+
+figure
+subplot(2,2,1)
+plot(x,u_real(:,t1),'k')
 hold on
-plot(t_ROM,err_ROM,'k')
-title(sprintf('Relative error of size N = %i models',N))
+plot(x,u_markov_real(:,t1),'k-s')
+plot(x,u_ROM_real(:,t1),'k-o')
+title(sprintf('t = %i',t_list(t1)))
 xlabel('time')
-ylabel('relative global error')
-legend('Markov','4th order ROM','location','northwest')
-saveas(error,'extrap_error','png')
+ylabel('u(t)')
+legend(leg{:})
+
+subplot(2,2,2)
+plot(x,u_real(:,t2),'k')
+hold on
+plot(x,u_markov_real(:,t2),'k-s')
+plot(x,u_ROM_real(:,t2),'k-o')
+title(sprintf('t = %i',t_list(t2)))
+xlabel('time')
+ylabel('u(t)')
+legend(leg{:})
+
+
+subplot(2,2,3)
+plot(x,u_real(:,t3),'k')
+hold on
+plot(x,u_markov_real(:,t3),'k-s')
+plot(x,u_ROM_real(:,t3),'k-o')
+title(sprintf('t = %i',t_list(t3)))
+xlabel('time')
+ylabel('u(t)')
+legend(leg{:})
+
+
+subplot(2,2,4)
+plot(x,u_real(:,t4),'k')
+hold on
+plot(x,u_markov_real(:,t4),'k-s')
+plot(x,u_ROM_real(:,t4),'k-o')
+title(sprintf('t = %i',t_list(t4)))
+xlabel('time')
+ylabel('u(t)')
+legend(leg{:})
+
+saveas(real_space,sprintf('real_space%i',N),'png')

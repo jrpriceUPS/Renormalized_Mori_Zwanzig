@@ -23,8 +23,6 @@ simulation_params.initial_condition = @(x) sin(x);
 simulation_params.initialization = @(x) full_init_KdV(x);  %full simulation
 
 [t_list,u_list] = PDE_solve(simulation_params);
-save t_list t_list
-save u_list u_list
 
 if length(t_list) ~= length(0:simulation_params.dt*simulation_params.howoften:simulation_params.endtime)
     return
@@ -88,5 +86,5 @@ plot(t_ROM,err_ROM,'k')
 title(sprintf('Relative error of size N = %i models',N))
 xlabel('time')
 ylabel('relative global error')
-legend('Markov','Order 4 ROM','location','northwest')
+legend('Markov','4th Order ROM','location','northwest')
 saveas(error,'extrap_error','png')
