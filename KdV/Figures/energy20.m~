@@ -53,6 +53,23 @@ simulation_params.dt = 1e-5;
 clear('simulation_params')
 
 
+figure(1)
+hold off
+plot(t_list,get_energy(u_list,N))
+hold on
+plot(t_markov,get_energy(u_markov,N),'--')
+plot(t2,get_energy(u2,N),'-o')
+plot(t4,get_energy(u4,N),'--o')
+plot(t_blowup,get_energy(u_blowup,N),'-*')
+ax = axis;
+axis([0,10,0.4984,0.5002]);
+legend('Exact','Markov','2nd order ROM','4th order ROM','non-renormalized 4th order ROM','location','southwest')
+xlabel('time','fontsize',16)
+ylabel('Mass in resolved modes','fontsize',16)
+title(sprintf('N = %i',N),'fontsize',16)
+saveas(gcf,sprintf('energy_evo%i',N),'png')
+
+
 
 
 skip = 15;

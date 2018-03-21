@@ -59,10 +59,10 @@ err2 = sum((u_2_real-u_real(:,1:length(t2))).^2,1)./sum(u_real(:,1:length(t2)).^
 err4 = sum((u_4_real-u_real(:,1:length(t4))).^2,1)./sum(u_real(:,1:length(t4)).^2,1);
 
 hold off
-plot(t_markov,err_markov,'r')
+plot(t_markov,err_markov,'k.')
 hold on
-plot(t2,err2,'g')
-plot(t4,err4,'k')
+plot(t2,err2,'k*')
+plot(t4,err4,'ko')
 legend('Markov','2nd order ROM','4th order ROM','location','northwest')
 xlabel('time','fontsize',16)
 ylabel('Real space relative global error','fontsize',16)

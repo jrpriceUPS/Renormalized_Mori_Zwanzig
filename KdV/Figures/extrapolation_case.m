@@ -72,7 +72,7 @@ error = figure(2);
 set(gca,'FontSize',16)
 
 hold off
-plot(t_markov,err_markov,'r')
+plot(t_markov,err_markov,'k--')
 hold on
 plot(t_ROM,err_ROM,'k')
 title(sprintf('Relative error of size N = %i models',N))

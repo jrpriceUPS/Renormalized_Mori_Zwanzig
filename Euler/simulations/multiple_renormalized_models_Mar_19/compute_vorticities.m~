@@ -1,0 +1,15 @@
+function compute_vorticities(N_list)
+
+format long
+close all
+
+addpath ../../simulation_functions
+addpath ../../nonlinear
+addpath ../../analysis
+
+colors = linspecer(length(N_list));
+
+for i = 1:length(N_list)
+    
+    
+end
