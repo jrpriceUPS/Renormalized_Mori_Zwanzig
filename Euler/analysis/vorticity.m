@@ -58,7 +58,7 @@ for i = 1:s(end)
     curl = 1j*(k2.*u_full3 - k3.*u_full2);
     real_curl = ifftn_norm(curl);
     vort1(i) = max(abs(real_curl(:)));
-    vort_2norm = sum(real_curl.^2,4);
+    vort_2norm = sqrt(sum(real_curl.^2,4));
     vort2(i) = max(vort_2norm(:));
     
 end
