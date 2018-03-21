@@ -21,11 +21,11 @@ simulation_params.howoften = howoften;   %how often to save state vector
 simulation_params.blowup = 1;     %if 1, instabilities cause simulation to end, but not give error
 simulation_params.tol = inf;    %tolerance for identifying instabilities
 simulation_params.N = 256;          %number of positive modes to simulate
-simulation_params.name = 'full';  %full simulation
+simulation_params.initialization = @(x) full_init_KdV(x);  %full simulation
 
 simulation_params.initial_condition = @(x) sin(x);
 
-[t_list,u_list] = KdV_solve(simulation_params);
+[t_list,u_list] = PDE_solve(simulation_params);
 
 u_list_markov = cell(length(N),1);
 u_list4 = cell(length(N),1);
@@ -33,16 +33,16 @@ u_list2 = cell(length(N),1);
 
 
 
-simulation_params.name = 'full';
+simulation_params.initialization = @(x) full_init_KdV(x);
 simulation_params.N = N;
 [t_markov,u_markov] = KdV_solve(simulation_params);
 
-simulation_params.name = 'complete';
+simulation_params.initialization = @(x) complete_init_KdV(x);
 simulation_params.order = 4;
 simulation_params.N = N;
 [t4,u4] = KdV_solve(simulation_params);
 
-simulation_params.name = 'complete';
+simulation_params.initialization = @(x) complete_init_KdV(x);
 simulation_params.order = 2;
 simulation_params.N = N;
 [t2,u2] = KdV_solve(simulation_params);
