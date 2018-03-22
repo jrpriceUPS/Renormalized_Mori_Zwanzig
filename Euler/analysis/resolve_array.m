@@ -35,11 +35,13 @@ M_full = 6*N;
 a = 2:M;
 b = 2*M:-1:M+2;
 a_tilde = N+1:M;
+a_tilde2 = 2*N+1:M;
 
 % construct index lists
 a_f = 2:M_full;
 b_f = 2*M_full:-1:M_full+2;
 a_tilde_f = 2*N+1:M_full;
+a_tilde2_f = 4*N+1:M_full;
 
 % make k array
 k_vec = [0:M-1,-M:1:-1];
@@ -76,8 +78,8 @@ for i = 1:length(t)
     time = t(i)
     
     % compute the t-model term and reshape into the same shape as u
-    [~,~,t0tilde] = markov_term(u_full,a,b,k,a_tilde);
-    [~,t1hat,~] = tmodel_term(u_full,t0tilde,a,b,k,a_tilde);
+    [~,~,t0tilde] = markov_term(u_full,a,b,k,a_tilde,a_tilde2);
+    [~,t1hat,~] = tmodel_term(u_full,t0tilde,a,b,k,a_tilde,a_tilde2);
     t1 = u_squishify(t1hat,N);
     
     % compute the energy derivative due to the t-model and record it
@@ -90,8 +92,8 @@ for i = 1:length(t)
     
     
     % compute the t-model term and reshape into the same shape as u
-    [~,~,t0tilde_f] = markov_term(temp_u_full,a_f,b_f,k_f,a_tilde_f);
-    [~,t1hat_f,~] = tmodel_term(temp_u_full,t0tilde_f,a_f,b_f,k_f,a_tilde_f);
+    [~,~,t0tilde_f] = markov_term(temp_u_full,a_f,b_f,k_f,a_tilde_f,a_tilde2_f);
+    [~,t1hat_f,~] = tmodel_term(temp_u_full,t0tilde_f,a_f,b_f,k_f,a_tilde_f,a_tilde2_f);
     t1_f = u_squishify(t1hat_f,2*N);
     
     % compute the energy derivative due to the t-model and record it
