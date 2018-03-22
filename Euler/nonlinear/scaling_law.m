@@ -27,23 +27,23 @@ function coefficients = scaling_law(N,degree);
 coefficients = zeros(degree,1);
 
 if degree == 1
-    coefficients = exp(0.216042538948145) * N^-1.093111582148421;
+    coefficients = exp(0.216042496107435) * N^-1.093111558750439;
 end
 
 if degree == 2
-    coefficients(1) = exp(0.807464414266468) * N^-1.095579025575996;
-    coefficients(2) = exp(1.497182389514764) * N^-2.388826221971421;
+    coefficients(1) = exp(0.807455983097315) * N^-1.095574434238564;
+    coefficients(2) = exp(1.497163921272081) * N^-2.388816163431132;
 end
 
 if degree == 3
-    coefficients(1) = exp(0.770162592959785) * N^-0.996165830603617;
-    coefficients(2) = exp(1.484422307729853) * N^-2.132672239666827;
-    coefficients(3) = exp(1.438271947042133) * N^-3.280533408078200;
+    coefficients(1) = exp(0.770209345246030) * N^-0.996189505137105;
+    coefficients(2) = exp(1.484542760836709) * N^-2.132733905239233;
+    coefficients(3) = exp(1.438554055652650) * N^-3.280679641515915;
 end
 
-if degree == 4
-    coefficients(1) = exp(0.881648270582790) * N^-1.016111918252141;
-    coefficients(2) = exp(1.810852500536821) * N^-2.199218806267398;
-    coefficients(3) = exp(2.387290431279766) * N^-3.530161767618130;
-    coefficients(4) = exp(4.114478164325384) * N^-5.992383509914074;
+if degree == 4 % updated 3/22/2018
+    coefficients(1) = exp(0.881697469455647) * N^-1.016137379094870;
+    coefficients(2) = exp(1.810959536989056) * N^-2.199277103212345;
+    coefficients(3) = exp(2.387434303594024) * N^-3.530254865250746;
+    coefficients(4) = exp(4.114595061560149) * N^-5.992497764994379;
 end
