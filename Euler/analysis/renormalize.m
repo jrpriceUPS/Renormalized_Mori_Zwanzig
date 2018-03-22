@@ -72,7 +72,7 @@ for i = 1:t
     
     % compute the time derivative and convert it into the same shape as u
     % itself
-    du_dt = Ck(u_full,u_full,a_full,b_full,k_full,[]);
+    du_dt = Ck(u_full,u_full,a_full,b_full,k_full,[],[]);
     du_dt = u_squishify(du_dt,N_full);
     
     % compute the energy derivative of each mode for this timestep
@@ -86,15 +86,15 @@ for j = 1:length(N_list);
     
     % compute N and M for the current ROM
     N = N_list(j);
-    M = 2*N;
+    M = 3*N;
     
     % construct output arrays of the proper size
-    exact = zeros(M,M,M,3,t);
-    R0 = zeros(M,M,M,3,t);
-    R1 = zeros(M,M,M,3,t);
-    R2 = zeros(M,M,M,3,t);
-    R3 = zeros(M,M,M,3,t);
-    R4 = zeros(M,M,M,3,t);
+    exact = zeros(2*N,2*N,2*N,3,t);
+    R0 = zeros(2*N,2*N,2*N,3,t);
+    R1 = zeros(2*N,2*N,2*N,3,t);
+    R2 = zeros(2*N,2*N,2*N,3,t);
+    R3 = zeros(2*N,2*N,2*N,3,t);
+    R4 = zeros(2*N,2*N,2*N,3,t);
     
     % compute the indices corresponding to terms in this ROM from the exact
     % data computed above
@@ -112,6 +112,7 @@ for j = 1:length(N_list);
     a = 2:M;
     b = 2*M:-1:M+2;
     a_tilde = N+1:M;
+    a_tilde2 = 2*N+1:M;
     
     % loop through every timestep
     for i = 1:t
@@ -130,14 +131,14 @@ for j = 1:length(N_list);
         u_full = u_fullify(u_current,M);
         
         % compute the R_k^i terms for i = 1,2,3,4
-        [~,t0hat,t0tilde] = markov_term(u_full,a,b,k,a_tilde);
+        [~,t0hat,t0tilde] = markov_term(u_full,a,b,k,a_tilde,a_tilde2);
         t0 = u_squishify(t0hat,N);
         % compute the energy derivative due to the R_0 term
         t0_energy = t0.*conj(u_current) + conj(t0).*u_current;
         t0_energy = u_fullify(t0_energy,M_full);
         R0(:,:,:,:,i) = t0_energy(res_exact,res_exact,res_exact,:);
         
-        [~,t1hat,t1tilde] = tmodel_term(u_full,t0tilde,a,b,k,a_tilde);
+        [~,t1hat,t1tilde] = tmodel_term(u_full,t0tilde,a,b,k,a_tilde,a_tilde2);
         t1 = u_squishify(t1hat,N);
         if time
             t1 = t1*current_t;
@@ -149,7 +150,7 @@ for j = 1:length(N_list);
         
         if degree > 1
             
-            [t2,Ahat,Atilde,Bhat,Btilde] = t2model_term(u_full,t0hat,t0tilde,t1tilde,a,b,k,a_tilde);
+            [t2,Ahat,Atilde,Bhat,Btilde] = t2model_term(u_full,t0hat,t0tilde,t1tilde,a,b,k,a_tilde,a_tilde2);
             t2 = u_squishify(t2,N);
             if time
                 t2 = t2*current_t^2;
@@ -161,7 +162,7 @@ for j = 1:length(N_list);
             
             if degree > 2
                 
-                [t3,Ehat,Etilde,Fhat,Ftilde] = t3model_term(u_full,t0hat,t0tilde,t1hat,t1tilde,Ahat,Atilde,Btilde,a,b,k,a_tilde);
+                [t3,Ehat,Etilde,Fhat,Ftilde] = t3model_term(u_full,t0hat,t0tilde,t1hat,t1tilde,Ahat,Atilde,Btilde,a,b,k,a_tilde,a_tilde2);
                 t3 = u_squishify(t3,N);
                 if time
                     t3 = t3*current_t^3;
@@ -173,7 +174,7 @@ for j = 1:length(N_list);
                 
                 if degree > 3
                     
-                    t4 = t4model_term(u_full,t0hat,t0tilde,t1hat,t1tilde,Ahat,Atilde,Bhat,Btilde,Ehat,Etilde,Fhat,Ftilde,a,b,k,a_tilde);
+                    t4 = t4model_term(u_full,t0hat,t0tilde,t1hat,t1tilde,Ahat,Atilde,Bhat,Btilde,Ehat,Etilde,Fhat,Ftilde,a,b,k,a_tilde,a_tilde2);
                     t4 = u_squishify(t4,N);
                     if time
                         t4 = t4*current_t^4;
