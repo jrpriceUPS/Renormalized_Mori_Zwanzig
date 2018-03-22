@@ -77,6 +77,7 @@ params.coeff = [];
 params.a = 2:M;
 params.b = 2*M:-1:M+2;
 params.a_tilde = N+1:M;
+params.a_tilde2 = 2*N+1:M;
 params.print_time = 1;
 
 % run the simulation

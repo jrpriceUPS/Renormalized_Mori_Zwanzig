@@ -9,7 +9,7 @@ addpath ../../analysis
 end_time = 8;
 
 N = 4;
-M = 2*N;
+M = 3*N;
 
 % uniform grid
 x = linspace(0,2*pi*(2*M-1)/(2*M),2*M).';
@@ -40,7 +40,9 @@ params_tmodel.coeff = 1;
 params_tmodel.a = 2:M;
 params_tmodel.b = 2*M:-1:M+2;
 params_tmodel.a_tilde = N+1:M;
+params_tmodel.a_tilde2 = 2*N+1:M;
 params_tmodel.print_time = 1;
+params_tmodel.no_time = 0;
 
 % run the simulation
 options = odeset('RelTol',1e-10,'Stats','on');

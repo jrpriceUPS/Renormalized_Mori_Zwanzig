@@ -1,4 +1,4 @@
-function [C,Chat,Ctilde] = Ck(v_full,w_full,a,b,k,a_tilde)
+function [C,Chat,Ctilde] = Ck(v_full,w_full,a,b,k,a_tilde,a_tilde2)
 %
 % Computes the convolution of v and w as well as the resolved and
 % unresolved versions of the same
@@ -7,17 +7,20 @@ function [C,Chat,Ctilde] = Ck(v_full,w_full,a,b,k,a_tilde)
 %INPUTS:%
 %%%%%%%%%
 %
-%   v_full  =  full Fourier form of first argument of C (2Mx2Mx2Mx3)
+%    v_full  =  full Fourier form of first argument of C (2Mx2Mx2Mx3)
 %
-%   w_full  =  full Fourier form of second argument of C (2Mx2Mx2Mx3)
+%    w_full  =  full Fourier form of second argument of C (2Mx2Mx2Mx3)
 %
-%        a  =  indices corresponding to positive modes 1:M
+%         a  =  indices corresponding to positive modes 1:M
 %
-%        b  =  indices corresponding to negative modes -M:-1
+%         b  =  indices corresponding to negative modes -M:-1
 %
-%        k  =  array of wavevectors (2Mx2Mx2Mx3)
+%         k  =  array of wavevectors (2Mx2Mx2Mx3)
 %
-%  a_tilde  =  indices corresponding to positive unresolved
+%   a_tilde  =  indices corresponding to positive unresolved
+%
+%  a_tilde2  =  indices corresponding to modes included only for
+%               dealiasing
 %
 %
 %%%%%%%%%%
@@ -69,6 +72,7 @@ C(1,1,1,:,1) = Ck_fill(1,1,1,k,convo);
 % clear out modes for resolved and unresolved parts of the array
 Chat = mode_clearer(C,a_tilde);
 Ctilde = C - Chat;
+Ctilde = mode_clearer(Ctilde,a_tilde2);
 
 C = u_fullify(C,M);
 Chat = u_fullify(Chat,M);

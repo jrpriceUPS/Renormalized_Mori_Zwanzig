@@ -80,7 +80,7 @@ error = figure(2);
 set(gca,'FontSize',16)
 
 hold off
-plot(t_markov,err_markov,'k--')
+plot(t_markov,err_markov,'k:','linewidth',1.5)
 hold on
 plot(t_ROM,err_ROM,'k')
 title(sprintf('Relative error of size N = %i models',N))
@@ -88,3 +88,4 @@ xlabel('time')
 ylabel('relative global error')
 legend('Markov','4th Order ROM','location','northwest')
 saveas(error,'extrap_error','png')
+close all

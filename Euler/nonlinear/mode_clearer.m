@@ -6,6 +6,10 @@ function modified_C = mode_clearer(C,a)
 %
 % a = a_tilde = N+1:M
 %
+% for clearing out dealiasing modes,
+%
+% a = a_tilde2 = 2*N+1:M
+%
 %
 %%%%%%%%%
 %INPUTS:%

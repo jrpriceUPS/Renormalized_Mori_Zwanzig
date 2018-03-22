@@ -40,7 +40,9 @@ params_t2model.coeff = [1,1];
 params_t2model.a = 2:M;
 params_t2model.b = 2*M:-1:M+2;
 params_t2model.a_tilde = N+1:M;
+params_t2model.a_tilde2 = 2*N+1:M;
 params_t2model.print_time = 1;
+params_t2model.no_time = 0;
 
 % run the simulation
 options = odeset('RelTol',1e-10,'Stats','on','InitialStep',1e-3);

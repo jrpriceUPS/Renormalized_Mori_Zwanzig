@@ -1,4 +1,4 @@
-function [D,Dhat,Dtilde] = Dk(v_full,w_full,a,b,k,a_tilde)
+function [D,Dhat,Dtilde] = Dk(v_full,w_full,a,b,k,a_tilde,a_tilde2)
 %
 % Computes the double convolution Dk(v,w) = Ck(v,w) + Ck(w,v) and the
 % associated resolved Dhat(vw) and unresolved Dtilde(v,w) versions
@@ -8,17 +8,20 @@ function [D,Dhat,Dtilde] = Dk(v_full,w_full,a,b,k,a_tilde)
 %INPUTS:%
 %%%%%%%%%
 %
-%   v_full  =  full Fourier form of first argument of C (2Mx2Mx2Mx3)
+%    v_full  =  full Fourier form of first argument of C (2Mx2Mx2Mx3)
 %
-%   w_full  =  full Fourier form of second argument of C (2Mx2Mx2Mx3)
+%    w_full  =  full Fourier form of second argument of C (2Mx2Mx2Mx3)
 %
-%        a  =  indices corresponding to positive modes 1:M
+%         a  =  indices corresponding to positive modes 1:M
 %
-%        b  =  indices corresponding to negative modes -M:-1
+%         b  =  indices corresponding to negative modes -M:-1
 %
-%        k  =  array of wavevectors (2Mx2Mx2Mx3)
+%         k  =  array of wavevectors (2Mx2Mx2Mx3)
 %
-%  a_tilde  =  indices corresponding to positive unresolved
+%   a_tilde  =  indices corresponding to positive unresolved
+%
+%  a_tilde2  =  indices corresponding to modes included only for
+%               dealiasing
 %
 %
 %%%%%%%%%%
@@ -31,8 +34,8 @@ function [D,Dhat,Dtilde] = Dk(v_full,w_full,a,b,k,a_tilde)
 %
 %  D_tilde  =  D_tilde(v,w) array in compressed form (MxMxMx3x4)
 
-[C1,C1hat,C1tilde] = Ck(v_full,w_full,a,b,k,a_tilde);
-[C2,C2hat,C2tilde] = Ck(w_full,v_full,a,b,k,a_tilde);
+[C1,C1hat,C1tilde] = Ck(v_full,w_full,a,b,k,a_tilde,a_tilde2);
+[C2,C2hat,C2tilde] = Ck(w_full,v_full,a,b,k,a_tilde,a_tilde2);
 
 D = C1 + C2;
 Dhat = C1hat + C2hat;

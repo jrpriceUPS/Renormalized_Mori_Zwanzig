@@ -31,5 +31,5 @@ k = params.k;
 N = params.N;
 
 % the full model is a simple convolution Ck(u,u)
-du_dt = Ck(u_full,u_full,a,b,k,[]);
+du_dt = Ck(u_full,u_full,a,b,k,[],[]);
 du_dt = u_squishify(du_dt,N);

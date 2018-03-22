@@ -90,11 +90,11 @@ for i = 1:length(t)
     
     
     % compute the t-model term and reshape into the same shape as u
-    [~,~,t0tilde] = markov_term(temp_u_full,a_f,b_f,k_f,a_tilde_f);
-    [~,t1hat,~] = tmodel_term(temp_u_full,t0tilde,a_f,b_f,k_f,a_tilde_f);
-    t1 = u_squishify(t1hat,2*N);
+    [~,~,t0tilde_f] = markov_term(temp_u_full,a_f,b_f,k_f,a_tilde_f);
+    [~,t1hat_f,~] = tmodel_term(temp_u_full,t0tilde_f,a_f,b_f,k_f,a_tilde_f);
+    t1_f = u_squishify(t1hat_f,2*N);
     
     % compute the energy derivative due to the t-model and record it
-    t_model_size_full = time*sum(t1(:).*conj(temp_u(:))+conj(t1(:)).*temp_u(:))
+    t_model_size_full = time*sum(t1_f(:).*conj(temp_u(:))+conj(t1_f(:)).*temp_u(:))
     tmodel_size_list_full(i) = abs(t_model_size_full);
 end

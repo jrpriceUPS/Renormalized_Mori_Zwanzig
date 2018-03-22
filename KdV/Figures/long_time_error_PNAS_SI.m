@@ -95,8 +95,8 @@ figure
 set(gca,'FontSize',16)
 semilogy(N_list,err_list_markov,'k.','markersize',20)
 hold on
-semilogy(N_list,err_list2,'ko','markersize',20)
-semilogy(N_list,err_list4,'k*','markersize',20)
+semilogy(N_list,err_list2,'ko','markersize',10)
+semilogy(N_list,err_list4,'k*','markersize',10)
 legend('Markov','2nd Order ROM','4th Order ROM','location','southwest')
 xlabel('Resolution')
 ylabel('Relative error at t = 100 (log plot)')

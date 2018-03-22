@@ -35,24 +35,25 @@ a = params.a;
 b = params.b;
 k = params.k;
 a_tilde = params.a_tilde;
+a_tilde2 = params.a_tilde2;
 N = params.N;
 time = params.time;
 coeff = params.coeff;
 
 % compute the full model term
-[t0,t0hat,t0tilde] = markov_term(u_full,a,b,k,a_tilde);
+[t0,t0hat,t0tilde] = markov_term(u_full,a,b,k,a_tilde,a_tilde2);
 
 % compute the t-model term
-[t1,t1hat,t1tilde] = tmodel_term(u_full,t0tilde,a,b,k,a_tilde);
+[t1,t1hat,t1tilde] = tmodel_term(u_full,t0tilde,a,b,k,a_tilde,a_tilde2);
 
 % compute the t^2-model term
-[t2,Ahat,Atilde,Bhat,Btilde] = t2model_term(u_full,t0hat,t0tilde,t1tilde,a,b,k,a_tilde);
+[t2,Ahat,Atilde,Bhat,Btilde] = t2model_term(u_full,t0hat,t0tilde,t1tilde,a,b,k,a_tilde,a_tilde2);
 
 % compute the t^3-model term
-[t3,Ehat,Etilde,Fhat,Ftilde] = t3model_term(u_full,t0hat,t0tilde,t1hat,t1tilde,Ahat,Atilde,Btilde,a,b,k,a_tilde);
+[t3,Ehat,Etilde,Fhat,Ftilde] = t3model_term(u_full,t0hat,t0tilde,t1hat,t1tilde,Ahat,Atilde,Btilde,a,b,k,a_tilde,a_tilde2);
 
 % compute the t^4-model term
-t4 = t4model_term(u_full,t0hat,t0tilde,t1hat,t1tilde,Ahat,Atilde,Bhat,Btilde,Ehat,Etilde,Fhat,Ftilde,a,b,k,a_tilde);
+t4 = t4model_term(u_full,t0hat,t0tilde,t1hat,t1tilde,Ahat,Atilde,Bhat,Btilde,Ehat,Etilde,Fhat,Ftilde,a,b,k,a_tilde,a_tilde2);
 
 t0 = u_squishify(t0,N);
 t1 = u_squishify(t1,N);

@@ -61,6 +61,7 @@ params_markov.coeff = [];
 params_markov.a = 2:M_markov;
 params_markov.b = 2*M_markov:-1:M_markov+2;
 params_markov.a_tilde = N_markov+1:M_markov;
+params_markov.a_tilde2 = 2*N_markov+1:M_markov;
 params_markov.print_time = 1;
 
 % run the simulation
