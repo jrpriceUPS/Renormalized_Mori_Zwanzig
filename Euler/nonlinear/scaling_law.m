@@ -26,16 +26,16 @@ function coefficients = scaling_law(N,degree);
 
 coefficients = zeros(degree,1);
 
-if degree == 1
+if degree == 1 % updated 3/22/2018
     coefficients = exp(0.216042496107435) * N^-1.093111558750439;
 end
 
-if degree == 2
+if degree == 2 % updated 3/22/2018
     coefficients(1) = exp(0.807455983097315) * N^-1.095574434238564;
     coefficients(2) = exp(1.497163921272081) * N^-2.388816163431132;
 end
 
-if degree == 3
+if degree == 3 % updated 3/22/2018
     coefficients(1) = exp(0.770209345246030) * N^-0.996189505137105;
     coefficients(2) = exp(1.484542760836709) * N^-2.132733905239233;
     coefficients(3) = exp(1.438554055652650) * N^-3.280679641515915;

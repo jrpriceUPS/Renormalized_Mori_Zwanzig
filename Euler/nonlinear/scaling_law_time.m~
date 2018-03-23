@@ -28,14 +28,17 @@ function coefficients = scaling_law_time(N,degree)
 coefficients = zeros(degree,1);
 
 if degree == 1 % updated 3/23/2018
-    coefficients = exp(0.491389081810366) * N^-1.156688861750875;
+    coefficients = exp(0.491389062034627) * N^-1.156688850923880;
 end
 
 if degree == 2 % updated 3/23/2018
     coefficients(1) = exp(0.420499429436766) * N^-0.905316406347716;
-    coefficients(2) = exp(-0.036826745092329) * N^-1.704715202816203;
+    coefficients(2) = exp(-0.036826745092329) * N^-1.704712914110429;
 end
 
+
+  -0.905316406347716   0.420499429436766
+  -1.704715202816203  -0.036826745092329
 if degree == 3 % updated 3/23/2018
     coefficients(1) = exp(0.646049344808330) * N^-0.909907895474231;
     coefficients(2) = exp(1.133390649291541) * N^-1.921368478893264;
