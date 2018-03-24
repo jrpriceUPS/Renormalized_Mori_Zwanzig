@@ -33,7 +33,7 @@ end
 if degree == 2 % updated 3/23/2018 N=48
     coefficients(1) = exp(0.688731579483296) * N^-0.997313455364361;
     coefficients(2) = exp(1.115048630933493) * N^-2.126965489206877;
-    end115048630933493
+end
 
 if degree == 3 % updated 3/23/2018 N=48
     coefficients(1) = exp(0.870581358602445) * N^-0.997205857074403;
