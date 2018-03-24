@@ -378,7 +378,7 @@ if print
     subplot(2,2,1)
     plot(log(N_list),log(coeff_array(1,:)),'.','markersize',20)
     hold on
-    plot([1,3],polyval(scaling_laws(1,:),[1,3]),'r')
+    plot([1,log(N_list(end))+1],polyval(scaling_laws(1,:),[1,3]),'r')
     title('t-model coefficient','fontsize',16)
     xlabel('log(N)')
     ylabel('log(a_1)')
@@ -388,7 +388,7 @@ if print
         subplot(2,2,2)
         plot(log(N_list),log(coeff_array(2,:)),'.','markersize',20)
         hold on
-        plot([1,3],polyval(scaling_laws(2,:),[1,3]),'r')
+        plot([1,log(N_list(end))+1],polyval(scaling_laws(2,:),[1,3]),'r')
         title('t^2-model coefficient','fontsize',16)
         xlabel('log(N)')
         ylabel('log(a_2)')
@@ -398,7 +398,7 @@ if print
             subplot(2,2,3)
             plot(log(N_list),log(coeff_array(3,:)),'.','markersize',20)
             hold on
-            plot([1,3],polyval(scaling_laws(3,:),[1,3]),'r')
+            plot([1,log(N_list(end))+1],polyval(scaling_laws(3,:),[1,3]),'r')
             title('t^3-model coefficient','fontsize',16)
             xlabel('log(N)')
             ylabel('log(a_3)')
@@ -408,7 +408,7 @@ if print
                 subplot(2,2,4)
                 plot(log(N_list),log(coeff_array(4,:)),'.','markersize',20)
                 hold on
-                plot([1,3],polyval(scaling_laws(4,:),[1,3]),'r')
+                plot([1,log(N_list(end))+1],polyval(scaling_laws(4,:),[1,3]),'r')
                 title('t^4-model coefficient','fontsize',16)
                 xlabel('log(N)')
                 ylabel('log(a_4)')

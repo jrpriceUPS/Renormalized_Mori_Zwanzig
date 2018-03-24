@@ -26,27 +26,30 @@ function coefficients = scaling_law(N,degree);
 
 coefficients = zeros(degree,1);
 
-if degree == 1
-    coefficients = exp(0.216042538948145) * N^-1.093111582148421;
+if degree == 1 % updated 3/23/2018 N=48
+    coefficients = exp(0.216042496107435) * N^-1.093111558750439;
 end
 
-if degree == 2
+if degree == 2 % updated 3/23/2018 N=48
     coefficients(1) = exp(0.807455983097315) * N^-1.095574434238564;
     coefficients(2) = exp(1.497163921272081) * N^-2.388816163431132;
 end
 
-  -1.095574434238564   0.807455983097315
-  -2.388816163431132   1.497163921272081
-
-if degree == 3
+if degree == 3 % updated 3/23/2018 N=48
     coefficients(1) = exp(0.770209345246030) * N^-0.996189505137105;
     coefficients(2) = exp(1.484542760836709) * N^-2.132733905239233;
     coefficients(3) = exp(1.438554055652650) * N^-3.280679641515915;
 end
 
-if degree == 4 % updated 3/22/2018
+if degree == 4 % updated 3/23/2018 N=48
     coefficients(1) = exp(0.881697469455647) * N^-1.016137379094870;
     coefficients(2) = exp(1.810959536989056) * N^-2.199277103212345;
     coefficients(3) = exp(2.387434303594024) * N^-3.530254865250746;
     coefficients(4) = exp(4.114595061560149) * N^-5.992497764994379;
 end
+
+
+-1.043950293373851   1.052501710233077
+t^2-model  -2.226203385845042   2.094977342459796
+t^3-model  -3.538251864483979   2.734550827044432
+t^4-model  -5.187724919959430   3.058650506815392
