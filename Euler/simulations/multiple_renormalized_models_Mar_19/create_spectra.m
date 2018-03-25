@@ -19,13 +19,16 @@ for i = 1:length(N_list)
         u_current = squeeze(u_array4(:,:,:,:,:,j));
         u_full = u_fullify(u_current,M);
         [spectrum,k_list] = energy_spectrum(u_full,M);
+        
+        k_list = k_list(spectrum>1e-16);
+        spectrum = spectrum(spectrum > 1e-16);
         figure(1)
         hold off
         plot(log(k_list),log(spectrum),'.','markersize',20)
         title(sprintf('Energy Spectrum for N = %i at t = %i',N,t4(j)),'fontsize',16)
         xlabel('log(|k|^2)','fontsize',16)
         ylabel('log(energy)','fontsize',16)
-        saveas(gcf,sprintf('spectrum%i_%i',N,count),'png')
+        saveas(gcf,sprintf('/spect%i/spectrum%i_%i',N,N,count),'png')
         count = count+1;
     end
 end
