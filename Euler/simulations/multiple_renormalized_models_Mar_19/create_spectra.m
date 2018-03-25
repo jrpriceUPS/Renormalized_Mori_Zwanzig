@@ -1,5 +1,12 @@
 function create_spectra(N_list)
 
+format long
+close all
+
+addpath ../../simulation_functions
+addpath ../../nonlinear
+addpath ../../analysis
+
 for i = 1:length(N_list)
     N = N_list(i);
     M = 3*N;
