@@ -57,4 +57,4 @@ s = size(u);
 N_list = 4:2:s(1)/2;
 
 % compute the renormalization coefficients
-[coeff_array,scaling_laws] = renormalize(u_array,N_list,t_array,time,print,degree);
+[coeff_array,scaling_laws] = renormalize(u,N_list,t_list,time,print);

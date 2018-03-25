@@ -276,7 +276,7 @@ if print
         subplot(2,2,1)
         plot(log(N_list),log(squeeze(coeff_array(1,:,j))),'.','markersize',20)
         hold on
-        plot([1,log(N_list(end))+1],polyval(scaling_laws(1,:,j),[1,log(N_list(end))+1]),'r')
+        plot([1,log(N_list(end))+1],polyval(scaling_laws(1,:),[1,3]),'r')
         title('t-model coefficient','fontsize',16)
         xlabel('log(N)')
         ylabel('log(a_1)')
@@ -286,7 +286,7 @@ if print
             subplot(2,2,2)
             plot(log(N_list),log(squeeze(coeff_array(2,:,j))),'.','markersize',20)
             hold on
-            plot([1,log(N_list(end))+1],polyval(scaling_laws(2,:,j),[1,log(N_list(end))+1]),'r')
+            plot([1,log(N_list(end))+1],polyval(scaling_laws(2,:),[1,3]),'r')
             title('t^2-model coefficient','fontsize',16)
             xlabel('log(N)')
             ylabel('log(a_2)')
@@ -296,7 +296,7 @@ if print
                 subplot(2,2,3)
                 plot(log(N_list),log(squeeze(coeff_array(3,:,j))),'.','markersize',20)
                 hold on
-                plot([1,log(N_list(end))+1],polyval(scaling_laws(3,:,j),[1,log(N_list(end))+1]),'r')
+                plot([1,log(N_list(end))+1],polyval(scaling_laws(3,:),[1,3]),'r')
                 title('t^3-model coefficient','fontsize',16)
                 xlabel('log(N)')
                 ylabel('log(a_3)')
@@ -306,14 +306,15 @@ if print
                     subplot(2,2,4)
                     plot(log(N_list),log(squeeze(coeff_array(4,:,j))),'.','markersize',20)
                     hold on
-                    plot([1,log(N_list(end))+1],polyval(scaling_laws(4,:,j),[1,log(N_list(end))+1]),'r')
+                    plot([1,log(N_list(end))+1],polyval(scaling_laws(4,:),[1,3]),'r')
                     title('t^4-model coefficient','fontsize',16)
                     xlabel('log(N)')
                     ylabel('log(a_4)')
                 end
             end
         end
-        saveas(gcf,sprintf('coeff_plot%i_ROM%i',N_full,j),'png')
-        close
     end
+    
+    saveas(gcf,sprintf('coeff_plot%i_ROM%i',N_full,j),'png')
+    close
 end
