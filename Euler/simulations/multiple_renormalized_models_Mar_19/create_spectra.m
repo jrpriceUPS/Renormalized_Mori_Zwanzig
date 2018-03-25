@@ -15,6 +15,10 @@ for i = 1:length(N_list)
     load(sprintf('t4_%i.mat',N))
     count = 0;
     
+    if ~(exist(sprintf('spect%i',N))==7)
+        mkdir(sprintf('spect%i',N))
+    end
+    
     for j = 1:skip:length(t4)
         u_current = squeeze(u_array4(:,:,:,:,:,j));
         u_full = u_fullify(u_current,M);
@@ -28,7 +32,7 @@ for i = 1:length(N_list)
         title(sprintf('Energy Spectrum for N = %i at t = %i',N,t4(j)),'fontsize',16)
         xlabel('log(|k|^2)','fontsize',16)
         ylabel('log(energy)','fontsize',16)
-        saveas(gcf,sprintf('/spect%i/spectrum%i_%i',N,N,count),'png')
+        saveas(gcf,sprintf('spect%i/spectrum%i_%i',N,N,count),'png')
         count = count+1;
     end
 end
