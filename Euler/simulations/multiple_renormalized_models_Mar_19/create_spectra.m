@@ -28,9 +28,9 @@ for i = 1:length(N_list)
         spectrum = spectrum(spectrum > 1e-16);
         figure(1)
         hold off
-        plot(log(k_list),log(spectrum),'.','markersize',20)
+        plot(log(sqrt(k_list)),log(spectrum),'.','markersize',20)
         title(sprintf('Energy Spectrum for N = %i at t = %i',N,t4(j)),'fontsize',16)
-        xlabel('log(|k|^2)','fontsize',16)
+        xlabel('log(|k|)','fontsize',16)
         ylabel('log(energy)','fontsize',16)
         saveas(gcf,sprintf('spect%i/spectrum%i_%i',N,N,count),'png')
         count = count+1;

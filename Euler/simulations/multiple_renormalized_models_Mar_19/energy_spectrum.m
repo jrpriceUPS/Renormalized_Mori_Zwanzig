@@ -17,5 +17,6 @@ spectrum = zeros(length(k_list),1);
 
 for i = 1:length(k_list)
     current_k = k_list(i);
-    spectrum(i) = sum(u_mag(k_mag == current_k));
+    %spectrum(i) = sum(u_mag(k_mag == current_k));
+    spectrum(i) = mean(sum(u_mag(k_mag == current_k)));
 end
