@@ -30,7 +30,7 @@ for i = 1:length(N_list)
         title(sprintf('Energy Spectrum for N = %i at t = %i',N,t4(j)),'fontsize',16)
         xlabel('log(|k|)','fontsize',16)
         ylabel('log(energy)','fontsize',16)
-        axis([0,log(N),-20,0])
+        axis([0,log(N),-10,5])
         saveas(gcf,sprintf('spect%i/spectrum%i_%i',N,N,count),'png')
         count = count+1;
     end
