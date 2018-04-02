@@ -43,81 +43,119 @@ params1 = params;
 params1.func = @(x) tmodel_RHS(x);
 params1.coeff = scaling_law(N,1);
 
-
-% run the simulation
-options = odeset('RelTol',1e-10,'Stats','on','InitialStep',1e-3);
-[t1,u_raw1] = ode45(@(t,u) RHS(u,t,params1),[0,end_time],u(:),options);
-
-
-% reshape the output array into an intelligible shape (should make this a
-% separate function later)
-u_array1 = zeros([size(u) length(t1)]);
-for i = 1:length(t1)
-    u_array1(:,:,:,:,:,i) = reshape(u_raw1(i,:),[N,N,N,3,4]);
+if exist(sprintf('u_array2_%i.mat',N),'file') == 2
+    
+    load(sprintf('u_array1_%i.mat',N))
+    load(sprintf('t1_%i',N))
+    
+else
+    
+    
+    % run the simulation
+    options = odeset('RelTol',1e-10,'Stats','on','InitialStep',1e-3);
+    [t1,u_raw1] = ode45(@(t,u) RHS(u,t,params1),[0,end_time],u(:),options);
+    
+    
+    
+    
+    % reshape the output array into an intelligible shape (should make this a
+    % separate function later)
+    u_array1 = zeros([size(u) length(t1)]);
+    for i = 1:length(t1)
+        u_array1(:,:,:,:,:,i) = reshape(u_raw1(i,:),[N,N,N,3,4]);
+    end
+    
+    save(sprintf('t1_%i',N),'t1');
+    save(sprintf('u_array1_%i',N),'u_array1');
+    
 end
 
-save(sprintf('t1_%i',N),'t1');
-save(sprintf('u_array1_%i',N),'u_array1');
-
-
-params2 = params;
-params2.func = @(x) t2model_RHS(x);
-params2.coeff = scaling_law(N,2);
-
-% run the simulation
-options = odeset('RelTol',1e-10,'Stats','on','InitialStep',1e-3);
-[t2,u_raw2] = ode45(@(t,u) RHS(u,t,params2),[0,end_time],u(:),options);
-
-
-% reshape the output array into an intelligible shape (should make this a
-% separate function later)
-u_array2 = zeros([size(u) length(t2)]);
-for i = 1:length(t2)
-    u_array2(:,:,:,:,:,i) = reshape(u_raw2(i,:),[N,N,N,3,4]);
+if exist(sprintf('u_array2_%i.mat',N),'file') == 2
+    
+    load(sprintf('u_array2_%i.mat',N))
+    load(sprintf('t2_%i',N))
+    
+else
+    
+    
+    params2 = params;
+    params2.func = @(x) t2model_RHS(x);
+    params2.coeff = scaling_law(N,2);
+    
+    % run the simulation
+    options = odeset('RelTol',1e-10,'Stats','on','InitialStep',1e-3);
+    [t2,u_raw2] = ode45(@(t,u) RHS(u,t,params2),[0,end_time],u(:),options);
+    
+    
+    % reshape the output array into an intelligible shape (should make this a
+    % separate function later)
+    u_array2 = zeros([size(u) length(t2)]);
+    for i = 1:length(t2)
+        u_array2(:,:,:,:,:,i) = reshape(u_raw2(i,:),[N,N,N,3,4]);
+    end
+    
+    save(sprintf('t2_%i',N),'t2');
+    save(sprintf('u_array2_%i',N),'u_array2');
+    
 end
 
-save(sprintf('t2_%i',N),'t2');
-save(sprintf('u_array2_%i',N),'u_array2');
-
-
-
-params3 = params;
-params3.func = @(x) t3model_RHS(x);
-params3.coeff = scaling_law(N,3);
-
-% run the simulation
-options = odeset('RelTol',1e-10,'Stats','on','InitialStep',1e-3);
-[t3,u_raw3] = ode45(@(t,u) RHS(u,t,params3),[0,end_time],u(:),options);
-
-
-% reshape the output array into an intelligible shape (should make this a
-% separate function later)
-u_array3 = zeros([size(u) length(t3)]);
-for i = 1:length(t3)
-    u_array3(:,:,:,:,:,i) = reshape(u_raw3(i,:),[N,N,N,3,4]);
+if exist(sprintf('u_array3_%i.mat',N),'file') == 2
+    
+    load(sprintf('u_array3_%i.mat',N))
+    load(sprintf('t3_%i',N))
+    
+else
+    
+    
+    
+    params3 = params;
+    params3.func = @(x) t3model_RHS(x);
+    params3.coeff = scaling_law(N,3);
+    
+    % run the simulation
+    options = odeset('RelTol',1e-10,'Stats','on','InitialStep',1e-3);
+    [t3,u_raw3] = ode45(@(t,u) RHS(u,t,params3),[0,end_time],u(:),options);
+    
+    
+    % reshape the output array into an intelligible shape (should make this a
+    % separate function later)
+    u_array3 = zeros([size(u) length(t3)]);
+    for i = 1:length(t3)
+        u_array3(:,:,:,:,:,i) = reshape(u_raw3(i,:),[N,N,N,3,4]);
+    end
+    
+    save(sprintf('t3_%i',N),'t3');
+    save(sprintf('u_array3_%i',N),'u_array3');
+    
 end
 
-save(sprintf('t3_%i',N),'t3');
-save(sprintf('u_array3_%i',N),'u_array3');
-
-params4 = params;
-params4.func = @(x) t4model_RHS(x);
-params4.coeff = scaling_law(N,4);
-
-% run the simulation
-options = odeset('RelTol',1e-10,'Stats','on','InitialStep',1e-3);
-[t4,u_raw4] = ode45(@(t,u) RHS(u,t,params4),[0,end_time],u(:),options);
-
-
-% reshape the output array into an intelligible shape (should make this a
-% separate function later)
-u_array4 = zeros([size(u) length(t4)]);
-for i = 1:length(t4)
-    u_array4(:,:,:,:,:,i) = reshape(u_raw4(i,:),[N,N,N,3,4]);
+if exist(sprintf('u_array4_%i.mat',N),'file') == 2
+    
+    load(sprintf('u_array4_%i.mat',N))
+    load(sprintf('t4_%i',N))
+    
+else
+    
+    params4 = params;
+    params4.func = @(x) t4model_RHS(x);
+    params4.coeff = scaling_law(N,4);
+    
+    % run the simulation
+    options = odeset('RelTol',1e-10,'Stats','on','InitialStep',1e-3);
+    [t4,u_raw4] = ode45(@(t,u) RHS(u,t,params4),[0,end_time],u(:),options);
+    
+    
+    % reshape the output array into an intelligible shape (should make this a
+    % separate function later)
+    u_array4 = zeros([size(u) length(t4)]);
+    for i = 1:length(t4)
+        u_array4(:,:,:,:,:,i) = reshape(u_raw4(i,:),[N,N,N,3,4]);
+    end
+    
+    save(sprintf('t4_%i',N),'t4');
+    save(sprintf('u_array4_%i',N),'u_array4');
+    
 end
-
-save(sprintf('t4_%i',N),'t4');
-save(sprintf('u_array4_%i',N),'u_array4');
 
 t1_include = 0;
 t2_include = 0;
@@ -212,20 +250,42 @@ saveas(gcf,sprintf('helicity%i',N),filetype)
 
 
 if t1_include
-d1 = energy_derivative(u_array1,t1,params1);
-save(sprintf('d1_%i',N),'d1');
+    
+    if exist(sprintf('d1_%i.mat',N),'file') == 2
+        
+        load(sprintf('d1_%i.mat',N))
+        
+    else
+        d1 = energy_derivative(u_array1,t1,params1);
+        save(sprintf('d1_%i',N),'d1');
+    end
 end
 if t2_include
-d2 = energy_derivative(u_array2,t2,params2);
-save(sprintf('d2_%i',N),'d2');
+    if exist(sprintf('d2_%i.mat',N),'file') == 2
+        
+        load(sprintf('d2_%i.mat',N))
+    else
+        d2 = energy_derivative(u_array2,t2,params2);
+        save(sprintf('d2_%i',N),'d2');
+    end
 end
 if t3_include
-d3 = energy_derivative(u_array3,t3,params3);
-save(sprintf('d3_%i',N),'d3');
+    if exist(sprintf('d3_%i.mat',N),'file') == 2
+        
+        load(sprintf('d3_%i.mat',N))
+    else
+        d3 = energy_derivative(u_array3,t3,params3);
+        save(sprintf('d3_%i',N),'d3');
+    end
 end
 if t4_include
-d4 = energy_derivative(u_array4,t4,params4);
-save(sprintf('d4_%i',N),'d4');
+    if exist(sprintf('d4_%i.mat',N),'file') == 2
+        
+        load(sprintf('d4_%i.mat',N))
+    else
+        d4 = energy_derivative(u_array4,t4,params4);
+        save(sprintf('d4_%i',N),'d4');
+    end
 end
 
 
@@ -234,20 +294,20 @@ end
 figure(3)
 hold off
 if t1_include
-plot(t1,d1,'linewidth',2)
-hold on
+    plot(t1,d1,'linewidth',2)
+    hold on
 end
 if t2_include
-plot(t2,d2,'r','linewidth',2)
-hold on
+    plot(t2,d2,'r','linewidth',2)
+    hold on
 end
 if t3_include
-plot(t3,d3,'k','linewidth',2)
-hold on
+    plot(t3,d3,'k','linewidth',2)
+    hold on
 end
 if t4_include
-plot(t4,d4,'c','linewidth',2)
-hold on
+    plot(t4,d4,'c','linewidth',2)
+    hold on
 end
 legend(little_legend_se{:})
 title('Energy Derivative','fontsize',16)
