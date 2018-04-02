@@ -1,4 +1,4 @@
-function slopes = renormalized_multiple_res(N_list,end_time)
+function slopes = renormalized_multiple_res(N_list,end_time,filetype)
 
 format long
 close all
@@ -7,7 +7,7 @@ addpath ../../simulation_functions
 addpath ../../nonlinear
 addpath ../../analysis
 
-colors = linspecer(length(N_list));
+colors = linspecer(length(N_list),'qualitative');
 
 slopes = zeros(length(N_list),1);
 
@@ -103,22 +103,13 @@ for i = 1:length(N_list)
     title('Energy in resolved modes','fontsize',16)
     xlabel('log(time)','fontsize',16)
     ylabel('log(energy)','fontsize',16)
-    saveas(gcf,'energy','png')
+    saveas(gcf,'energy',filetype)
     
     s = polyfit(log(t4(log(t4)>2)),log(energy(log(t4)>2)),1);
     slopes(i) = s(1);
     
     current_slopes = slopes(1:i)
     save current_slopes current_slopes
-    
-    figure(5)
-    hold on
-    plot(log(t4),log(energy),'linewidth',2,'color',colors(i,:))
-    plot([0,log(t4(end))],[0,log(t4(end))]*s(1)+s(2),'--','color',colors(i,:))
-    title('Energy in resolved modes','fontsize',16)
-    xlabel('log(time)','fontsize',16)
-    ylabel('log(energy)','fontsize',16)
-    saveas(gcf,'energy_fit','png')
     
     
     
@@ -133,7 +124,7 @@ for i = 1:length(N_list)
     title('Helicity','fontsize',16)
     xlabel('time','fontsize',16)
     ylabel('w','fontsize',16)
-    saveas(gcf,'helicity','png')
+    saveas(gcf,'helicity',filetype)
     
     
     if exist(sprintf('d4_%i.mat',N),'file') == 2
@@ -151,7 +142,7 @@ for i = 1:length(N_list)
     title('Energy Derivative','fontsize',16)
     xlabel('time','fontsize',16)
     ylabel('w','fontsize',16)
-    saveas(gcf,'energy_deriv','png')
+    saveas(gcf,'energy_deriv',filetype)
     
     
     
@@ -164,6 +155,6 @@ for i = 1:length(N_list)
     title('Enstrophy','fontsize',16)
     xlabel('time','fontsize',16)
     ylabel('enstrophy','fontsize',16)
-    saveas(gcf,'enstrophy','png')
+    saveas(gcf,'enstrophy',filetype)
     
 end

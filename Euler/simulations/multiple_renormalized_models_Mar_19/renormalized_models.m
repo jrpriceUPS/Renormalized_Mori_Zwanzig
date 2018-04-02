@@ -1,4 +1,4 @@
-function renormalized_models(N,end_time)
+function renormalized_models(N,end_time,filetype)
 
 format long
 
@@ -175,7 +175,7 @@ legend(sprintf('ROM order 1, N = %i',N),sprintf('ROM order 2, N = %i',N),sprintf
 title('Energy in resolved modes','fontsize',16)
 xlabel('log(time)','fontsize',16)
 ylabel('log(energy)','fontsize',16)
-saveas(gcf,sprintf('energy%i',N),'png')
+saveas(gcf,sprintf('energy%i',N),filetype)
 
 
 
@@ -207,7 +207,7 @@ legend(little_legend_sw{:})
 title('Helicity','fontsize',16)
 xlabel('time','fontsize',16)
 ylabel('w','fontsize',16)
-saveas(gcf,sprintf('helicity%i',N),'png')
+saveas(gcf,sprintf('helicity%i',N),filetype)
 
 
 
@@ -253,7 +253,7 @@ legend(little_legend_se{:})
 title('Energy Derivative','fontsize',16)
 xlabel('time','fontsize',16)
 ylabel('w','fontsize',16)
-saveas(gcf,sprintf('energy_deriv%i',N),'png')
+saveas(gcf,sprintf('energy_deriv%i',N),filetype)
 
 
 if t1_include
@@ -291,4 +291,4 @@ legend(little_legend_se{:})
 title('Enstrophy','fontsize',16)
 xlabel('time','fontsize',16)
 ylabel('enstrophy','fontsize',16)
-saveas(gcf,sprintf('enstrophy%i',N),'png')
+saveas(gcf,sprintf('enstrophy%i',N),filetype)
