@@ -1,4 +1,4 @@
-function renormalized_models(N,end_time,filetype)
+function unrenormalized_models(N,end_time,filetype)
 
 format long
 
@@ -37,16 +37,16 @@ params.b = 2*M:-1:M+2;
 params.a_tilde = N+1:M;
 params.a_tilde2 = 2*N+1:M;
 params.print_time = 1;
-params.no_time = 1;
+params.no_time = 0;
 
 params1 = params;
 params1.func = @(x) tmodel_RHS(x);
-params1.coeff = scaling_law(N,1);
+params1.coeff = 1;
 
-if exist(sprintf('u_array1_%i.mat',N),'file') == 2
+if exist(sprintf('u_array1_unrenorm_%i.mat',N),'file') == 2
     
-    load(sprintf('u_array1_%i.mat',N))
-    load(sprintf('t1_%i',N))
+    load(sprintf('u_array1_unrenorm_%i.mat',N))
+    load(sprintf('t1_unrenorm_%i',N))
     
 else
     
@@ -65,22 +65,22 @@ else
         u_array1(:,:,:,:,:,i) = reshape(u_raw1(i,:),[N,N,N,3,4]);
     end
     
-    save(sprintf('t1_%i',N),'t1');
-    save(sprintf('u_array1_%i',N),'u_array1');
+    save(sprintf('t1_unrenorm_%i',N),'t1');
+    save(sprintf('u_array1_unrenorm_%i',N),'u_array1');
     
 end
 
-if exist(sprintf('u_array2_%i.mat',N),'file') == 2
+if exist(sprintf('u_array2_unrenorm_%i.mat',N),'file') == 2
     
-    load(sprintf('u_array2_%i.mat',N))
-    load(sprintf('t2_%i',N))
+    load(sprintf('u_array2_unrenorm_%i.mat',N))
+    load(sprintf('t2_unrenorm_%i',N))
     
 else
     
     
     params2 = params;
     params2.func = @(x) t2model_RHS(x);
-    params2.coeff = scaling_law(N,2);
+    params2.coeff = [1;1];
     
     % run the simulation
     options = odeset('RelTol',1e-10,'Stats','on','InitialStep',1e-3);
@@ -94,15 +94,15 @@ else
         u_array2(:,:,:,:,:,i) = reshape(u_raw2(i,:),[N,N,N,3,4]);
     end
     
-    save(sprintf('t2_%i',N),'t2');
-    save(sprintf('u_array2_%i',N),'u_array2');
+    save(sprintf('t2_unrenorm_%i',N),'t2');
+    save(sprintf('u_array2_unrenorm_%i',N),'u_array2');
     
 end
 
-if exist(sprintf('u_array3_%i.mat',N),'file') == 2
+if exist(sprintf('u_array3_unrenorm_%i.mat',N),'file') == 2
     
-    load(sprintf('u_array3_%i.mat',N))
-    load(sprintf('t3_%i',N))
+    load(sprintf('u_array3_unrenorm_%i.mat',N))
+    load(sprintf('t3_unrenorm_%i',N))
     
 else
     
@@ -110,7 +110,7 @@ else
     
     params3 = params;
     params3.func = @(x) t3model_RHS(x);
-    params3.coeff = scaling_law(N,3);
+    params3.coeff = [1;1;1];
     
     % run the simulation
     options = odeset('RelTol',1e-10,'Stats','on','InitialStep',1e-3);
@@ -124,21 +124,21 @@ else
         u_array3(:,:,:,:,:,i) = reshape(u_raw3(i,:),[N,N,N,3,4]);
     end
     
-    save(sprintf('t3_%i',N),'t3');
-    save(sprintf('u_array3_%i',N),'u_array3');
+    save(sprintf('t3_unrenorm_%i',N),'t3');
+    save(sprintf('u_array3_unrenorm_%i',N),'u_array3');
     
 end
 
-if exist(sprintf('u_array4_%i.mat',N),'file') == 2
+if exist(sprintf('u_array4_unrenorm_%i.mat',N),'file') == 2
     
-    load(sprintf('u_array4_%i.mat',N))
-    load(sprintf('t4_%i',N))
+    load(sprintf('u_array4_unrenorm_%i.mat',N))
+    load(sprintf('t4_unrenorm_%i',N))
     
 else
     
     params4 = params;
     params4.func = @(x) t4model_RHS(x);
-    params4.coeff = scaling_law(N,4);
+    params4.coeff = [1;1;1;1];
     
     % run the simulation
     options = odeset('RelTol',1e-10,'Stats','on','InitialStep',1e-3);
@@ -152,8 +152,8 @@ else
         u_array4(:,:,:,:,:,i) = reshape(u_raw4(i,:),[N,N,N,3,4]);
     end
     
-    save(sprintf('t4_%i',N),'t4');
-    save(sprintf('u_array4_%i',N),'u_array4');
+    save(sprintf('t4_unrenorm_%i',N),'t4');
+    save(sprintf('u_array4_unrenorm_%i',N),'u_array4');
     
 end
 
@@ -213,7 +213,7 @@ legend(sprintf('ROM order 1, N = %i',N),sprintf('ROM order 2, N = %i',N),sprintf
 title('Energy in resolved modes','fontsize',16)
 xlabel('log(time)','fontsize',16)
 ylabel('log(energy)','fontsize',16)
-saveas(gcf,sprintf('energy%i',N),filetype)
+saveas(gcf,sprintf('energy_unrenorm%i',N),filetype)
 
 
 
@@ -245,46 +245,46 @@ legend(little_legend_sw{:})
 title('Helicity','fontsize',16)
 xlabel('time','fontsize',16)
 ylabel('w','fontsize',16)
-saveas(gcf,sprintf('helicity%i',N),filetype)
+saveas(gcf,sprintf('helicity_unrenorm%i',N),filetype)
 
 
 
 if t1_include
     
-    if exist(sprintf('d1_%i.mat',N),'file') == 2
+    if exist(sprintf('d1_unrenorm_%i.mat',N),'file') == 2
         
-        load(sprintf('d1_%i.mat',N))
+        load(sprintf('d1_unrenorm_%i.mat',N))
         
     else
         d1 = energy_derivative(u_array1,t1,params1);
-        save(sprintf('d1_%i',N),'d1');
+        save(sprintf('d1_unrenorm_%i',N),'d1');
     end
 end
 if t2_include
-    if exist(sprintf('d2_%i.mat',N),'file') == 2
+    if exist(sprintf('d2_unrenorm_%i.mat',N),'file') == 2
         
-        load(sprintf('d2_%i.mat',N))
+        load(sprintf('d2_unrenorm_%i.mat',N))
     else
         d2 = energy_derivative(u_array2,t2,params2);
-        save(sprintf('d2_%i',N),'d2');
+        save(sprintf('d2_unrenorm_%i',N),'d2');
     end
 end
 if t3_include
-    if exist(sprintf('d3_%i.mat',N),'file') == 2
+    if exist(sprintf('d3_unrenorm_%i.mat',N),'file') == 2
         
-        load(sprintf('d3_%i.mat',N))
+        load(sprintf('d3_unrenorm_%i.mat',N))
     else
         d3 = energy_derivative(u_array3,t3,params3);
-        save(sprintf('d3_%i',N),'d3');
+        save(sprintf('d3_unrenorm_%i',N),'d3');
     end
 end
 if t4_include
-    if exist(sprintf('d4_%i.mat',N),'file') == 2
+    if exist(sprintf('d4_unrenorm_%i.mat',N),'file') == 2
         
-        load(sprintf('d4_%i.mat',N))
+        load(sprintf('d4_unrenorm_%i.mat',N))
     else
         d4 = energy_derivative(u_array4,t4,params4);
-        save(sprintf('d4_%i',N),'d4');
+        save(sprintf('d4_unrenorm_%i',N),'d4');
     end
 end
 
@@ -313,7 +313,7 @@ legend(little_legend_se{:})
 title('Energy Derivative','fontsize',16)
 xlabel('time','fontsize',16)
 ylabel('w','fontsize',16)
-saveas(gcf,sprintf('energy_deriv%i',N),filetype)
+saveas(gcf,sprintf('energy_deriv_unrenorm%i',N),filetype)
 
 
 if t1_include
@@ -351,4 +351,4 @@ legend(little_legend_se{:})
 title('Enstrophy','fontsize',16)
 xlabel('time','fontsize',16)
 ylabel('enstrophy','fontsize',16)
-saveas(gcf,sprintf('enstrophy%i',N),filetype)
+saveas(gcf,sprintf('enstrophy_unrenorm%i',N),filetype)
