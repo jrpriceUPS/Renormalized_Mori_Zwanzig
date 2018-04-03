@@ -25,12 +25,15 @@ for i = 1:length(N_list)
     for j = 1:i
         leg_sw{j} = full_legend{j};
         leg_se{j} = full_legend{j};
+        leg_ne{j} = full_legend{j};
     end
     
     leg_sw{i+1} = 'location';
     leg_sw{i+2} = 'southwest';
     leg_se{i+1} = 'location';
     leg_se{i+2} = 'southeast';
+    leg_ne{i+1} = 'location';
+    leg_ne{i+2} = 'northeast';
     
     M = 3*N;
     
@@ -151,7 +154,7 @@ for i = 1:length(N_list)
     figure(4)
     hold on
     plot(t4,ens,'linewidth',2,'color',colors(i,:))
-    legend(leg_se{:})
+    legend(leg_ne{:})
     title('Enstrophy','fontsize',16)
     xlabel('time','fontsize',16)
     ylabel('enstrophy','fontsize',16)
