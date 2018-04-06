@@ -213,7 +213,7 @@ legend(sprintf('ROM order 1, N = %i',N),sprintf('ROM order 2, N = %i',N),sprintf
 title('Energy in resolved modes','fontsize',16)
 xlabel('log(time)','fontsize',16)
 ylabel('log(energy)','fontsize',16)
-saveas(gcf,sprintf('energy%i_%i',N,end_time),filetype)
+saveas(gcf,sprintf('energy%i',N),filetype)
 
 
 
@@ -245,7 +245,7 @@ legend(little_legend_sw{:})
 title('Helicity','fontsize',16)
 xlabel('time','fontsize',16)
 ylabel('w','fontsize',16)
-saveas(gcf,sprintf('helicity%i_%i',N,end_time),filetype)
+saveas(gcf,sprintf('helicity%i',N),filetype)
 
 
 
@@ -284,36 +284,36 @@ if t4_include
         load(sprintf('d4_%i_%i.mat',N,end_time))
     else
         d4 = energy_derivative(u_array4,t4,params4);
-        save(sprintf('d4_%i_%i',N,end_time),'d4');
+        save(sprintf('d4_%i',N),'d4');
     end
 end
 
 
 
 
-% figure(3)
-% hold off
-% if t1_include
-%     plot(t1,d1,'linewidth',2)
-%     hold on
-% end
-% if t2_include
-%     plot(t2,d2,'r','linewidth',2)
-%     hold on
-% end
-% if t3_include
-%     plot(t3,d3,'k','linewidth',2)
-%     hold on
-% end
-% if t4_include
-%     plot(t4,d4,'c','linewidth',2)
-%     hold on
-% end
-% legend(little_legend_se{:})
-% title('Energy Derivative','fontsize',16)
-% xlabel('time','fontsize',16)
-% ylabel('w','fontsize',16)
-% saveas(gcf,sprintf('energy_deriv%i_%i',N,end_time),filetype)
+figure(3)
+hold off
+if t1_include
+    plot(t1,d1,'linewidth',2)
+    hold on
+end
+if t2_include
+    plot(t2,d2,'r','linewidth',2)
+    hold on
+end
+if t3_include
+    plot(t3,d3,'k','linewidth',2)
+    hold on
+end
+if t4_include
+    plot(t4,d4,'c','linewidth',2)
+    hold on
+end
+legend(little_legend_se{:})
+title('Energy Derivative','fontsize',16)
+xlabel('time','fontsize',16)
+ylabel('w','fontsize',16)
+saveas(gcf,sprintf('energy_deriv%i',N),filetype)
 
 
 if t1_include
@@ -351,4 +351,4 @@ legend(little_legend_se{:})
 title('Enstrophy','fontsize',16)
 xlabel('time','fontsize',16)
 ylabel('enstrophy','fontsize',16)
-saveas(gcf,sprintf('enstrophy%i_%i',N,end_time),filetype)
+saveas(gcf,sprintf('enstrophy%i',N),filetype)

@@ -211,49 +211,49 @@ saveas(gcf,sprintf('helicity%it',N),'png')
 
 
 
-if t1_include
-d1 = energy_derivative(u_array1,t1,params1);
-save(sprintf('d1_%i',N),'d1');
-end
-if t2_include
-d2 = energy_derivative(u_array2,t2,params2);
-save(sprintf('d2_%i',N),'d2');
-end
-if t3_include
-d3 = energy_derivative(u_array3,t3,params3);
-save(sprintf('d3_%i',N),'d3');
-end
-if t4_include
-d4 = energy_derivative(u_array4,t4,params4);
-save(sprintf('d4_%i',N),'d4');
-end
-
-
-
-
-figure(3)
-hold off
-if t1_include
-plot(t1,d1,'linewidth',2)
-hold on
-end
-if t2_include
-plot(t2,d2,'r','linewidth',2)
-hold on
-end
-if t3_include
-plot(t3,d3,'k','linewidth',2)
-hold on
-end
-if t4_include
-plot(t4,d4,'c','linewidth',2)
-hold on
-end
-legend(little_legend_se{:})
-title('Energy Derivative','fontsize',16)
-xlabel('time','fontsize',16)
-ylabel('w','fontsize',16)
-saveas(gcf,sprintf('energy_deriv%it',N),'png')
+% if t1_include
+% d1 = energy_derivative(u_array1,t1,params1);
+% save(sprintf('d1_%i',N),'d1');
+% end
+% if t2_include
+% d2 = energy_derivative(u_array2,t2,params2);
+% save(sprintf('d2_%i',N),'d2');
+% end
+% if t3_include
+% d3 = energy_derivative(u_array3,t3,params3);
+% save(sprintf('d3_%i',N),'d3');
+% end
+% if t4_include
+% d4 = energy_derivative(u_array4,t4,params4);
+% save(sprintf('d4_%i',N),'d4');
+% end
+% 
+% 
+% 
+% 
+% figure(3)
+% hold off
+% if t1_include
+% plot(t1,d1,'linewidth',2)
+% hold on
+% end
+% if t2_include
+% plot(t2,d2,'r','linewidth',2)
+% hold on
+% end
+% if t3_include
+% plot(t3,d3,'k','linewidth',2)
+% hold on
+% end
+% if t4_include
+% plot(t4,d4,'c','linewidth',2)
+% hold on
+% end
+% legend(little_legend_se{:})
+% title('Energy Derivative','fontsize',16)
+% xlabel('time','fontsize',16)
+% ylabel('w','fontsize',16)
+% saveas(gcf,sprintf('energy_deriv%it',N),'png')
 
 
 if t1_include

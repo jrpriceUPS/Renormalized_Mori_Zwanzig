@@ -74,10 +74,10 @@ for i = 1:length(N_list)
     params4.func = @(x) t4model_RHS(x);
     params4.coeff = scaling_law(N,4);
     
-    if exist(sprintf('u_array4_%i.mat',N),'file') == 2
+    if exist(sprintf('u_array4_%i_%i.mat',N,end_time),'file') == 2
         
-        load(sprintf('u_array4_%i.mat',N))
-        load(sprintf('t4_%i',N))
+        load(sprintf('u_array4_%i_%i.mat',N,end_time))
+        load(sprintf('t4_%i_%i',N,end_time))
         
     else
         
@@ -93,8 +93,8 @@ for i = 1:length(N_list)
             u_array4(:,:,:,:,:,l) = reshape(u_raw4(l,:),[N,N,N,3,4]);
         end
         
-        save(sprintf('t4_%i',N),'t4');
-        save(sprintf('u_array4_%i',N),'u_array4');
+        save(sprintf('t4_%i_%i',N,end_time),'t4');
+        save(sprintf('u_array4_%i_%i.mat',N,end_time),'u_array4');
         
     end
     
@@ -107,7 +107,7 @@ for i = 1:length(N_list)
     title('Energy in resolved modes','fontsize',16)
     xlabel('log(time)','fontsize',16)
     ylabel('log(energy)','fontsize',16)
-    saveas(gcf,'energy',filetype)
+    saveas(gcf,sprintf('energy_mult_%i',N),filetype)
     
     energy_change = abs(log(energy)-log(energy(1)))/abs(log(energy(1)));
     turn_times(i) = log(t4(find(energy_change>1e-1,1)));
@@ -136,25 +136,25 @@ for i = 1:length(N_list)
     title('Helicity','fontsize',16)
     xlabel('time','fontsize',16)
     ylabel('w','fontsize',16)
-    saveas(gcf,'helicity',filetype)
+    saveas(gcf,sprintf('helicity_mult_%i',N),filetype)
     
     
-    if exist(sprintf('d4_%i.mat',N),'file') == 2
-        load(sprintf('d4_%i',N))
-        d = d4;
-    else
-        d = energy_derivative(u_array4,t4,params4);
-        d4 = d;
-        save(sprintf('d4_%i',N),'d4')
-    end
-    figure(3)
-    hold on
-    plot(t4,d,'linewidth',2,'color',colors(i,:))
-    legend(leg_se{:})
-    title('Energy Derivative','fontsize',16)
-    xlabel('time','fontsize',16)
-    ylabel('w','fontsize',16)
-    saveas(gcf,'energy_deriv',filetype)
+%     if exist(sprintf('d4_%i_%i.mat',N,end_time),'file') == 2
+%         load(sprintf('d4_%i_%i',N,end_time))
+%         d = d4;
+%     else
+%         d = energy_derivative(u_array4,t4,params4);
+%         d4 = d;
+%         save(sprintf('d4_%i_%i',N,end_time),'d4')
+%     end
+%     figure(3)
+%     hold on
+%     plot(t4,d,'linewidth',2,'color',colors(i,:))
+%     legend(leg_se{:})
+%     title('Energy Derivative','fontsize',16)
+%     xlabel('time','fontsize',16)
+%     ylabel('w','fontsize',16)
+%     saveas(gcf,sprintf('energy_deriv_mult_%i',end_time),filetype)
     
     
     
@@ -167,6 +167,6 @@ for i = 1:length(N_list)
     title('Enstrophy','fontsize',16)
     xlabel('time','fontsize',16)
     ylabel('enstrophy','fontsize',16)
-    saveas(gcf,'enstrophy',filetype)
+    saveas(gcf,sprintf('enstrophy_mult_%i',N),filetype)
     
 end
