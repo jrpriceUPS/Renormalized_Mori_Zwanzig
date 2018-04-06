@@ -249,44 +249,44 @@ saveas(gcf,sprintf('helicity%i_%i',N,end_time),filetype)
 
 
 
-if t1_include
-    
-    if exist(sprintf('d1_%i_%i.mat',N,end_time),'file') == 2
-        
-        load(sprintf('d1_%i_%i.mat',N,end_time))
-        
-    else
-        d1 = energy_derivative(u_array1,t1,params1);
-        save(sprintf('d1_%i_%i',N,end_time),'d1');
-    end
-end
-if t2_include
-    if exist(sprintf('d2_%i_%i.mat',N,end_time),'file') == 2
-        
-        load(sprintf('d2_%i_%i.mat',N,end_time))
-    else
-        d2 = energy_derivative(u_array2,t2,params2);
-        save(sprintf('d2_%i_%i',N,end_time),'d2');
-    end
-end
-if t3_include
-    if exist(sprintf('d3_%i_%i.mat',N,end_time),'file') == 2
-        
-        load(sprintf('d3_%i_%i.mat',N,end_time))
-    else
-        d3 = energy_derivative(u_array3,t3,params3);
-        save(sprintf('d3_%i_%i',N,end_time),'d3');
-    end
-end
-if t4_include
-    if exist(sprintf('d4_%i_%i.mat',N,end_time),'file') == 2
-        
-        load(sprintf('d4_%i_%i.mat',N,end_time))
-    else
-        d4 = energy_derivative(u_array4,t4,params4);
-        save(sprintf('d4_%i_%i',N,end_time),'d4');
-    end
-end
+% if t1_include
+%     
+%     if exist(sprintf('d1_%i_%i.mat',N,end_time),'file') == 2
+%         
+%         load(sprintf('d1_%i_%i.mat',N,end_time))
+%         
+%     else
+%         d1 = energy_derivative(u_array1,t1,params1);
+%         save(sprintf('d1_%i_%i',N,end_time),'d1');
+%     end
+% end
+% if t2_include
+%     if exist(sprintf('d2_%i_%i.mat',N,end_time),'file') == 2
+%         
+%         load(sprintf('d2_%i_%i.mat',N,end_time))
+%     else
+%         d2 = energy_derivative(u_array2,t2,params2);
+%         save(sprintf('d2_%i_%i',N,end_time),'d2');
+%     end
+% end
+% if t3_include
+%     if exist(sprintf('d3_%i_%i.mat',N,end_time),'file') == 2
+%         
+%         load(sprintf('d3_%i_%i.mat',N,end_time))
+%     else
+%         d3 = energy_derivative(u_array3,t3,params3);
+%         save(sprintf('d3_%i_%i',N,end_time),'d3');
+%     end
+% end
+% if t4_include
+%     if exist(sprintf('d4_%i_%i.mat',N,end_time),'file') == 2
+%         
+%         load(sprintf('d4_%i_%i.mat',N,end_time))
+%     else
+%         d4 = energy_derivative(u_array4,t4,params4);
+%         save(sprintf('d4_%i_%i',N,end_time),'d4');
+%     end
+% end
 
 
 
