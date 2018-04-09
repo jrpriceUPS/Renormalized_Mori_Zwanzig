@@ -51,10 +51,10 @@ for i = 1:length(N_list)
     params4.func = @(x) t4model_RHS(x);
     params4.coeff = scaling_law(N,4);
     
-    if exist(sprintf('../multiple_renormalized_models_Mar_19/u_array4_%i_%i.mat',N,end_time),'file') == 2
+    if exist(sprintf('../multiple_renormalized_models_Mar_19/u_array4_%i.mat',N,end_time),'file') == 2
         
-        load(sprintf('../multiple_renormalized_models_Mar_19/u_array4_%i_%i.mat',N,end_time))
-        load(sprintf('../multiple_renormalized_models_Mar_19/t4_%i_%i',N,end_time))
+        load(sprintf('../multiple_renormalized_models_Mar_19/u_array4_%i.mat',N,end_time))
+        load(sprintf('../multiple_renormalized_models_Mar_19/t4_%i',N,end_time))
         
     else
         
@@ -70,8 +70,8 @@ for i = 1:length(N_list)
             u_array4(:,:,:,:,:,l) = reshape(u_raw4(l,:),[N,N,N,3,4]);
         end
         
-        save(sprintf('../multiple_renormalized_models_Mar_19/t4_%i_%i',N,end_time),'t4');
-        save(sprintf('../multiple_renormalized_models_Mar_19/u_array4_%i_%i.mat',N,end_time),'u_array4');
+        save(sprintf('../multiple_renormalized_models_Mar_19/t4_%i',N,end_time),'t4');
+        save(sprintf('../multiple_renormalized_models_Mar_19/u_array4_%i.mat',N,end_time),'u_array4');
         
     end
     
@@ -79,10 +79,10 @@ for i = 1:length(N_list)
     
     params4.coeff = c4(:,i);
     
-    if exist(sprintf('u_array4_%i_%i_nofit.mat',N,end_time),'file') == 2
+    if exist(sprintf('u_array4_%i_nofit.mat',N,end_time),'file') == 2
         
-        load(sprintf('u_array4_%i_%i_nofit.mat',N,end_time))
-        load(sprintf('t4_%i_%i_nofit',N,end_time))
+        load(sprintf('u_array4_%i_nofit.mat',N,end_time))
+        load(sprintf('t4_%i_nofit',N,end_time))
         
     else
         
@@ -98,8 +98,8 @@ for i = 1:length(N_list)
             u_array4_nofit(:,:,:,:,:,l) = reshape(u_raw4_nofit(l,:),[N,N,N,3,4]);
         end
         
-        save(sprintf('t4_%i_%i_nofit',N,end_time),'t4_nofit');
-        save(sprintf('u_array4_%i_%i_nofit.mat',N,end_time),'u_array4_nofit');
+        save(sprintf('t4_%i_nofit',N,end_time),'t4_nofit');
+        save(sprintf('u_array4_%i_nofit.mat',N,end_time),'u_array4_nofit');
         
     end
     
