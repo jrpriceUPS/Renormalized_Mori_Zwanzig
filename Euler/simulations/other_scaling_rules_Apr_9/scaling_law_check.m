@@ -146,7 +146,7 @@ for i = 1:length(N_list)
     plot(t4,ens,'b','linewidth',2)
     hold on
     plot(t4_nofit,ens_nofit,'r','linewidth',2)
-    legend(sprintf('4th order ROM for N = %i (scaling law approx)',N),sprintf('4th order ROM for N = %i (optimal coeffs)',N),'location','northwest')
+    legend(sprintf('4th order ROM for N = %i (scaling law approx)',N),sprintf('4th order ROM for N = %i (optimal coeffs)',N),'location','northeast')
     title('Enstrophy','fontsize',16)
     xlabel('time','fontsize',16)
     ylabel('enstrophy','fontsize',16)
