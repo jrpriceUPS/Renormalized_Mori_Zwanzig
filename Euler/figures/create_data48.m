@@ -1,57 +1,62 @@
 clear all;close all;
 
+addpath ../simulation_functions
+addpath ../nonlinear
+addpath ../analysis
+
 N = 48;
 M = 3*N;
 
 
 if ~(exist('u48.mat','file') == 2)
-create_data(N,1);
-elseif ~(exist('u48_2.mat','file')==2)
-
-load u48;
-load(sprintf('u%i.mat',N))
-load(sprintf('t%i.mat',N))
-start_time = t(end);
-u0 = u(:,:,:,:,:,end);
-
-
-% make k array
-k_vec = [0:M-1,-M:1:-1];
-[kx,ky,kz] = ndgrid(k_vec,k_vec,k_vec);
-k = zeros(2*M,2*M,2*M,3);
-k(:,:,:,1) = kx;
-k(:,:,:,2) = ky;
-k(:,:,:,3) = kz;
-
-% load relevant parameters into parameter structure
-params.k = k;
-params.N = N;
-params.M = M;
-params.func = @(x) full_RHS(x);
-params.coeff = [];
-params.a = 2:M;
-params.b = 2*M:-1:M+2;
-params.a_tilde = N+1:M;
-params.a_tilde2 = 2*N+1:M;
-params.print_time = 1;
-
-% run the simulation
-options = odeset('RelTol',1e-10,'Stats','on','InitialStep',1e-3);
-[t_new,u_raw] = ode45(@(t,u) RHS(u,t,params),[1,1.5],u0(:),options);
-
-% reshape the output array into an intelligible shape (should make this a
-% separate function later)
-u_new = zeros([size(u0) length(t_new)]);
-for i = 1:length(t_new)
-    u_new(:,:,:,:,:,i) = reshape(u_raw(i,:),[N,N,N,3,4]);
+    create_data(N,1);
 end
-
-t2 = t_new;
-u2 = u_new;
-
-save(sprintf('t%i_2',N),'t2');
-save(sprintf('u%i_2',N),'u2');
-
+if ~(exist('u48_2.mat','file')==2)
+    
+    load u48;
+    load(sprintf('u%i.mat',N))
+    load(sprintf('t%i.mat',N))
+    start_time = t(end);
+    u0 = u(:,:,:,:,:,end);
+    
+    
+    % make k array
+    k_vec = [0:M-1,-M:1:-1];
+    [kx,ky,kz] = ndgrid(k_vec,k_vec,k_vec);
+    k = zeros(2*M,2*M,2*M,3);
+    k(:,:,:,1) = kx;
+    k(:,:,:,2) = ky;
+    k(:,:,:,3) = kz;
+    
+    % load relevant parameters into parameter structure
+    params.k = k;
+    params.N = N;
+    params.M = M;
+    params.func = @(x) full_RHS(x);
+    params.coeff = [];
+    params.a = 2:M;
+    params.b = 2*M:-1:M+2;
+    params.a_tilde = N+1:M;
+    params.a_tilde2 = 2*N+1:M;
+    params.print_time = 1;
+    
+    % run the simulation
+    options = odeset('RelTol',1e-10,'Stats','on','InitialStep',1e-3);
+    [t_new,u_raw] = ode45(@(t,u) RHS(u,t,params),[1,1.5],u0(:),options);
+    
+    % reshape the output array into an intelligible shape (should make this a
+    % separate function later)
+    u_new = zeros([size(u0) length(t_new)]);
+    for i = 1:length(t_new)
+        u_new(:,:,:,:,:,i) = reshape(u_raw(i,:),[N,N,N,3,4]);
+    end
+    
+    t2 = t_new;
+    u2 = u_new;
+    
+    save(sprintf('t%i_2',N),'t2');
+    save(sprintf('u%i_2',N),'u2');
+    
 end
 
 
@@ -90,5 +95,6 @@ t_array = t_both(viable_snapshots);
 N_list = 4:2:24;
 
 % compute the renormalization coefficients
-[c48_4,laws48_4] = renormalize(u_array,N_list,t_array,0,1);
+[c48_4,laws48_4,r48_4] = renormalize(u_array,N_list,t_array,0,1);
+[c48_4t,laws48_4t,r48_4t] = renormalize(u_array,N_list,t_array,1,1);
 

@@ -1,5 +1,9 @@
 clear all;close all;
 
+addpath ../simulation_functions
+addpath ../nonlinear
+addpath ../analysis
+
 N = 48;
 M = 3*N;
 
@@ -90,9 +94,5 @@ t_array = t_both(viable_snapshots);
 N_list = 4:2:24;
 
 % compute the renormalization coefficients
-[c48_4,laws48_4] = renormalize(u_array,N_list,t_array,0,1,4);
-[c48_3,laws48_3] = renormalize(u_array,N_list,t_array,0,1,3);
-[c48_2,laws48_2] = renormalize(u_array,N_list,t_array,0,1,2);
-[c48_1,laws48_1] = renormalize(u_array,N_list,t_array,0,1,1);
-u,N_list,t_list,time,print
+[c48_4,laws48_4] = renormalize(u_array,N_list,t_array,0,1);
 

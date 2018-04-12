@@ -1,4 +1,4 @@
-function [coeff_array,scaling_laws] = renormalize(u,N_list,t_list,time,print)
+function [coeff_array,scaling_laws,r] = renormalize(u,N_list,t_list,time,print)
 %
 % A function to take a fully resolved u to compute optimal renormalization
 % coefficients for several ROMs
@@ -25,11 +25,19 @@ function [coeff_array,scaling_laws] = renormalize(u,N_list,t_list,time,print)
 %OUTPUTS:%
 %%%%%%%%%%
 %
-%  coeff_array  =  a (degree)xlength(N_list) array of the optimal coefficients of
-%                  each term in the ROM model for each resolution in N_list
+%  coeff_array   =  a 4xlength(N_list)x4 array of the optimal coefficients of
+%                   each term in the ROM model for each resolution and ROM
+%                   degree
+%
+%  scaling_laws  =  a 4x2x4 array of the best fit scaling laws for these
+%                   data for each ROM size and each term in the ROM
+%
+%             r  =  a 4x4 array of the correlation coefficient of the best
+%                   fit of each coefficient of each ROM term for each ROM size
 
 % initialize the output
 coeff_array = zeros(4,length(N_list),4);
+r = zeros(4,4);
 
 % extract data about the size of the full array
 s = size(u);
@@ -266,6 +274,8 @@ scaling_laws = zeros(4,2,4);
 for j = 1:4
     for i = 1:j
         scaling_laws(i,:,j) = polyfit(log(N_list),log(squeeze(coeff_array(i,:,j))),1);
+        corr_mat = corrcoef(log(N_list),log(squeeze(coeff_array(i,:,j))));
+        r(i,j) = corr_mat(1,2);
     end
 end
 
