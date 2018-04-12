@@ -2,7 +2,11 @@ clear all;close all;
 
 N = 48;
 M = 3*N;
+
+
+if ~(exist('u48.mat','file') == 2)
 create_data(N,1);
+elseif ~(exist('u48_2.mat','file')==2)
 
 load u48;
 load(sprintf('u%i.mat',N))
@@ -48,6 +52,8 @@ u2 = u_new;
 save(sprintf('t%i_2',N),'t2');
 save(sprintf('u%i_2',N),'u2');
 
+end
+
 
 
 
@@ -64,7 +70,10 @@ u_both(:,:,:,:,:,1:length(t)) = u;
 u_both(:,:,:,:,:,length(t)+1:end) = u2;
 
 t_both = [t;t2];
-resolve_array(u_both,t_both);
+
+if ~(exist('tmodel_size_list48.mat','file') == 2)
+    resolve_array(u_both,t_both);
+end
 
 load tmodel_size_list48
 min_tol = 1e-16;
@@ -85,5 +94,5 @@ N_list = 4:2:24;
 [c48_3,laws48_3] = renormalize(u_array,N_list,t_array,0,1,3);
 [c48_2,laws48_2] = renormalize(u_array,N_list,t_array,0,1,2);
 [c48_1,laws48_1] = renormalize(u_array,N_list,t_array,0,1,1);
-
+u,N_list,t_list,time,print
 
