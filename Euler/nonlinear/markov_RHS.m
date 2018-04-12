@@ -30,8 +30,9 @@ b = params.b;
 k = params.k;
 N = params.N;
 a_tilde = params.a_tilde;
+a_tilde2 = params.a_tilde2;
 
 % the full model is a simple convolution Ck(u,u)
-du_dt = markov_term(u_full,a,b,k,a_tilde);
+du_dt = markov_term(u_full,a,b,k,a_tilde,a_tilde2);
 
 du_dt = u_squishify(du_dt,N);
