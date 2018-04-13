@@ -202,16 +202,16 @@ for i = 1:length(N_list)
     figure(1)
     subplot(2,2,i)
     hold off
-    plot(log(t0),log(energy0),'linewidth',2,'b')
+    plot(log(t0),log(energy0),'b','linewidth',2)
     hold on
-    plot(log(t4),log(energy1),'linewidth',2,'r')
-    plot(log(t4),log(energy2),'linewidth',2,'g')
-    plot(log(t4),log(energy3),'linewidth',2,'k')
-    plot(log(t4),log(energy4),'linewidth',2,'c')
+    plot(log(t4),log(energy1),'r','linewidth',2)
+    plot(log(t4),log(energy2),'g','linewidth',2)
+    plot(log(t4),log(energy3),'k','linewidth',2)
+    plot(log(t4),log(energy4),'c','linewidth',2)
     legend('Markov ROM','1st order ROM','2nd order ROM','3rd order ROM','4th order ROM','location','southwest')
     title(sprintf('Energy in resolved modes, N = %i',N),'fontsize',16)
     xlabel('log(time)','fontsize',16)
     ylabel('log(energy)','fontsize',16)
+    saveas(gcf,'perturbative_euler',filetype)
     
 end
-saveas(gcf,'perturbative_euler',filetype)

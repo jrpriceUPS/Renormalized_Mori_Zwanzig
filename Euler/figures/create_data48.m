@@ -77,7 +77,9 @@ u_both(:,:,:,:,:,length(t)+1:end) = u2;
 t_both = [t;t2];
 
 if ~(exist('tmodel_size_list48.mat','file') == 2)
-    resolve_array(u_both,t_both);
+    [tmodel_size_list,tmodel_size_list_full] = resolve_array(u_both,t_both);
+    save('tmodel_size_list48','tmodel_size_list')
+    save('tmodel_size_list_full48','tmodel_size_list_full')
 end
 
 load tmodel_size_list48

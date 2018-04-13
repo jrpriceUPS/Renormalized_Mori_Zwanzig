@@ -1,4 +1,4 @@
-function [slopes,turn_times] = renormalized_multiple_res(N_list,end_time,filetype)
+function [slopes,slopes2,turn_times] = renormalized_multiple_res(N_list,end_time,filetype)
 
 format long
 close all
@@ -10,6 +10,7 @@ addpath ../../analysis
 colors = linspecer(length(N_list),'qualitative');
 
 slopes = zeros(length(N_list),1);
+slopes2 = zeros(length(N_list),1);
 turn_times = zeros(length(N_list),1);
 
 for i = 1:length(N_list)
@@ -100,6 +101,7 @@ for i = 1:length(N_list)
     
     % plot the energy in some modes
     energy = get_3D_energy(u_array4,N);
+    save(sprintf('energy_%i_%i',N,end_time),'energy')
     figure(1)
     hold on
     plot(log(t4),log(energy),'linewidth',2,'color',colors(i,:))
@@ -110,17 +112,17 @@ for i = 1:length(N_list)
     saveas(gcf,sprintf('energy_mult_%i',N),filetype)
     
     energy_change = abs(log(energy)-log(energy(1)))/abs(log(energy(1)));
-    turn_times(i) = log(t4(find(energy_change>1e-1,1)));
-    current_turn_times = turn_times(1:i)
-    save current_turn_times current_turn_times
+    turn_times(i) = log(t4(find(energy_change>0.05,1)));
+
     
-    s = polyfit(log(t4(log(t4)>1.1*turn_times(i))),log(energy(log(t4)>1.1*turn_times(i))),1);
+    stop_recording = log(t4(find(energy_change>0.90,1)));
+    s = polyfit(log(t4(log(t4)>turn_times(i)&log(t4)<stop_recording)),log(energy(log(t4)>turn_times(i)&log(t4)<stop_recording)),1);
     slopes(i) = s(1);
     
+    second_wind = log(t4(find(energy_change>0.99,1)));
+    s2 = polyfit(log(t4(log(t4)>second_wind)),log(energy(log(t4)>second_wind)),1);
+    slopes2(i) = s2(1);
     
-    
-    current_slopes = slopes(1:i)
-    save current_slopes current_slopes
     
     
     
@@ -168,5 +170,14 @@ for i = 1:length(N_list)
     xlabel('time','fontsize',16)
     ylabel('enstrophy','fontsize',16)
     saveas(gcf,sprintf('enstrophy_mult_%i',N),filetype)
+    
+    figure(5)
+    hold on
+    plot(t4(t4<=100),ens(t4<=100),'linewidth',2,'color',colors(i,:))
+    legend(leg_ne{:})
+    title('Enstrophy','fontsize',16)
+    xlabel('time','fontsize',16)
+    ylabel('enstrophy','fontsize',16)
+    saveas(gcf,sprintf('enstrophy_mult_trim%i',N),filetype)
     
 end
