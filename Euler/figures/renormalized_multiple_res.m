@@ -3,9 +3,9 @@ function [slopes,slopes2,turn_times,ens_max,ens_max_time,vort_max,vort_max_time]
 format long
 close all
 
-addpath ../../simulation_functions
-addpath ../../nonlinear
-addpath ../../analysis
+addpath ../simulation_functions
+addpath ../nonlinear
+addpath ../analysis
 
 colors = linspecer(length(N_list),'qualitative');
 
