@@ -209,9 +209,9 @@ for i = 1:length(N_list)
     plot(log(t3),log(energy3),'k','linewidth',2)
     plot(log(t4),log(energy4),'c','linewidth',2)
     legend('Markov ROM','1st order ROM','2nd order ROM','3rd order ROM','4th order ROM','location','southwest')
-    title(sprintf('Energy in resolved modes, N = %i',N),'fontsize',16)
-    xlabel('log(time)','fontsize',16)
-    ylabel('log(energy)','fontsize',16)
+    title(sprintf('Energy in resolved modes, N = %i',N),'fontsize',14)
+    xlabel('log(time)','fontsize',14)
+    ylabel('log(energy)','fontsize',14)
     saveas(gcf,'perturbative_euler',filetype)
     
 end
