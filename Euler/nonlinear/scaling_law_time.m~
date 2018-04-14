@@ -28,25 +28,25 @@ function coefficients = scaling_law_time(N,degree)
 coefficients = zeros(degree,1);
 
 if degree == 1 % updated 4/14/2018 N=48
-    coefficients = exp(0.453286097514251) * N^-1.132132124518987;
+    coefficients = exp(0.346140204693076) * N^-1.132132124518987;
 end
 
 if degree == 2 % updated 4/14/2018 N=48
-    coefficients(1) = exp(0.517051066875360) * N^-0.925593175897768;
-    coefficients(2) = exp(0.475921468179610) * N^-1.878787319537266;
+    coefficients(1) = exp(0.450485290588850) * N^-0.910866820408359;
+    coefficients(2) = exp(0.241869704035654) * N^-1.812532078606838;
 end
 
 if degree == 3 % updated 4/14/2018 N=48
-    coefficients(1) = exp(0.670401224027101) * N^-0.915282161281344;
-    coefficients(2) = exp(1.144355111850448) * N^-1.924454108237625;
-    coefficients(3) = exp(1.235374526465223) * N^-3.121926846334537;
+    coefficients(1) = exp(0.700418137617023) * N^-0.935138605878111;
+    coefficients(2) = exp(1.217147112806629) * N^-1.962577643260228;
+    coefficients(3) = exp(1.431162474047888) * N^-3.188011710973634;
 end
 
 if degree == 4 % updated 4/14/2018 N=48
-    coefficients(1) = exp(0.845453094356771) * N^-0.946192807992691;
-    coefficients(2) = exp(1.614834267785675) * N^-2.001809193435187;
-    coefficients(3) = exp(2.122659874790261) * N^-3.233176429294022;
-    coefficients(4) = exp(1.762476498429390) * N^-4.484502875116744;
+    coefficients(1) = exp(0.898823727373543) * N^-0.988857926218814;
+    coefficients(2) = exp(1.753386619806672) * N^-2.103964030340424;
+    coefficients(3) = exp(2.388790403108812) * N^-3.415262749214611;
+    coefficients(4) = exp(2.412309528581516) * N^-4.945061502758477;
 end
 
 
