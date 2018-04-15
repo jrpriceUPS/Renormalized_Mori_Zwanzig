@@ -42,10 +42,10 @@ params.no_time = 0;
 params0 = params;
 params0.func = @(x) markov_RHS(x);
 
-if exist(sprintf('u_array0_%i_%it.mat',N,end_time),'file') == 2
+if exist(sprintf('u_array0_%i_%i.mat',N,end_time),'file') == 2
     
-    load(sprintf('u_array0_%i_%it.mat',N,end_time))
-    load(sprintf('t0_%i_%it',N,end_time))
+    load(sprintf('u_array0_%i_%i.mat',N,end_time))
+    load(sprintf('t0_%i_%i',N,end_time))
     
 else
     
