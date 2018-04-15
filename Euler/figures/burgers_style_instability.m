@@ -160,7 +160,7 @@ energy3 = get_3D_energy(u_array3,N);
 energy4 = get_3D_energy(u_array4,N);
 figure(1)
 hold off
-plot(log(t0),log(energy0),'linewidth',2,'b')
+plot(log(t0),log(energy0),'b','linewidth',2)
 hold on
 plot(log(t1),log(energy1),'r','linewidth',2)
 plot(log(t2),log(energy2),'g','linewidth',2)
