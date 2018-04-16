@@ -45,11 +45,14 @@ for i = 1:length(N_list)
     
     
     [~,vort2] = vorticity(u_array4);
-    vort_int = trapz(t4,vort2);
+    vort_int = zeros(length(t4)-1,1);
+    for j = 2:length(t4)
+        vort_int(j) = trapz(t4(1:j),vort2(1:j).');
+    end
     
     figure(5)
     hold on
-    plot(t4,vort_int,'linewidth',2,'color',colors(i,:))
+    plot(t4(1:end-1),vort_int,'linewidth',2,'color',colors(i,:))
     legend(leg_ne{:})
     title('Integral of maximum of vorticity','fontsize',16)
     xlabel('time','fontsize',16)
