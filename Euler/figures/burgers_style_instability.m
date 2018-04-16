@@ -190,17 +190,17 @@ energy3 = get_3D_energy(u_array3,N);
 energy4 = get_3D_energy(u_array4,N);
 figure(1)
 hold off
-plot(log(t0),log(energy0),'b','linewidth',2)
+plot(log(t0),log(energy0),'b')
 hold on
-plot(log(t1),log(energy1),'r','linewidth',2)
-plot(log(t2),log(energy2),'g','linewidth',2)
-plot(log(t3),log(energy3),'k','linewidth',2)
-plot(log(t4),log(energy4),'c','linewidth',2)
+plot(log(t1),log(energy1),'r')
+plot(log(t2),log(energy2),'g')
+plot(log(t3),log(energy3),'k')
+plot(log(t4),log(energy4),'c')
 legend('Markov ROM','1st order ROM','2nd order ROM','3rd order ROM','4th order ROM','location','southwest')
 title(sprintf('Energy in resolved modes, N = %i',N),'fontsize',16)
 xlabel('log(time)','fontsize',16)
 ylabel('log(energy)','fontsize',16)
-axis([-10,5,-10,5])
+axis([min(log(t0)),max(log(t0)),min(log(energy1)),0])
 saveas(gcf,sprintf('unstable_burgers_%i',N),filetype)
 
 
