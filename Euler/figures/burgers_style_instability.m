@@ -200,6 +200,7 @@ legend('Markov ROM','1st order ROM','2nd order ROM','3rd order ROM','4th order R
 title(sprintf('Energy in resolved modes, N = %i',N),'fontsize',16)
 xlabel('log(time)','fontsize',16)
 ylabel('log(energy)','fontsize',16)
+axis([-10,5,-10,5])
 saveas(gcf,sprintf('unstable_burgers_%i',N),filetype)
 
 
