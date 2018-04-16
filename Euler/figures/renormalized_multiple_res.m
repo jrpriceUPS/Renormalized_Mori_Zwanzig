@@ -108,11 +108,12 @@ for i = 1:length(N_list)
     save(sprintf('energy_%i_%i',N,end_time),'energy')
     figure(1)
     hold on
-    plot(log(t4),log(energy),'linewidth',2,'color',colors(i,:))
+    plot(log(t4),log(energy),'linewidth',1.5,'color',colors(i,:))
     legend(leg_sw{:})
     title('Energy in resolved modes','fontsize',16)
     xlabel('log(time)','fontsize',16)
     ylabel('log(energy)','fontsize',16)
+    axis([min(log(t4)),max(log(t4)),energy(end),0])
     saveas(gcf,sprintf('energy_mult_%i',N),filetype)
     
     energy_change = abs(energy-energy(1))/abs(energy(1));
@@ -147,7 +148,7 @@ for i = 1:length(N_list)
     
     figure(3)
     hold on
-    plot(t4,ens,'linewidth',2,'color',colors(i,:))
+    plot(t4,ens,'linewidth',1.5,'color',colors(i,:))
     legend(leg_ne{:})
     title('Enstrophy','fontsize',16)
     xlabel('time','fontsize',16)
@@ -156,7 +157,7 @@ for i = 1:length(N_list)
     
     figure(4)
     hold on
-    plot(t4(t4<=100),ens(t4<=100),'linewidth',2,'color',colors(i,:))
+    plot(t4(t4<=100),ens(t4<=100),'linewidth',1.5,'color',colors(i,:))
     legend(leg_ne{:})
     title('Enstrophy','fontsize',16)
     xlabel('time','fontsize',16)
@@ -170,7 +171,7 @@ for i = 1:length(N_list)
     
     figure(5)
     hold on
-    plot(t4,vort2,'linewidth',2,'color',colors(i,:))
+    plot(t4,vort2,'linewidth',1.5,'color',colors(i,:))
     legend(leg_ne{:})
     title('Maximum of vorticity','fontsize',16)
     xlabel('time','fontsize',16)
@@ -179,7 +180,7 @@ for i = 1:length(N_list)
     
     figure(6)
     hold on
-    plot(t4(t4<=100),vort2(t4<=100),'linewidth',2,'color',colors(i,:))
+    plot(t4(t4<=100),vort2(t4<=100),'linewidth',1.5,'color',colors(i,:))
     legend(leg_ne{:})
     title('Maximum of vorticity','fontsize',16)
     xlabel('time','fontsize',16)
@@ -193,7 +194,7 @@ for i = 1:length(N_list)
     
     figure(7)
     hold on
-    plot(t4(1:end-1),vort_int,'linewidth',2,'color',colors(i,:))
+    plot(t4(1:end-1),vort_int,'linewidth',1.5,'color',colors(i,:))
     legend(leg_ne{:})
     title('Integral of maximum of vorticity','fontsize',16)
     xlabel('time','fontsize',16)
@@ -202,7 +203,7 @@ for i = 1:length(N_list)
     
     figure(8)
     hold on
-    plot(t4(t4(1:end-1)<=100),vort_int(t4(1:end-1)<=100),'linewidth',2,'color',colors(i,:))
+    plot(t4(t4(1:end-1)<=100),vort_int(t4(1:end-1)<=100),'linewidth',1.5,'color',colors(i,:))
     legend(leg_ne{:})
     title('Integral of maximum of vorticity','fontsize',16)
     xlabel('time','fontsize',16)

@@ -190,12 +190,12 @@ energy3 = get_3D_energy(u_array3,N);
 energy4 = get_3D_energy(u_array4,N);
 figure(1)
 hold off
-plot(log(t0),log(energy0),'b')
+plot(log(t0),log(energy0),'b','linewidth',1.5)
 hold on
-plot(log(t1),log(energy1),'r')
-plot(log(t2),log(energy2),'g')
-plot(log(t3),log(energy3),'k')
-plot(log(t4),log(energy4),'c')
+plot(log(t1),log(energy1),'r','linewidth',1.5)
+plot(log(t2),log(energy2),'g','linewidth',1.5)
+plot(log(t3),log(energy3),'k','linewidth',1.5)
+plot(log(t4),log(energy4),'c','linewidth',1.5)
 legend('Markov ROM','1st order ROM','2nd order ROM','3rd order ROM','4th order ROM','location','southwest')
 title(sprintf('Energy in resolved modes, N = %i',N),'fontsize',16)
 xlabel('log(time)','fontsize',16)
