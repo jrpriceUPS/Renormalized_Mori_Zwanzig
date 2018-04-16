@@ -186,4 +186,27 @@ for i = 1:length(N_list)
     ylabel('maximal vorticity','fontsize',16)
     saveas(gcf,sprintf('vorticity_mult_trim%i',N),filetype)
     
+    vort_int = zeros(length(t4)-1,1);
+    for j = 2:length(t4)
+        vort_int(j-1) = trapz(t4(1:j),vort2(1:j).');
+    end
+    
+    figure(7)
+    hold on
+    plot(t4(1:end-1),vort_int,'linewidth',2,'color',colors(i,:))
+    legend(leg_ne{:})
+    title('Integral of maximum of vorticity','fontsize',16)
+    xlabel('time','fontsize',16)
+    ylabel('Integral of max vorticity','fontsize',16)
+    saveas(gcf,sprintf('vorticity_int_%i',N),filetype)
+    
+    figure(8)
+    hold on
+    plot(t4(t4(1:end-1)<=100),vort_int(t4(1:end-1)<=100),'linewidth',2,'color',colors(i,:))
+    legend(leg_ne{:})
+    title('Integral of maximum of vorticity','fontsize',16)
+    xlabel('time','fontsize',16)
+    ylabel('Integral of max vorticity','fontsize',16)
+    saveas(gcf,sprintf('vorticity_int_%i',N),filetype)
+    
 end
