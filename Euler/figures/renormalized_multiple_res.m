@@ -32,6 +32,7 @@ for i = 1:length(N_list)
         leg_sw{j} = full_legend{j};
         leg_se{j} = full_legend{j};
         leg_ne{j} = full_legend{j};
+        leg_nw{j} = full_legend{j};
     end
     
     leg_sw{i+1} = 'location';
@@ -40,6 +41,8 @@ for i = 1:length(N_list)
     leg_se{i+2} = 'southeast';
     leg_ne{i+1} = 'location';
     leg_ne{i+2} = 'northeast';
+    leg_nw{i+1} = 'location';
+    leg_nw{i+2} = 'northwest';
     
     M = 3*N;
     
@@ -195,7 +198,7 @@ for i = 1:length(N_list)
     figure(7)
     hold on
     plot(t4(1:end-1),vort_int,'linewidth',1.5,'color',colors(i,:))
-    legend(leg_ne{:})
+    legend(leg_nw{:})
     title('Integral of maximum of vorticity','fontsize',16)
     xlabel('time','fontsize',16)
     ylabel('Integral of max vorticity','fontsize',16)
@@ -204,7 +207,7 @@ for i = 1:length(N_list)
     figure(8)
     hold on
     plot(t4(t4(1:end-1)<=100),vort_int(t4(1:end-1)<=100),'linewidth',1.5,'color',colors(i,:))
-    legend(leg_ne{:})
+    legend(leg_nw{:})
     title('Integral of maximum of vorticity','fontsize',16)
     xlabel('time','fontsize',16)
     ylabel('Integral of max vorticity','fontsize',16)
