@@ -1,9 +1,9 @@
-function [simulation_params] = full_init_Burgers(simulation_params)
+function simulation_params = ROM_init_Burgers(simulation_params)
 %
-%[simulation_params] = full_init_Burgers(simulation_params)
+%[simulation_params] = ROM_init_Burgers(simulation_params)
 %
-%Takes initial model and simulation_params structures and initializes them
-%for a standard full simulation.
+%Takes simulation_params structures and initializes them
+%for a complete memory approximation with known effective coefficients simulation.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Inputs:
@@ -13,6 +13,8 @@ function [simulation_params] = full_init_Burgers(simulation_params)
 %                    no matter the model type
 %
 %       N         =  number of positive resolved modes
+%
+%       degree    =  degree of ROM
 %
 %       alpha     =  coefficient of nonlinearity
 %
@@ -47,13 +49,13 @@ x=linspace(0,2*pi*(2*N-1)/(2*N),2*N);
 %define the initial condition as the Fourier transform of the sine function
 %and ensure that high energy modes are zero in spite of any numerical
 %errors
-u_complete=fft_norm(simulation_params.initial_condition(x).');
+u_complete = fft_norm(simulation_params.initial_condition(x).');
 
 %initialize cells indicating index information, and populate them
-simulation_params.F_modes = 0;
-simulation_params.G_modes = 0;
-simulation_params.k = 0;
-simulation_params.M = 3*N/2;
+simulation_params.F_modes = [1:N,2*N:4*N+2,5*N+2:6*N];
+simulation_params.G_modes = N+1:5*N+1;
+simulation_params.k = [0:3*N-1,-3*N:-1].';
+simulation_params.M = 3*N;
 
 %construct vector of modes we will advance in full model (just the positive modes), and
 %fill it
@@ -62,4 +64,4 @@ u(:) = u_complete(1:N);
 
 %save data into simulation_params
 simulation_params.u = u;
-simulation_params.RHS = @(x,t) nonlinear_full_Burgers(x,t,simulation_params);
+simulation_params.RHS=@(x,t) renormalized_complete_Burgers(x,t,simulation_params);
