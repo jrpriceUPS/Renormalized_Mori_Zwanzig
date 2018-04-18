@@ -49,7 +49,7 @@ int1a(G_modes) = 0;
 int1b = convolution_sum_Burgers(u_full,-6*Ahat+10*Bhat+2*(3*Atilde-Btilde),alpha);
 int1b(F_modes) = 0;
 
-int1 = convolution_sum_Burgers(u_full,int1a + Ehat - Fhat + 3*Dhat + int1b - 3*Etilde + 2*Ftilde - Dtilde,alpha);
+int1 = convolution_sum_Burgers(u_full,int1a + Ehat - 2*Fhat + 3*Dhat + int1b - 3*Etilde + 2*Ftilde - Dtilde,alpha);
 int1(F_modes) = 0;
 
 int2 = convolution_sum_Burgers(t0hat,3*Ahat -5*Bhat - 3*Atilde + Btilde,alpha);
@@ -77,4 +77,4 @@ term4 = convolution_sum_Burgers(Atilde+Btilde,Atilde+Btilde,alpha);
 term4(G_modes) = 0;
 
 
-t4 = -8*term1 - 16*term2 - 96*term3 + 24*term4;
+t4 = 8*term1 + 16*term2 + 96*term3 - 24*term4;

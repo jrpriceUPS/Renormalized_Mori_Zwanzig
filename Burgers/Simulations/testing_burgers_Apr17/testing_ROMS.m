@@ -1,10 +1,10 @@
-%clear all;close all
+close all
 
 addpath ../../nonlinear
 addpath ../../simulation_functions
 addpath ../../analysis
 
-N = 16;
+N = 8;
 alpha = 1;
 dt = 1e-4;
 num_points = 10000;

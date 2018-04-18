@@ -55,7 +55,7 @@ D = convolution_sum_Burgers(t0tilde,t0tilde,alpha);
 Dhat = D;
 Dtilde = D;
 Dhat(G_modes) = 0;
-Dtilde(G_modes) = 0;
+Dtilde(F_modes) = 0;
 
 term1 = convolution_sum_Burgers(u_full,Atilde-Btilde,alpha);
 term1(G_modes) = 0;
