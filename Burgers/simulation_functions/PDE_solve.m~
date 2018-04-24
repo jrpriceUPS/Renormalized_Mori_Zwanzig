@@ -44,18 +44,6 @@ function [t_list,u_list]=PDE_solve(simulation_params)
 %  u_list  =  an Nxlength(t_list) matrix containing the solution at each
 %             time in t_list
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Initialize Time-Stepping Variables%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%construct vector of times
-if ~isfield(simulation_params,'starttime')
-    starttime = 0;
-else
-    starttime = simulation_params.starttime;
-end
-
-
 %%%%%%%%%%%%%%%%
 %Pre-processing%
 %%%%%%%%%%%%%%%%
@@ -68,14 +56,23 @@ end
 simulation_params = simulation_params.initialization(simulation_params);
 
 
-if ~isfield(simulation_params,'time_range')
-    time_range = [starttime,simulation_params.endtime];
-else
-    time_range = simulation_params.time_range;
+if ~isfield(simulation_params,'initial_condition')
+    simulation_params.initial_condition = @(x) sin(x);
 end
 
 %specific model parameters
 simulation_params = simulation_params.initialization(simulation_params);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Initialize Time-Stepping Variables%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%construct vector of times
+if ~isfield(simulation_params,'starttime')
+    starttime = 0;
+else
+    starttime = simulation_params.starttime;
+end
 
 
 %%%%%%%%%%%%%%%%%%
@@ -83,6 +80,6 @@ simulation_params = simulation_params.initialization(simulation_params);
 %%%%%%%%%%%%%%%%%%
 
 options = odeset('RelTol',1e-10,'Stats','on','InitialStep',1e-3);
-[t_list,u_list] = ode45(@(t,u) simulation_params.RHS(u,t),time_range,simulation_params.u,options);
+[t_list,u_list] = ode45(@(t,u) simulation_params.RHS(u,t),[starttime,simulation_params.endtime],simulation_params.u,options);
 
 u_list = permute(u_list,[2,1]);
