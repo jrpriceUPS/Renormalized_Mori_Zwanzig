@@ -117,12 +117,12 @@ simulation_params.time_dependence = 0;
 energy_exact = get_energy(u_list,N);
 energyc1B = get_energy(uc1B,N);
 energyc2B = get_energy(uc2B,N);
-errc3B = get_energy(uc3B,N);
+energyc3B = get_energy(uc3B,N);
 energyc4B = get_energy(uc4B,N);
-errc1KdV = get_energy(uc1KdV,N);
-errc2KdV = get_energy(uc2KdV,N);
-errc3KdV = get_energy(uc3KdV,N);
-erc4KdV = get_energy(uc4KdV,N);
+energyc1KdV = get_energy(uc1KdV,N);
+energyc2KdV = get_energy(uc2KdV,N);
+energyc3KdV = get_energy(uc3KdV,N);
+energyc4KdV = get_energy(uc4KdV,N);
 
 figure(1)
 hold off
@@ -130,13 +130,13 @@ plot(log(t_list),log(energy_exact),'linewidth',2)
 hold on
 plot(log(tc1B),log(energyc1B),'r')
 plot(log(tc2B),log(energyc2B),'k')
-plot(log(tc3B),log(errc3B),'c')
+plot(log(tc3B),log(energyc3B),'c')
 plot(log(tc4B),log(energyc4B),'m')
 
-plot(log(tc1KdV),log(errc1KdV),'r--','linewidth',1.2)
-plot(log(tc2KdV),log(errc2KdV),'k--','linewidth',1.2)
-plot(log(tc3KdV),log(errc3KdV),'c--','linewidth',1.2)
-plot(log(tc4KdV),log(erc4KdV),'m--','linewidth',1.2)
+plot(log(tc1KdV),log(energyc1KdV),'r--','linewidth',1.2)
+plot(log(tc2KdV),log(energyc2KdV),'k--','linewidth',1.2)
+plot(log(tc3KdV),log(energyc3KdV),'c--','linewidth',1.2)
+plot(log(tc4KdV),log(energyc4KdV),'m--','linewidth',1.2)
 legend(leg{:},'location','southwest')
 
 title(sprintf('N = %i',N),'fontsize',16)
@@ -167,7 +167,7 @@ ylabel('error')
 saveas(gcf,sprintf('Burgers_err%i_%i',N,endtime),'png')
 close
 
-
+energies.exact = energy_exact;
 energies.c1B = energyc1B;
 energies.c2B = energyc2B;
 energies.c3B = energyc3B;
@@ -177,6 +177,7 @@ energies.c2KdV = energyc2KdV;
 energies.c3KdV = energyc3KdV;
 energies.c4KdV = energyc4KdV;
 
+times.exact = t_list;
 times.c1B = tc1B;
 times.c2B = tc2B;
 times.c3B = tc3B;

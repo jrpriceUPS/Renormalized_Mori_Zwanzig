@@ -3,32 +3,35 @@ clear all;close all
 leg = {'Exact','n = 1, constant coefficients','n = 2, constant coefficients','n = 3, constant coefficients','n = 4, constant coefficients','n = 1, decaying coefficients','n = 2, decaying coefficients','n = 3, decaying coefficients','n = 4, decaying coefficients'};
 [times_array,energies_array,error_array] = generate_comparisons(8:2:14,1000);
 
+load(sprintf('u_list%i',endtime));
+    load(sprintf('t_list%i',endtime));
+
 for i = 1:4
     
-    tc1B = times_array{i}.tc1B;
-    tc2B = times_array{i}.tc2B;
-    tc3B = times_array{i}.tc3B;
-    tc4B = times_array{i}.tc4B;
+    tc1B = times_array{i}.c1B;
+    tc2B = times_array{i}.c2B;
+    tc3B = times_array{i}.c3B;
+    tc4B = times_array{i}.c4B;
     
-    tc1KdV = times_array{i}.tc1KdV;
-    tc2KdV = times_array{i}.tc2KdV;
-    tc3KdV = times_array{i}.tc3KdV;
-    tc4KdV = times_array{i}.tc4KdV;
+    tc1KdV = times_array{i}.c1KdV;
+    tc2KdV = times_array{i}.c2KdV;
+    tc3KdV = times_array{i}.c3KdV;
+    tc4KdV = times_array{i}.c4KdV;
     
-    energyc1B = energies_array{i}.energyc1B;
-    energyc2B = energies_array{i}.energyc2B;
-    energyc3B = energies_array{i}.energyc3B;
-    energyc4B = energies_array{i}.energyc4B;
+    energyc1B = energies_array{i}.c1B;
+    energyc2B = energies_array{i}.c2B;
+    energyc3B = energies_array{i}.c3B;
+    energyc4B = energies_array{i}.c4B;
     
-    energyc1KdV = energies_array{i}.energyc1KdV;
-    energyc2KdV = energies_array{i}.energyc2KdV;
-    energyc3KdV = energies_array{i}.energyc3KdV;
-    energyc4KdV = energies_array{i}.energyc4KdV;
+    energyc1KdV = energies_array{i}.c1KdV;
+    energyc2KdV = energies_array{i}.c2KdV;
+    energyc3KdV = energies_array{i}.c3KdV;
+    energyc4KdV = energies_array{i}.c4KdV;
     
-    errc1B = errors_array{i}.errc1B;
-    errc2B = errors_array{i}.errc2B;
-    errc3B = errors_array{i}.errc3B;
-    errc4B = errors_array{i}.errc4B;
+    errc1B = error_array{i}.c1B;
+    errc2B = error_array{i}.c2B;
+    errc3B = error_array{i}.c3B;
+    errc4B = error_array{i}.c4B;
     
     x = figure(1);
     subplot(2,2,i)
@@ -52,7 +55,7 @@ for i = 1:4
     
     
     
-    y = figure(2)
+    y = figure(2);
     subplot(2,2,i)
     hold off
     plot(tc1B,errc1B,'r','linewidth',1.5)
@@ -70,3 +73,5 @@ for i = 1:4
     
 end
 
+saveas(x,'energy_burgers','png')
+saveas(y,'error_burgers','png')
