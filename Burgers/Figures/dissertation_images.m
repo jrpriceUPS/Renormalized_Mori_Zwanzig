@@ -1,7 +1,7 @@
 clear all;close all
 
 N_list = 8:2:14;
-endtime = 1;
+endtime = 1000;
 
 leg = {'Exact','n = 1, constant coefficients','n = 2, constant coefficients','n = 3, constant coefficients','n = 4, constant coefficients','n = 1, decaying coefficients','n = 2, decaying coefficients','n = 3, decaying coefficients','n = 4, decaying coefficients'};
 [times_array,energies_array,error_array] = generate_comparisons(N_list,endtime);
