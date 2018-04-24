@@ -55,7 +55,8 @@ u_complete = fft_norm(simulation_params.initial_condition(x).');
 simulation_params.F_modes = [1:N,2*N:4*N+2,5*N+2:6*N];
 simulation_params.G_modes = N+1:5*N+1;
 simulation_params.k = [0:3*N-1,-3*N:-1].';
-simulation_params.M = 3*N;
+%simulation_params.M = 3*N;
+simulation_params.M = 6*N;
 
 %construct vector of modes we will advance in full model (just the positive modes), and
 %fill it

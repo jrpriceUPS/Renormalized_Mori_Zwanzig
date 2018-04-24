@@ -27,142 +27,86 @@ simulation_params.print_time = 1;
 simulation_params.time_range = t_list;
 
 % Burgers-style 1 ROM
-if ~(exist(sprintf('uc1B_err%i_%i.mat',N,endtime),'file') == 2)
-    type = 'c1B';
-    simulation_params.time_dependence = 1;
-    simulation_params.degree = 4;
-    simulation_params.coeffs = scaling_law(N,type);
-    simulation_params.initialization = @(x) ROM_init_Burgers(x);
-    simulation_params.time_dependence = 1;
-    [tc1B,uc1B] = PDE_solve(simulation_params);
-    save(sprintf('uc1B_err%i_%i.mat',N,endtime),'uc1B')
-    save(sprintf('tc1B_err%i_%i.mat',N,endtime),'tc1B')
-else
-    load(sprintf('uc1B_err%i_%i.mat',N,endtime))
-    load(sprintf('tc1B_err%i_%i.mat',N,endtime))
-end
+type = 'c1B';
+simulation_params.time_dependence = 1;
+simulation_params.degree = 4;
+simulation_params.coeffs = scaling_law(N,type);
+simulation_params.initialization = @(x) ROM_init_Burgers(x);
+simulation_params.time_dependence = 1;
+[tc1B,uc1B] = PDE_solve(simulation_params);
 
 
 
 % Burgers-style 1+2 ROM
-if ~(exist(sprintf('uc2B_err%i_%i.mat',N,endtime),'file') == 2)
-    type = 'c2B';
-    simulation_params.time_dependence = 1;
-    simulation_params.degree = 4;
-    simulation_params.coeffs = scaling_law(N,type);
-    simulation_params.initialization = @(x) ROM_init_Burgers(x);
-    simulation_params.time_dependence = 1;
-    [tc2B,uc2B] = PDE_solve(simulation_params);
-    save(sprintf('uc2B_err%i_%i.mat',N,endtime),'uc2B')
-    save(sprintf('tc2B_err%i_%i.mat',N,endtime),'tc2B')
-else
-    load(sprintf('uc2B_err%i_%i.mat',N,endtime))
-    load(sprintf('tc2B_err%i_%i.mat',N,endtime))
-end
+type = 'c2B';
+simulation_params.time_dependence = 1;
+simulation_params.degree = 4;
+simulation_params.coeffs = scaling_law(N,type);
+simulation_params.initialization = @(x) ROM_init_Burgers(x);
+simulation_params.time_dependence = 1;
+[tc2B,uc2B] = PDE_solve(simulation_params);
 
 
 % Burgers-style 1+2+3 ROM
-if ~(exist(sprintf('uc3B_err%i_%i.mat',N,endtime),'file') == 2)
-    type = 'c3B';
-    simulation_params.time_dependence = 1;
-    simulation_params.degree = 4;
-    simulation_params.coeffs = scaling_law(N,type);
-    simulation_params.initialization = @(x) ROM_init_Burgers(x);
-    simulation_params.time_dependence = 1;
-    [tc3B,uc3B] = PDE_solve(simulation_params);
-    save(sprintf('uc3B_err%i_%i.mat',N,endtime),'uc3B')
-    save(sprintf('tc3B_err%i_%i.mat',N,endtime),'tc3B')
-else
-    load(sprintf('uc3B_err%i_%i.mat',N,endtime))
-    load(sprintf('tc3B_err%i_%i.mat',N,endtime))
-end
+type = 'c3B';
+simulation_params.time_dependence = 1;
+simulation_params.degree = 4;
+simulation_params.coeffs = scaling_law(N,type);
+simulation_params.initialization = @(x) ROM_init_Burgers(x);
+simulation_params.time_dependence = 1;
+[tc3B,uc3B] = PDE_solve(simulation_params);
 
 
 % Burgers-style 1+2+3+4 ROM
-if ~(exist(sprintf('uc4B_err%i_%i.mat',N,endtime),'file') == 2)
-    type = 'c4B';
-    simulation_params.time_dependence = 1;
-    simulation_params.degree = 4;
-    simulation_params.coeffs = scaling_law(N,type);
-    simulation_params.initialization = @(x) ROM_init_Burgers(x);
-    simulation_params.time_dependence = 1;
-    [tc4B,uc4B] = PDE_solve(simulation_params);
-    save(sprintf('uc4B_err%i_%i.mat',N,endtime),'uc4B')
-    save(sprintf('tc4B_err%i_%i.mat',N,endtime),'tc4B')
-else
-    load(sprintf('uc4B_err%i_%i.mat',N,endtime))
-    load(sprintf('tc4B_err%i_%i.mat',N,endtime))
-end
+type = 'c4B';
+simulation_params.time_dependence = 1;
+simulation_params.degree = 4;
+simulation_params.coeffs = scaling_law(N,type);
+simulation_params.initialization = @(x) ROM_init_Burgers(x);
+simulation_params.time_dependence = 1;
+[tc4B,uc4B] = PDE_solve(simulation_params);
 
 
 
 
 % KdV-style 1 ROM
-if ~(exist(sprintf('uc1KdV_err%i_%i.mat',N,endtime),'file') == 2)
-    type = 'c1KdV';
-    simulation_params.time_dependence = 1;
-    simulation_params.degree = 4;
-    simulation_params.coeffs = scaling_law(N,type);
-    simulation_params.initialization = @(x) ROM_init_Burgers(x);
-    simulation_params.time_dependence = 0;
-    [tc1KdV,uc1KdV] = PDE_solve(simulation_params);
-    save(sprintf('uc1KdV_err%i_%i.mat',N,endtime),'uc1KdV')
-    save(sprintf('tc1KdV_err%i_%i.mat',N,endtime),'tc1KdV')
-else
-    load(sprintf('uc1KdV_err%i_%i.mat',N,endtime))
-    load(sprintf('tc1KdV_err%i_%i.mat',N,endtime))
-end
+type = 'c1KdV';
+simulation_params.time_dependence = 1;
+simulation_params.degree = 4;
+simulation_params.coeffs = scaling_law(N,type);
+simulation_params.initialization = @(x) ROM_init_Burgers(x);
+simulation_params.time_dependence = 0;
+[tc1KdV,uc1KdV] = PDE_solve(simulation_params);
 
 
 % KdV-style 1+2 ROM
-if ~(exist(sprintf('uc2KdV_err%i_%i.mat',N,endtime),'file') == 2)
-    type = 'c2KdV';
-    simulation_params.time_dependence = 1;
-    simulation_params.degree = 4;
-    simulation_params.coeffs = scaling_law(N,type);
-    simulation_params.initialization = @(x) ROM_init_Burgers(x);
-    simulation_params.time_dependence = 0;
-    [tc2KdV,uc2KdV] = PDE_solve(simulation_params);
-    save(sprintf('uc2KdV_err%i_%i.mat',N,endtime),'uc2KdV')
-    save(sprintf('tc2KdV_err%i_%i.mat',N,endtime),'tc2KdV')
-else
-    load(sprintf('uc2KdV_err%i_%i.mat',N,endtime))
-    load(sprintf('tc2KdV_err%i_%i.mat',N,endtime))
-end
+type = 'c2KdV';
+simulation_params.time_dependence = 1;
+simulation_params.degree = 4;
+simulation_params.coeffs = scaling_law(N,type);
+simulation_params.initialization = @(x) ROM_init_Burgers(x);
+simulation_params.time_dependence = 0;
+[tc2KdV,uc2KdV] = PDE_solve(simulation_params);
 
 
 % KdV-style 1+2+3 ROM
-if ~(exist(sprintf('uc3KdV_err%i_%i.mat',N,endtime),'file') == 2)
-    type = 'c3KdV';
-    simulation_params.time_dependence = 1;
-    simulation_params.degree = 4;
-    simulation_params.coeffs = scaling_law(N,type);
-    simulation_params.initialization = @(x) ROM_init_Burgers(x);
-    simulation_params.time_dependence = 0;
-    [tc3KdV,uc3KdV] = PDE_solve(simulation_params);
-    save(sprintf('uc3KdV_err%i_%i.mat',N,endtime),'uc3KdV')
-    save(sprintf('tc3KdV_err%i_%i.mat',N,endtime),'tc3KdV')
-else
-    load(sprintf('uc3KdV_err%i_%i.mat',N,endtime))
-    load(sprintf('tc3KdV_err%i_%i.mat',N,endtime))
-end
+type = 'c3KdV';
+simulation_params.time_dependence = 1;
+simulation_params.degree = 4;
+simulation_params.coeffs = scaling_law(N,type);
+simulation_params.initialization = @(x) ROM_init_Burgers(x);
+simulation_params.time_dependence = 0;
+[tc3KdV,uc3KdV] = PDE_solve(simulation_params);
 
 
 % KdV-style 1+2+3+4 ROM
-if ~(exist(sprintf('uc4KdV_err%i_%i.mat',N,endtime),'file') == 2)
-    type = 'c4KdV';
-    simulation_params.time_dependence = 1;
-    simulation_params.degree = 4;
-    simulation_params.coeffs = scaling_law(N,type);
-    simulation_params.initialization = @(x) ROM_init_Burgers(x);
-    simulation_params.time_dependence = 0;
-    [tc4KdV,uc4KdV] = PDE_solve(simulation_params);
-    save(sprintf('uc4KdV_err%i_%i.mat',N,endtime),'uc4KdV')
-    save(sprintf('tc4KdV_err%i_%i.mat',N,endtime),'tc4KdV')
-else
-    load(sprintf('uc4KdV_err%i_%i.mat',N,endtime))
-    load(sprintf('tc4KdV_err%i_%i.mat',N,endtime))
-end
+type = 'c4KdV';
+simulation_params.time_dependence = 1;
+simulation_params.degree = 4;
+simulation_params.coeffs = scaling_law(N,type);
+simulation_params.initialization = @(x) ROM_init_Burgers(x);
+simulation_params.time_dependence = 0;
+[tc4KdV,uc4KdV] = PDE_solve(simulation_params);
 
 
 
