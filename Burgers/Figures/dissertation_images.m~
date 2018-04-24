@@ -1,9 +1,9 @@
 clear all;close all
 
-N_list = 8:2:14;
+N_list = 6:2:12;
 endtime = 1000;
 
-leg = {'Exact','n = 1, constant coefficients','n = 2, constant coefficients','n = 3, constant coefficients','n = 4, constant coefficients','n = 1, decaying coefficients','n = 2, decaying coefficients','n = 3, decaying coefficients','n = 4, decaying coefficients'};
+leg = {'Exact','n = 1, constant','n = 2, constant','n = 3, constant','n = 4, constant','n = 1, decaying','n = 2, decaying','n = 3, decaying','n = 4, decaying'};
 [times_array,energies_array,error_array] = generate_comparisons(N_list,endtime);
 
 
@@ -53,7 +53,9 @@ for i = 1:4
     plot(log(tc2KdV),log(energyc2KdV),'k--','linewidth',1.2)
     plot(log(tc3KdV),log(energyc3KdV),'c--','linewidth',1.2)
     plot(log(tc4KdV),log(energyc4KdV),'m--','linewidth',1.2)
-    legend(leg{:},'location','southwest')
+    lgd = legend(leg{:},'location','southwest');
+    lgd.FontSize = 6;
+    axis([log(0.1),log(1000),-15,0])
     
     title(sprintf('N = %i',N),'fontsize',16)
     xlabel('log(t)')
@@ -90,7 +92,7 @@ for i = 1:4
     plot(tc2B,errc2B,'k','linewidth',1.5)
     plot(tc3B,errc3B,'c','linewidth',1.5)
     plot(tc4B,errc4B,'m','linewidth',1.5)
-    axis([0,endtime,0,2])
+    axis([0,endtime,0,3])
     legend(leg{2:5},'location','northeast')
     
     title(sprintf('N = %i',N),'fontsize',16)
