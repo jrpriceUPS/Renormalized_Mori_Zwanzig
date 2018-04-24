@@ -15,7 +15,7 @@ else
     load(sprintf('t_list%i',endtime));
 end
 
-leg = {'n = 1, constant coefficients','n = 2, constant coefficients','n = 3, constant coefficients','n = 4, constant coefficients','n = 1, decaying coefficients','n = 2, decaying coefficients','n = 3, decaying coefficients','n = 4, decaying coefficients'};
+leg = {'Exact','n = 1, constant coefficients','n = 2, constant coefficients','n = 3, constant coefficients','n = 4, constant coefficients','n = 1, decaying coefficients','n = 2, decaying coefficients','n = 3, decaying coefficients','n = 4, decaying coefficients'};
 
 
 
@@ -159,7 +159,7 @@ plot(tc2B,errc2B,'k','linewidth',1.5)
 plot(tc3B,errc3B,'c','linewidth',1.5)
 plot(tc4B,errc4B,'m','linewidth',1.5)
 axis([0,endtime,0,2])
-legend(leg{1:4},'location','northeast')
+legend(leg{2:5},'location','northeast')
 
 title(sprintf('N = %i',N),'fontsize',16)
 xlabel('t')
