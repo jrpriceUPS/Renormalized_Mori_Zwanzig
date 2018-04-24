@@ -42,6 +42,8 @@ function simulation_params = ROM_init_Burgers(simulation_params)
 
 %create shorthand for ROM system size
 N = simulation_params.N;
+simulation_params.M = 6*N;
+M = simulation_params.M;
 
 %define the ordinates in real space
 x=linspace(0,2*pi*(2*N-1)/(2*N),2*N);
@@ -52,11 +54,11 @@ x=linspace(0,2*pi*(2*N-1)/(2*N),2*N);
 u_complete = fft_norm(simulation_params.initial_condition(x).');
 
 %initialize cells indicating index information, and populate them
-simulation_params.F_modes = [1:N,2*N:4*N+2,5*N+2:6*N];
-simulation_params.G_modes = N+1:5*N+1;
-simulation_params.k = [0:3*N-1,-3*N:-1].';
 %simulation_params.M = 3*N;
 simulation_params.M = 6*N;
+simulation_params.F_modes = [1:N,2*N:2*M-2*N+2,2*M-N+2:2*M];
+simulation_params.G_modes = N+1:2*M-N+1;
+simulation_params.k = [0:M-1,-M:-1].';
 
 %construct vector of modes we will advance in full model (just the positive modes), and
 %fill it
