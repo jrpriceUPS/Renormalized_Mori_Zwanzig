@@ -1,8 +1,15 @@
 function create_data(alpha,num_points,endtime,dt,howoften)
 
+
+
+
+addpath ../analysis
+addpath ../nonlinear
+addpath ../simulation_functions
+
 [t_list,u_list] = upwind_burgers(alpha,num_points,endtime,dt,howoften);
-save u_list u_list
-save t_list t_list
+save(sprintf('u_list%i',endtime),'u_list')
+save(sprintf('t_list%i',endtime),'t_list')
 
 N = num_points/2;
 F_modes = [1:N,2*N:4*N+2,5*N+2:6*N];
@@ -18,4 +25,4 @@ for i = 1:length(t_list)
     
 end
 
-save exact_derivative exact_derivative
+save(sprintf('exact_derivative%i',endtime),'exact_derivative')

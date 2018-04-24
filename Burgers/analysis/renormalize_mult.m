@@ -1,4 +1,4 @@
-function [c1,c2,c3,c4] = renormalize(alpha,N_list,u_list,t_list,exact_derivative,window_width,time)
+function [c1,c2,c3,c4] = renormalize_mult(alpha,N_list,u_list,t_list,exact_derivative,time)
 
 markov_energy = zeros(max(N_list),length(t_list));
 tmodel_energy = zeros(max(N_list),length(t_list));
@@ -30,7 +30,7 @@ for i = 1:length(N_list)
         if time
             tmodel_energy(1:N,i,j) = tmodel_energy(1:N,i,j)*t;
         end
-
+        
         %compute t^2-model term
         [t2,Ahat,Atilde,Bhat,Btilde,Dhat,Dtilde] = t2model_term_Burgers(u_full,alpha,t0hat,t0tilde,F_modes,G_modes);
         t2model_energy(1:N,i,j) = t2(1:N).*conj(u) + conj(t2(1:N)).*u;
@@ -57,21 +57,14 @@ for i = 1:length(N_list)
 end
 
 
-dt = t_list(2)-t_list(1);
+c1 = zeros(1,length(N_list),length(t_list));
+c2 = zeros(2,length(N_list),length(t_list));
+c3 = zeros(3,length(N_list),length(t_list));
+c4 = zeros(4,length(N_list),length(t_list));
 
-num_windows = length(1 + window_width / dt : length(t_list));
-
-% c1 = zeros(1,length(N_list),num_windows);
-% c2 = zeros(2,length(N_list),num_windows);
-% c3 = zeros(3,length(N_list),num_windows);
-% c4 = zeros(4,length(N_list),num_windows);
-
-for i = 1:length(N_list)
-    %for j = 1:num_windows
-        %window = (j-1) + 1 : window_width / dt + j;
-        for j = 1:length(t_list)
-            window = 1:j;
-        
+for j = 1:length(t_list)
+    for i = 1:length(N_list)
+        window = 1:j;
         
         N = N_list(i);
         exact = exact_derivative(1:N,window);
@@ -92,13 +85,13 @@ for i = 1:length(N_list)
         c1(1,i,j) = A11\b;
         
         
-%         figure(1)
-%         subplot(2,2,1)
-%         hold off
-%         plot(t_list(window),sum(exact,1),'b')
-%         hold on
-%         plot(t_list(window),sum(R0 + R1*c1(1,i,j),1),'r')
-       
+        %         figure(1)
+        %         subplot(2,2,1)
+        %         hold off
+        %         plot(t_list(window),sum(exact,1),'b')
+        %         hold on
+        %         plot(t_list(window),sum(R0 + R1*c1(1,i,j),1),'r')
+        
         
         
         
@@ -117,12 +110,12 @@ for i = 1:length(N_list)
         
         c2(1:2,i,j) = A\b;
         
-%         figure(1)
-%         subplot(2,2,2)
-%         hold off
-%         plot(t_list(window),sum(exact,1),'b')
-%         hold on
-%         plot(t_list(window),sum(R0 + R1*c2(1,i,j) + R2*c2(2,i,j),1),'r')
+        %         figure(1)
+        %         subplot(2,2,2)
+        %         hold off
+        %         plot(t_list(window),sum(exact,1),'b')
+        %         hold on
+        %         plot(t_list(window),sum(R0 + R1*c2(1,i,j) + R2*c2(2,i,j),1),'r')
         
         
         
@@ -145,12 +138,12 @@ for i = 1:length(N_list)
         
         c3(1:3,i,j) = A\b;
         
-%         figure(1)
-%         subplot(2,2,3)
-%         hold off
-%         plot(t_list(window),sum(exact,1),'b')
-%         hold on
-%         plot(t_list(window),sum(R0 + R1*c3(1,i,j) + R2*c3(2,i,j) + R3*c3(3,i,j),1),'r')
+        %         figure(1)
+        %         subplot(2,2,3)
+        %         hold off
+        %         plot(t_list(window),sum(exact,1),'b')
+        %         hold on
+        %         plot(t_list(window),sum(R0 + R1*c3(1,i,j) + R2*c3(2,i,j) + R3*c3(3,i,j),1),'r')
         
         
         
@@ -175,46 +168,62 @@ for i = 1:length(N_list)
         
         c4(1:4,i,j) = A\b;
         
-%         figure(1)
-%         subplot(2,2,4)
-%         hold off
-%         plot(t_list(window),sum(exact,1),'b')
-%         hold on
-%         plot(t_list(window),sum(R0 + R1*c4(1,i,j) + R2*c4(2,i,j) + R3*c4(3,i,j) + R4*c4(4,i,j),1),'r')
-        
-        
+        %         figure(1)
+        %         subplot(2,2,4)
+        %         hold off
+        %         plot(t_list(window),sum(exact,1),'b')
+        %         hold on
+        %         plot(t_list(window),sum(R0 + R1*c4(1,i,j) + R2*c4(2,i,j) + R3*c4(3,i,j) + R4*c4(4,i,j),1),'r')
         
         
     end
     
-    figure(2)
-    subplot(2,2,1)
-    hold off
-    plot(squeeze(c1(1,i,:)))
-    hold on
-    plot(squeeze(c2(1,i,:)),'r')
-    plot(squeeze(c3(1,i,:)),'k')
-    plot(squeeze(c4(1,i,:)),'c')
-    
-    subplot(2,2,2)
-    hold off
-    plot(squeeze(c2(2,i,:)),'r')
-    hold on
-    plot(squeeze(c3(2,i,:)),'k')
-    plot(squeeze(c4(2,i,:)),'c')
-    
-    subplot(2,2,3)
-    hold off
-    plot(squeeze(c3(3,i,:)),'k')
-    hold on
-    plot(squeeze(c4(3,i,:)),'c')
-    
-    subplot(2,2,4)
-    hold off
-    plot(squeeze(c4(3,i,:)),'c')
-    pause
+%     if mod(j,10) == 0
+%         figure(1)
+%         subplot(2,2,1)
+%         hold off
+%         plot(log(N_list),log(c1(1,:,j)),'b.','markersize',20)
+%         hold on
+%         plot(log(N_list),log(c2(1,:,j)),'r.','markersize',20)
+%         plot(log(N_list),log(c3(1,:,j)),'k.','markersize',20)
+%         plot(log(N_list),log(c4(1,:,j)),'c.','markersize',20)
+%         xlabel('log(N)','fontsize',16)
+%         ylabel('log(a)','fontsize',16)
+%         title(sprintf('t-model coefficient at t = %i',t_list(j)),'fontsize',16)
+%         legend('fit ROM 1','fit ROM 1+2','fit ROM 1+2+3','fit ROM 1+2+3+4')
+%         
+%         subplot(2,2,2)
+%         hold off
+%         plot(log(N_list),log(c2(2,:,j)),'r.','markersize',20)
+%         hold on
+%         plot(log(N_list),log(c3(2,:,j)),'k.','markersize',20)
+%         plot(log(N_list),log(c4(2,:,j)),'c.','markersize',20)
+%         xlabel('log(N)','fontsize',16)
+%         ylabel('log(a)','fontsize',16)
+%         title(sprintf('t^2-model coefficient at t = %i',t_list(j)),'fontsize',16)
+%         legend('fit ROM 1+2','fit ROM 1+2+3','fit ROM 1+2+3+4')
+%         
+%         subplot(2,2,3)
+%         hold off
+%         plot(log(N_list),log(c3(3,:,j)),'k.','markersize',20)
+%         hold on
+%         plot(log(N_list),log(c4(3,:,j)),'c.','markersize',20)
+%         xlabel('log(N)','fontsize',16)
+%         ylabel('log(a)','fontsize',16)
+%         title(sprintf('t^3-model coefficient at t = %i',t_list(j)),'fontsize',16)
+%         legend('fit ROM 1+2+3','fit ROM 1+2+3+4')
+%         
+%         subplot(2,2,4)
+%         hold off
+%         plot(log(N_list),log(c4(4,:,j)),'c.','markersize',20)
+%         xlabel('log(N)','fontsize',16)
+%         ylabel('log(a)','fontsize',16)
+%         title(sprintf('t^4-model coefficient at t = %i',t_list(j)),'fontsize',16)
+%         legend('fit ROM 1+2+3+4')
+%     end
     
 end
+
 
 
 

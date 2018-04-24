@@ -1,4 +1,4 @@
-function [c1,c2,c3,c4] = renormalize(alpha,N_list,u_list,t_list,exact_derivative,time)
+function [c1,c2,c3,c4] = renormalize2(alpha,N_list,u_list,t_list,exact_derivative,time)
 
 markov_energy = zeros(max(N_list),length(t_list));
 tmodel_energy = zeros(max(N_list),length(t_list));
@@ -183,6 +183,44 @@ for i = 1:length(N_list)
     
     
 end
+
+figure
+subplot(2,2,1)
+plot(log(N_list),log(c1),'b.','markersize',20)
+hold on
+plot(log(N_list),log(c2(1,:)),'r.','markersize',20)
+plot(log(N_list),log(c3(1,:)),'k.','markersize',20)
+plot(log(N_list),log(c4(1,:)),'c.','markersize',20)
+xlabel('log(N)','fontsize',16)
+ylabel('log(a)','fontsize',16)
+title('t-model coefficient','fontsize',16)
+legend('fit ROM 1','fit ROM 1+2','fit ROM 1+2+3','fit ROM 1+2+3+4')
+
+subplot(2,2,2)
+plot(log(N_list),log(c2(2,:)),'r.','markersize',20)
+hold on
+plot(log(N_list),log(c3(2,:)),'k.','markersize',20)
+plot(log(N_list),log(c4(2,:)),'c.','markersize',20)
+xlabel('log(N)','fontsize',16)
+ylabel('log(a)','fontsize',16)
+title('t^2-model coefficient','fontsize',16)
+legend('fit ROM 1+2','fit ROM 1+2+3','fit ROM 1+2+3+4')
+
+subplot(2,2,3)
+plot(log(N_list),log(c3(3,:)),'k.','markersize',20)
+hold on
+plot(log(N_list),log(c4(3,:)),'c.','markersize',20)
+xlabel('log(N)','fontsize',16)
+ylabel('log(a)','fontsize',16)
+title('t^3-model coefficient','fontsize',16)
+legend('fit ROM 1+2+3','fit ROM 1+2+3+4')
+
+subplot(2,2,4)
+plot(log(N_list),log(c4(4,:)),'c.','markersize',20)
+xlabel('log(N)','fontsize',16)
+ylabel('log(a)','fontsize',16)
+title('t^4-model coefficient','fontsize',16)
+legend('fit ROM 1+2+3+4')
 
 
 

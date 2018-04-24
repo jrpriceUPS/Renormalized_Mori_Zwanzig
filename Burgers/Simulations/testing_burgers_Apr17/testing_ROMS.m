@@ -1,15 +1,15 @@
-close all
+clear all;close all
 
 addpath ../../nonlinear
 addpath ../../simulation_functions
 addpath ../../analysis
 
-N = 8;
+N = 16;
 alpha = 1;
 dt = 1e-4;
 num_points = 10000;
-endtime = 10;
-howoften = 10;
+endtime = 100;
+howoften = 1000;
 
 degree = 0;
 
@@ -23,7 +23,13 @@ simulation_params.dt = dt;
 simulation_params.endtime = endtime;
 simulation_params.print_time = 1;
 
-%[t_full,u_full] = upwind_burgers(alpha,num_points,endtime,dt,howoften);
+% [t_full,u_full] = upwind_burgers(alpha,num_points,endtime,dt,howoften);
+load ../testing_different_renorms_Apr18/u_list100
+load ../testing_different_renorms_Apr18/t_list100
+t_full = t_list;
+u_full = u_list;
+
+
 
 simulation_params_markov = simulation_params;
 simulation_params_markov.time_dependence = 1;
@@ -73,8 +79,8 @@ plot(log(t1),log(energy1),'k','linewidth',2);
 plot(log(t2),log(energy2),'g','linewidth',2);
 plot(log(t3),log(energy3),'m','linewidth',2);
 plot(log(t4),log(energy4),'c','linewidth',2);
-axis([log(t_full(2)),log(t_full(end)),-3,0])
+axis([log(t0(2)),log(t0(end)),min(log(energy_full)),0])
 title(sprintf('Energy in resolved modes N = %i, Burgers',N),'fontsize',16)
 xlabel('log(time)','fontsize',16)
 ylabel('log(energy)','fontsize',16)
-legend('Exact (upwind method)','Markov model','t-model','t^2-model','t^3-model','t^4-model','location','southwest')
+legend('Exact solution','Markov model','t-model','t^2-model','t^3-model','t^4-model','location','southwest')
