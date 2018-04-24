@@ -42,7 +42,7 @@ function simulation_params = ROM_init_Burgers(simulation_params)
 
 %create shorthand for ROM system size
 N = simulation_params.N;
-simulation_params.M = 6*N;
+simulation_params.M = 3*N;
 M = simulation_params.M;
 
 %define the ordinates in real space

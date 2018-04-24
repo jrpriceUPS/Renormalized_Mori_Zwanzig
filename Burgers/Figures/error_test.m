@@ -1,4 +1,4 @@
-function [errc1B,errc2B,errc3B,errc4B] = error_test(N,alpha,endtime)
+function [times,energies,errors] = error_test(N,alpha,endtime)
 
 addpath ../simulation_functions
 addpath ../nonlinear
@@ -168,4 +168,26 @@ saveas(gcf,sprintf('Burgers_err%i_%i',N,endtime),'png')
 close
 
 
+energies.c1B = energyc1B;
+energies.c2B = energyc2B;
+energies.c3B = energyc3B;
+energies.c4B = energyc4B;
+energies.c1KdV = energyc1KdV;
+energies.c2KdV = energyc2KdV;
+energies.c3KdV = energyc3KdV;
+energies.c4KdV = energyc4KdV;
+
+times.c1B = tc1B;
+times.c2B = tc2B;
+times.c3B = tc3B;
+times.c4B = tc4B;
+times.c1KdV = tc1KdV;
+times.c2KdV = tc2KdV;
+times.c3KdV = tc3KdV;
+times.c4KdV = tc4KdV;
+
+errors.c1B = errc1B;
+errors.c2B = errc2B;
+errors.c3B = errc3B;
+errors.c4B = errc4B;
 
