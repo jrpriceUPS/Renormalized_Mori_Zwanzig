@@ -46,4 +46,4 @@ function [t3,Ehat,Etilde,Fhat,Ftilde] = t3model_term(u_full,t0hat,t0tilde,t1hat,
 [term3,~,~] = Dk(u_full,t2_tilde+2*Btilde-Etilde+2*Ftilde,a,b,k,a_tilde,a_tilde2);
 
 
-t3 = 1/2*term1 + 1/6*term3;
+t3 = 3*term1 + term3;

@@ -92,7 +92,7 @@ for i = 1:4
     plot(tc2B,errc2B,'k','linewidth',1.5)
     plot(tc3B,errc3B,'c','linewidth',1.5)
     plot(tc4B,errc4B,'m','linewidth',1.5)
-    axis([0,endtime,0,3])
+    axis([0,endtime,0,0.0001])
     legend(leg{2:5},'location','northeast')
     
     title(sprintf('N = %i',N),'fontsize',16)

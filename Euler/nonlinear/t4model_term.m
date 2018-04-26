@@ -58,5 +58,5 @@ function t4 = t4model_term(u_full,t0hat,t0tilde,t1hat,t1tilde,Ahat,Atilde,Bhat,B
 [term4,~,~] = Dk(t1tilde,t1tilde,a,b,k,a_tilde,a_tilde2);
 
 
-t4 = 1/24*term1 + 1/6*term2 + 1/8*term3 + 1/8*term4;
+t4 = term1 - 4*term2 - 3*term3 - 3*term4;
 

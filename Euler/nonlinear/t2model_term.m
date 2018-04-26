@@ -42,4 +42,4 @@ function [t2,Ahat,Atilde,Bhat,Btilde] = t2model_term(u_full,t0hat,t0tilde,t1tild
 
 [first_term,~,~] = Dk(u_full,t1tilde-Atilde,a,b,k,a_tilde,a_tilde2);
 
-t2 = 1/2*first_term + B;
+t2 = -first_term - 2*B;
