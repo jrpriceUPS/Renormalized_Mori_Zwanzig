@@ -294,7 +294,7 @@ if print
         if j > 1
             
             subplot(2,2,2)
-            plot(log(N_list),log(squeeze(coeff_array(2,:,j))),'.','markersize',20)
+            plot(log(N_list),log(squeeze(-coeff_array(2,:,j))),'.','markersize',20)
             hold on
             plot([1,log(N_list(end))+1],polyval(scaling_laws(2,:,j),[1,log(N_list(end))+1]),'r')
             title('t^2-model coefficient','fontsize',16)
@@ -314,7 +314,7 @@ if print
                 if j > 3
                     
                     subplot(2,2,4)
-                    plot(log(N_list),log(squeeze(coeff_array(4,:,j))),'.','markersize',20)
+                    plot(log(N_list),log(squeeze(-coeff_array(4,:,j))),'.','markersize',20)
                     hold on
                     plot([1,log(N_list(end))+1],polyval(scaling_laws(4,:,j),[1,log(N_list(end))+1]),'r')
                     title('t^4-model coefficient','fontsize',16)
