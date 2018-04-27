@@ -97,6 +97,12 @@ t_array = t_both(viable_snapshots);
 N_list = 4:2:24;
 
 % compute the renormalization coefficients
-[c48_4,laws48_4,r48_4] = renormalize(u_array,N_list,t_array,0,1);
-[c48_4t,laws48_4t,r48_4t] = renormalize(u_array,N_list,t_array,1,1);
+[c48,laws48,r48] = renormalize(u_array,N_list,t_array,0,1);
+save c48 c48
+save laws48 laws48
+save r48 r48
 
+[c48_t,laws48_t,r48_t] = renormalize(u_array,N_list,t_array,1,1);
+save c48_t c48_t
+save laws48_t laws48_t
+save r48_t r48_t

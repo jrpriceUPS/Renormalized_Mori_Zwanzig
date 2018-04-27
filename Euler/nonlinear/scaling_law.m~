@@ -1,4 +1,4 @@
-function coefficients = scaling_law(N,degree)
+function coefficients = scaling_law(N,degree);
 %
 % Produces renormalization coefficients for a renormalized model of
 % resolution N and degree "degree"
@@ -37,21 +37,21 @@ end
 
 if degree == 3 % updated 4/27/2018 N=48
     coefficients(1) = exp(0.974697906494128) * N^-0.962070195642592;
-    coefficients(2) = -exp(1.129553143083177) * N^-2.041713874431020;
-    coefficients(3) = exp(0.065345288512282) * N^-3.148049560058902;
+    coefficients(2) = -exp(1.822700323654759) * N^-2.041713874431020;
+    coefficients(3) = exp(1.857104757767303) * N^-3.148049560058902;
 end
 
 if degree == 4 % updated 4/127/2018 N=48
-    coefficients(1) = exp(1.134515716447412) * N^-0.923605415992834;
-    coefficients(2) = -exp(1.610715982059490) * N^-1.958746049349437;
-    coefficients(3) = exp(1.594061554873856) * N^-3.114959739896249;
-    coefficients(4) = -exp(0.603079335580313) * N^-4.311867871313719;
+    coefficients(1) = exp(1.135943524780088) * N^-0.985718175635504;
+    coefficients(2) = -exp(2.222251934246004) * N^-2.089820199929696;
+    coefficients(3) = exp(2.826994626808396) * N^-3.289350267350072;
+    coefficients(4) = -exp(2.868938248275644) * N^-4.623321597576260;
 end
 
-% if degree == 1 % updated 4/13/2018 N=48
-%     coefficients = exp(0.464178051931995) * N^-1.076854649494771;
-% end
-% 
+if degree == 1 % updated 4/13/2018 N=48
+    coefficients = exp(0.464178051931995) * N^-1.076854649494771;
+end
+
 % if degree == 2 % updated 4/13/2018 N=48
 %     coefficients(1) = exp(0.895358015405417) * N^-0.998464070418845;
 %     coefficients(2) = exp(1.543719708831006) * N^-2.135828666672578;
