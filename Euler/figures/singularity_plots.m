@@ -1,4 +1,4 @@
-clear al; close all
+clear all; close all
 
 load slopes
 load slopes2

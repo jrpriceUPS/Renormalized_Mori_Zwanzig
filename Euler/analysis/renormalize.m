@@ -273,8 +273,8 @@ end
 scaling_laws = zeros(4,2,4);
 for j = 1:4
     for i = 1:j
-        scaling_laws(i,:,j) = polyfit(log(N_list),log(squeeze(coeff_array(i,:,j))),1);
-        corr_mat = corrcoef(log(N_list),log(squeeze(coeff_array(i,:,j))));
+        scaling_laws(i,:,j) = polyfit(log(N_list),log(squeeze((-1)^(i+1)*coeff_array(i,:,j))),1);
+        corr_mat = corrcoef(log(N_list),log(squeeze((-1)^(i+1)*coeff_array(i,:,j))));
         r(i,j) = corr_mat(1,2);
     end
 end
