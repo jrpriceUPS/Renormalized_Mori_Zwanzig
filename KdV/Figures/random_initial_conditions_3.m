@@ -3,9 +3,9 @@
 
 clear all;close all;
 
-addpath ../../simulation_functions
-addpath ../../nonlinear
-addpath ../../analysis
+addpath ../simulation_functions
+addpath ../nonlinear
+addpath ../analysis
 
 %use N values that will yield valid ROMs for all chosen epsilon values
 N_list = 40:2:60;
@@ -46,7 +46,7 @@ for k = 1:num_runs
         %full model with no approximations
         simulation_params.initialization = @(x) full_init_KdV;
         
-        [t_list,u_list] = KdV_solve(simulation_params);
+        [t_list,u_list] = PDE_solve(simulation_params);
         
         simulation_params = full_init(simulation_params);
         
