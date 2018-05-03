@@ -65,6 +65,49 @@ for k = 1:num_runs
     
 end
 
+for k = 1:num_runs
+    
+    a = rand;
+    a_list(k) = a;
+    
+    %run exact solution to time 10 and use to find t2 and t4 coefficients for
+    %each ROM
+    for j = 1:length(epsilon)
+        epsilon(j)
+        simulation_params.epsilon = epsilon(j);  %coefficient on linear term in KdV
+        simulation_params.alpha = 1;      %coefficient on nonlinear term in KdV
+        simulation_params.dt = 1e-3;      %timestep
+        simulation_params.endtime = 10;   %end of simulation
+        simulation_params.howoften = 1;   %how often to save state vector
+        simulation_params.blowup = 1;     %if 1, instabilities cause simulation to end, but not give error
+        simulation_params.tol = inf;    %tolerance for identifying instabilities
+        simulation_params.N = 256;          %number of positive modes to simulate
+        simulation_params.order = 4;
+        simulation_params.initial_condition = @(x) a*sin(x) + (1-a)*sin(2*x);
+        
+        %full model with no approximations
+        simulation_params.initialization = @(x) full_init_KdV(x);
+        
+        [t_list,u_list] = PDE_solve(simulation_params);
+        
+        simulation_params = full_init_KdV(simulation_params);
+        
+        [u_deriv_list,energy_flow_list,nonlin0_energy_flow,nonlin1_energy_flow,nonlin2_energy_flow,nonlin3_energy_flow,nonlin4_energy_flow] = generate_deriv_data_4func(t_list,u_list,simulation_params,N_list);
+        coeffs_list = no_k_dependence_coeffs(t_list,energy_flow_list,nonlin0_energy_flow,nonlin1_energy_flow,nonlin2_energy_flow,nonlin3_energy_flow,nonlin4_energy_flow,N_list,0,10,0);
+        
+        t2(:,j,k) = coeffs_list(:,2);
+        t4(:,j,k) = coeffs_list(:,4);
+        
+    end
+    
+    %compute the scaling law using log-log least squares method
+    t2_form2(:,k) = find_scaling_law(squeeze(t2(:,:,k)).',epsilon,N_list);
+    t4_form2(:,k) = find_scaling_law(squeeze(t4(:,:,k)).',epsilon,N_list);
+    
+end
+
+
+
 
 
 figure(1)
@@ -77,9 +120,9 @@ xlabel('run','fontsize',16)
 ylabel('t^2 prefactor','fontsize',16)
 
 subplot(2,1,2)
-plot(t4_form(1,:),'.','markersize',20)
+plot(-t4_form(1,:),'.','markersize',20)
 hold on
-plot(t4_form2(1,:),'r.','markersize',20)
+plot(-t4_form2(1,:),'r.','markersize',20)
 legend('three modes activated','two modes activated')
 xlabel('run','fontsize',16)
 ylabel('t^4 prefactor','fontsize',16)
