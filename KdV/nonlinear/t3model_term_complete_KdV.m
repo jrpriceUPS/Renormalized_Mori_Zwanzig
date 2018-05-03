@@ -54,8 +54,6 @@ function [nonlin3,uk6,E,E_star,F,F_star] = t3model_term_complete_KdV(alpha,F_mod
 %
 %  uk6      =  u_full . * k.^6 (entries: k^6*u_k)
 %
-%  uu       =  resolved part of the markov convolution (entries: C_k(u,u))
-%
 %  E        =  resolved part of convolution of i*epsilon^2*uk3+uu with
 %              itself (entries: C_k(i*epsilon^2*k^3*u+C(u,u),i*epsilon^2*k^3*u+C(u,u)))
 %

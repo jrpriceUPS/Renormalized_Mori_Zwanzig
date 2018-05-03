@@ -10,7 +10,7 @@ function nonlin = nonlinear_full_KdV(u,M,alpha)
 %
 %  u        =  a state vector (positive modes only)
 %
-%  M        =  size of "full" model
+%  M        =  size of system
 %
 %  alpha    =  coefficient on the nonlinear term
 %

@@ -20,31 +20,31 @@ simulation_params.howoften = howoften;   %how often to save state vector
 simulation_params.blowup = 1;     %if 1, instabilities cause simulation to end, but not give error
 simulation_params.tol = inf;    %tolerance for identifying instabilities
 simulation_params.N = 256;          %number of positive modes to simulate
-simulation_params.name = 'full';  %full simulation
+simulation_params.initialization = @(x) full_init_KdV(x);  %full simulation
 
 simulation_params.initial_condition = @(x) sin(x);
 
-[t_list,u_list] = KdV_solve(simulation_params);
+[t_list,u_list] = PDE_solve(simulation_params);
 
-simulation_params.name = 'full';
+simulation_params.initialization = @(x) full_init_KdV(x);
 simulation_params.N = N;
-[t_markov,u_markov] = KdV_solve(simulation_params);
+[t_markov,u_markov] = PDE_solve(simulation_params);
 
-simulation_params.name = 'complete';
+simulation_params.initialization = @(x) complete_init_KdV(x);
 simulation_params.order = 4;
 simulation_params.N = N;
-[t4,u4] = KdV_solve(simulation_params);
+[t4,u4] = PDE_solve(simulation_params);
 
 %parameter details for non-renormalized ROM simulation
 simulation_params.N = N;               %number of positive modes to simulate
-simulation_params.name = 'complete';    %complete ROM
+simulation_params.initialization = @(x) complete_init_KdV(x);    %complete ROM
 simulation_params.order = 4;            %use fourth order ROM
 simulation_params.time_dependence = 1;  %include time dependence!
-simulation_params.coeffs = ones(4,1);   %no renormalization
+simulation_params.coeffs = [1;-1/2;1/6;-1/24];   %no renormalization
 simulation_params.dt = 1e-5;
 
 
-[t_blowup,u_blowup] = KdV_solve(simulation_params);
+[t_blowup,u_blowup] = PDE_solve(simulation_params);
 clear('simulation_params')
 
 
@@ -95,8 +95,8 @@ simulation_params.howoften = howoften;   %how often to save state vector
 simulation_params.blowup = 1;     %if 1, instabilities cause simulation to end, but not give error
 simulation_params.tol = inf;    %tolerance for identifying instabilities
 simulation_params.N = 8;          %number of positive modes to simulate
-simulation_params.name = 'full';  %full simulation
-[t_markov8,u_markov8] = KdV_solve(simulation_params);
+simulation_params.initialization = @(x) full_init_KdV(x);  %full simulation
+[t_markov8,u_markov8] = PDE_solve(simulation_params);
 
 figure(4)
 set(gca,'FontSize',16)

@@ -118,19 +118,19 @@ for j = 1:length(N_list)
         
         
         %compute Markov term
-        [nonlin0,u_full] = markov_term(u,M,N0,alpha);
+        [nonlin0,u_full] = markov_term_KdV(u,M,N0,alpha);
         
         %compute t-model term
-        [nonlin1,uu_star] = tmodel_term(u_full,nonlin0,alpha,F_modes);
+        [nonlin1,uu_star] = tmodel_term_KdV(u_full,nonlin0,alpha,F_modes);
         
         %compute t^2-model term
-        [nonlin2,uk3,uu,A,A_star,B,B_star,C,C_star,D,D_star] = t2model_term_complete(u_full,nonlin0,uu_star,alpha,F_modes,G_modes,k,epsilon);
+        [nonlin2,uk3,uu,A,A_star,B,B_star,C,C_star,D,D_star] = t2model_term_complete_KdV(u_full,nonlin0,uu_star,alpha,F_modes,G_modes,k,epsilon);
         
         %compute t^3-model term
-        [nonlin3,uk6,E,E_star,F,F_star] = t3model_term_complete(alpha,F_modes,G_modes,k,epsilon,u_full,uu,uu_star,uk3,A,A_star,B,B_star,C,C_star,D_star);
+        [nonlin3,uk6,E,E_star,F,F_star] = t3model_term_complete_KdV(alpha,F_modes,G_modes,k,epsilon,u_full,uu,uu_star,uk3,A,A_star,B,B_star,C,C_star,D_star);
         
         %compute t^4-model term
-        nonlin4 = t4model_term_complete(alpha,F_modes,G_modes,k,epsilon,u_full,uu,uu_star,uk3,uk6,A,A_star,B,B_star,C,C_star,D,D_star,E,E_star,F,F_star);
+        nonlin4 = t4model_term_complete_KdV(alpha,F_modes,G_modes,k,epsilon,u_full,uu,uu_star,uk3,uk6,A,A_star,B,B_star,C,C_star,D,D_star,E,E_star,F,F_star);
         
         nonlin0 = nonlin0(1:N0) + linear_part;
         

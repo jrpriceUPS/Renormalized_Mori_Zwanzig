@@ -2,8 +2,7 @@ function [t_list,u_list]=PDE_solve(simulation_params)
 %
 %[t_list,u_list]=PDE_solve(simulation_params,model)
 %
-%Solves a PDE using one of the many methods developed by myself
-%and Panos.
+%Solves a PDE using one of the methods developed by myself and Panos.
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -13,28 +12,31 @@ function [t_list,u_list]=PDE_solve(simulation_params)
 % simulation_params: a structure in which data relevant to the simulation
 %                    no matter the model type
 %
-%       epsilon    =  degree of dispersion
+%    epsilon            =  degree of dispersion
 %
-%       alpha      =  coefficient of nonlinearity
+%    alpha              =  coefficient of nonlinearity
 %
-%       dt         =  timestep
+%    dt                 =  timestep
 %
-%       starttime  =  time at which simulation begins (defaults to zero)
+%    starttime          =  time at which simulation begins (defaults to zero)
 %
-%       endtime    =  time at which simulation ends
+%    endtime            =  time at which simulation ends
 %
-%       howoften   =  how frequently to save the solution (i.e. 10 -> every 10
-%                     timesteps)
+%    howoften           =  how frequently to save the solution (i.e. 10 -> every 10
+%                             timesteps)
 %
-%       blowup     =  logical variable indicating how to handle loss of energy
-%                     conservation (if 1, save the data up to current time, if 0
-%                     give error)
+%    blowup             =  logical variable indicating how to handle loss of energy
+%                          conservation (if 1, save the data up to current time, if 0
+%                          give error)
 %
-%       tol        =  tolerance for violation of conservation of energy
+%    tol                =  tolerance for violation of conservation of energy
 %
-%       name       =  string indicating name of model (options: 'complete_fixed')
+%    N                  =  number of positive resolved modes
 %
-%       N          =  number of positive resolved modes
+%    initial_condition  =  initial condition as a function of x
+%
+%    initialization     =  initialization scheme to construct complete
+%                          ROM or full simulation
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

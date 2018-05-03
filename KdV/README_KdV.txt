@@ -1,0 +1,122 @@
+This folder contains Matlab files to derive and simulate reduced order models for the Kortweg-de Vries equation with small dispersion:
+
+u_t + epsilon u_{xxx} + alpha * uu_x = 0.
+
+%%%%%%%%%%%%%%%%%%%%%%
+%simulation_functions% 
+%%%%%%%%%%%%%%%%%%%%%%
+Files necessary for running a KdV ROM simulation
+
+full_init_KdV: takes simulation_params structure and updates it to include necessary parameters for running a full model of KdV
+
+complete_init_KdV: takes simulation_params structure and updates it to include necessary parameters for running a complete memory approximation ROM of KdV
+
+convolution_sum_KdV: computes the nonlinear part of KdV in real space and transforms back
+
+fft_norm: computes the FFT of a vector using the standard normalization
+
+ifft_norm: computes the IFFT of a vector using the standard normalization
+
+PDE_solve: solves KdV with given parameters
+
+RK4_stiff_nonstiff_step: computes a single step in an integration scheme known to function well for KdV with small dispersion
+
+BKdV_files: files used for simulation Burgers-KdV (a new problem I have not yet completed)
+
+old_files: out-of-date files used in past iterations of the repository
+
+
+
+%%%%%%%%%%%
+%nonlinear% 
+%%%%%%%%%%%
+Files associated with the RHS of KdV full and ROM simulations
+
+nonlinear_full_KdV: computes the RHS of KdV for a full model
+
+renormalized_complete_2nd_order_KdV: computes the RHS for an ROM with only first and second order terms of the complete memory approximation
+
+renormalized_complete_4th_order_KdV: computes the RHS for an ROM with the first four terms of the complete memory approximation
+
+markov_term_KdV: computes the Markov term of KdV
+
+tmodel_term_KdV: computes the first order complete memory approximation term for KdV
+
+t2model_term_complete_KdV: computes the second order complete memory approximation term for KdV
+
+t3model_term_complete_KdV: computes the third order complete memory approximation term for KdV
+
+t4model_term_complete_KdV: computes the fourth order complete memory approximation term for KdV
+
+BKdV_files: files used for simulation Burgers-KdV (a new problem I have not yet completed)
+
+old_files: out-of-date files used in past iterations of the repository
+
+
+
+%%%%%%%%%%
+%analysis% 
+%%%%%%%%%%
+Files associated with analysis of KdV results
+
+get_energy: computes the energy in a subset of modes at all times from a solution array
+
+make_plots: creates an animation comparing several solutions in real space
+
+single_plot: creates an animation of a single solution in real space
+
+make_real_space: converts a Fourier solution into real space for plotting and error calculations
+
+generate_deriv_data_4func: computes data about a potential fourth order complete memory approximation from an exact simulation (for fitting optimal coefficients)
+
+generate_deriv_data_4func2: computes data about a potential second order complete memory approximation from an exact simulation (for fitting optimal coefficients)
+
+no_k_dependence_coeffs: computes optimal renormalization coefficients for a complete memory approximation ROM through fourth order given data from an “exact” simulation
+
+no_k_dependence_coeffs2: computes optimal renormalization coefficients for a complete memory approximation ROM through second order given data from an “exact” simulation
+
+find_scaling_law: takes optimal coefficients for a variety of resolutions N and degrees of dispersion epsilon and finds scaling laws to describe them
+
+old_files: out-of-date files used in past iterations of the repository
+
+
+
+%%%%%%%%%%%%%
+%Simulations% 
+%%%%%%%%%%%%%
+Subdirectories associated with numerical experiments (all out of date now)
+
+
+
+%%%%%%%%%
+%Figures% 
+%%%%%%%%%
+Files associated with figures generated for paper submissions
+
+compare_energy_derivative_to_R2: compares the net energy derivative in the first N = 20 modes according to a full model and the net energy derivatives associated with the second order and fourth order terms of the complete memory approximation
+
+energy_flow: compares the net energy derivative in the first N = 20 modes according to a full model and the net energy derivatives associated with the first through fourth order terms of the complete memory approximation
+
+energy_presentation: creates plots for a presentation. Notably, presents the in and out flow of energy in the exact solution (compared to the Markov model). Compares Markov model, exact solution, unrenormalized 4th order ROM, and renormalized 4th order ROMs for N = 20
+
+energy20: compares energy inflow and outflow for N = 20 modes according to exact, Markov, 2nd order renormalized complete memory approximation, 4th order renormalized complete memory approximation, and 4th order unrenormalized complete memory approximation
+
+extrapolation_case: extrapolates our results to epsilon = 0.01, N = 256 4th order ROM (error in real space compared to Markov model)
+
+log_err_presentation: produces plots indicating the error at t = 100 for Markov and 4th order models at a variety of resolutions (similar to long_time_error_PNAS)
+
+long_time_error_PNAS_SI: produces plots indicating the error at t = 100 for Markov, 2nd order, and 4th order models at a variety of resolutions
+
+long_time_error_PNAS: produces plots indicating the error at t = 100 for Markov and 4th order models at a variety of resolutions
+
+long_time_error20: produces plots of the error for N = 20 Markov models, and second and fourth order ROMS for a long simulation
+
+non_renormalized_blow_up: demonstrates that the unrenormalized models are unstable
+
+random_initial_conditions_2: computes optimal renormalization coefficients with random initial conditions of the form a*sin(x) + (1-a)*sin(2x) and plots the results
+*NOT TESTED*
+
+random_initial_conditions_3: computes optimal renormalization coefficients with random initial conditions of the form a*sin(x) + b*sin(2x) + (1-a-b)*sin(3x)
+*NOT TESTED*
+
+

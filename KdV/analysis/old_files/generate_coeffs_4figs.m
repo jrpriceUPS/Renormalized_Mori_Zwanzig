@@ -9,8 +9,8 @@ function coeffs_list = generate_coeffs_4figs(t_list,energy_flow_list,nonlin0_ene
 %
 %t_list  =  the list of times in the simulation we are fitting to
 %
-%energy_flow_list  =  an array of the exact derivatives of energy in each
-%                     individual mode at each timestep
+%energy_flow_list     =  an array of the exact derivatives of energy in each
+%                        individual mode at each timestep
 %
 %nonlin0_energy_flow  =  an array of the Markov term contribution to the
 %                        energy derivative in each individual mode at each 
@@ -63,7 +63,7 @@ if window_width == 0
         window_edges = endtime;
         windows = [0 endtime];
     else
-        %otherwise beginning at 2, create windows of the form [0,x] for x
+        %otherwise beginning at 2, create windows of the form [2,x] for x
         %counting by spacing up to the end
         window_edges = 2:spacing:endtime;
         windows = [zeros(size(window_edges)).' window_edges.'];

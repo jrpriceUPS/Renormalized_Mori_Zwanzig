@@ -68,7 +68,7 @@ nonlin4 = t4model_term_complete_KdV(alpha,F_modes,G_modes,k,epsilon,u_full,uu,uu
 %compute nonlinear part of right hand side
 if simulation_params.time_dependence == 1
     
-    nonlin = nonlin0(1:N) + t*coeffs(1)*nonlin1(1:N) - t^2/2*coeffs(2)*nonlin2(1:N) + t^3/6*coeffs(3)*nonlin3(1:N) - t^4/24*coeffs(4)*nonlin4(1:N);
+    nonlin = nonlin0(1:N) + t*coeffs(1)*nonlin1(1:N) + t^2*coeffs(2)*nonlin2(1:N) + t^3*coeffs(3)*nonlin3(1:N) + t^4*coeffs(4)*nonlin4(1:N);
     
 elseif simulation_params.time_dependence == 0
 

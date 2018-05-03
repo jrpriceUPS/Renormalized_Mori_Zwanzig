@@ -89,24 +89,6 @@ for j = 1:length(window_edges)
         %solve least squares problem for fit
         N = N_list(i);
         
-        x = squeeze(sum(nonlin1_energy_flow(i,1:N,range)));
-        y = squeeze(sum(nonlin2_energy_flow(i,1:N,range)));
-        z = squeeze(sum(nonlin3_energy_flow(i,1:N,range)));
-        w = squeeze(sum(nonlin4_energy_flow(i,1:N,range)));
-        
-        r = sum(energy_flow_list(1:N,range)).'-squeeze(sum(nonlin0_energy_flow(i,1:N,range)));
-        
-        A1 = [sum(x.*x) sum(x.*y) sum(x.*z) sum(x.*w)
-            sum(y.*x) sum(y.*y) sum(y.*z) sum(y.*w)
-            sum(z.*x) sum(z.*y) sum(z.*z) sum(z.*w)
-            sum(w.*x) sum(w.*y) sum(w.*z) sum(w.*w)];
-        
-        b1 = [sum(x.*r);sum(y.*r);sum(z.*r);sum(w.*r)];
-        
-        
-        
-        
-        
         x2 = squeeze(nonlin1_energy_flow(i,1:N,range));
         y2 = squeeze(nonlin2_energy_flow(i,1:N,range));
         z2 = squeeze(nonlin3_energy_flow(i,1:N,range));
@@ -120,10 +102,6 @@ for j = 1:length(window_edges)
               sum(sum(w2.*x2)) sum(sum(w2.*y2)) sum(sum(w2.*z2)) sum(sum(w2.*w2))];
           
         b2 = [sum(sum(x2.*r2));sum(sum(y2.*r2));sum(sum(z2.*r2));sum(sum(w2.*r2))];
-        
-        %fit both individual modes and net flow
-        %A = A1 + A2;
-        %b = b1 + b2;
         
         %fit only individual modes
         A = A2;

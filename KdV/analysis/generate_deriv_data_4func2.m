@@ -14,6 +14,16 @@ function [u_deriv_list,energy_flow_list,nonlin0_energy_flow,nonlin1_energy_flow,
 %simulation_params  =  simulation parameters used to produce u_list and
 %                      t_list
 %
+%       epsilon  =  degree of dispersion
+%
+%       alpha    =  coefficient of nonlinearity
+%
+%       N        =  number of positive resolved modes
+%
+%       A        =  matrix of linear part of KdV model
+%
+%       B        =  function handle of nonlinear part of RHS in full model
+%
 %N_list  =  the list of n resolutions for which we want to find ROM
 %           coefficients
 %  

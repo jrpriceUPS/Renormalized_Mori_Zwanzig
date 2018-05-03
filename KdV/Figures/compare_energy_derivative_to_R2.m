@@ -1,7 +1,5 @@
 %A script to compute and compare the energy derivative of KdV up to time 10
 %against those results as would come from a memory model
-%
-%Figure 1 in SI
 
 clear all;close all;
 
@@ -20,13 +18,13 @@ simulation_params.tol = inf;      %tolerance for identifying instabilities
 simulation_params.N = 128;        %number of positive modes to simulate
 simulation_params.initial_condition = @(x) sin(x);
 
-simulation_params.name = 'full'; 
+simulation_params.initialization = @(x) full_init_KdV(x); 
 
 %find exact solution
-[t_list,u_list] = KdV_solve(simulation_params);
+[t_list,u_list] = PDE_solve(simulation_params);
 
 %generate derivative data
-simulation_params = full_init(simulation_params);
+simulation_params = full_init_KdV(simulation_params);
 N_list = 20;
 [u_deriv_list,energy_flow_list,nonlin0_energy_flow,nonlin1_energy_flow,nonlin2_energy_flow,nonlin3_energy_flow,nonlin4_energy_flow] = generate_deriv_data_4func(t_list,u_list,simulation_params,N_list);
 

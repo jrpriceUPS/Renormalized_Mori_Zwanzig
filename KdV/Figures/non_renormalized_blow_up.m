@@ -16,12 +16,12 @@ simulation_params.howoften = 1;         %how often to save state vector
 simulation_params.blowup = 1;           %if 1, instabilities cause simulation to end, but not give error
 simulation_params.tol = inf;            %tolerance for identifying instabilities
 simulation_params.N = N;               %number of positive modes to simulate
-simulation_params.name = 'complete';    %complete ROM
+simulation_params.initialization = @(x) complete_init_KdV(x);    %complete ROM
 simulation_params.order = 4;            %use fourth order ROM
 simulation_params.time_dependence = 1;  %include time dependence!
-simulation_params.coeffs = ones(4,1);   %no renormalization
+simulation_params.coeffs = [1;-1/2;1/6;-1/24];   %no renormalization
 
-[t_list,u_list] = KdV_solve(simulation_params);
+[t_list,u_list] = PDE_solve(simulation_params);
 clear('simulation_params')
 
 
@@ -34,12 +34,12 @@ simulation_params.howoften = 1;         %how often to save state vector
 simulation_params.blowup = 1;           %if 1, instabilities cause simulation to end, but not give error
 simulation_params.tol = inf;            %tolerance for identifying instabilities
 simulation_params.N = N;               %number of positive modes to simulate
-simulation_params.name = 'complete';    %complete ROM
+simulation_params.initialization = @(x) complete_init_KdV(x);    %complete ROM
 simulation_params.order = 2;            %use fourth order ROM
 simulation_params.time_dependence = 1;  %include time dependence!
-simulation_params.coeffs = ones(2,1);   %no renormalization
+simulation_params.coeffs = [1;-1/2];   %no renormalization
 
-[t_list2,u_list2] = KdV_solve(simulation_params);
+[t_list2,u_list2] = PDE_solve(simulation_params);
 clear('simulation_params')
 
 
@@ -53,9 +53,9 @@ simulation_params.howoften = 1;         %how often to save state vector
 simulation_params.blowup = 1;           %if 1, instabilities cause simulation to end, but not give error
 simulation_params.tol = inf;            %tolerance for identifying instabilities
 simulation_params.N = 128;              %number of positive modes to simulate
-simulation_params.name = 'full';        %complete ROM
+simulation_params.initialization = @(x) full_init_KdV(x);        %complete ROM
 
-[t_exact,u_exact] = KdV_solve(simulation_params);
+[t_exact,u_exact] = PDE_solve(simulation_params);
 clear('simulation_params')
 
 plot(t_exact,get_energy(u_exact,N))

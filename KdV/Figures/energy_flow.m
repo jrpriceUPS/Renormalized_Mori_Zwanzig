@@ -1,6 +1,6 @@
 %shows how exact energy derivative compares to ROM energy derivatives R1 through R3
-addpath ../../simulation_functions
-addpath ../../nonlinear
+addpath ../simulation_functions
+addpath ../nonlinear
 addpath ../analysis
 
 %parameter details for simulation
@@ -13,12 +13,12 @@ simulation_params.blowup = 1;     %if 1, instabilities cause simulation to end, 
 simulation_params.tol = inf;      %tolerance for identifying instabilities
 simulation_params.N = 128;        %number of positive modes to simulate
 
-simulation_params.name = 'full';   
+simulation_params.initialization = @(x) full_init_KdV(x);   
 
 %find exact solution
-[t_list,u_list] = KdV_solve(simulation_params);
+[t_list,u_list] = PDE_solve(simulation_params);
 
-simulation_params = full_init(simulation_params);
+simulation_params = full_init_KdV(simulation_params);
 
 [u_deriv_list,energy_flow_list,nonlin0_energy_flow,nonlin1_energy_flow,nonlin2_energy_flow,nonlin3_energy_flow,nonlin4_energy_flow] = generate_deriv_data_4func(t_list,u_list,simulation_params,20);
 

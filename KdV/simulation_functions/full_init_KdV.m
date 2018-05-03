@@ -12,21 +12,25 @@ function [simulation_params] = full_init_KdV(simulation_params)
 % simulation_params: a structure in which data relevant to the simulation
 %                    no matter the model type
 %
-%       N         =  number of positive resolved modes
+%       N                  =  number of positive resolved modes
 %
-%       epsilon   =  degree of dispersion
+%       epsilon            =  degree of dispersion
 %
-%       alpha     =  coefficient of nonlinearity
+%       dt                 =  timestep
 %
-%       dt        =  timestep
+%       alpha              =  degree of nonlinearity
 %
+%       initial_condition  =  initial condition as a function of x
 %
+%    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Outputs:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % simulation_params: a structure in which data relevant to the simulation
 %                    no matter the model type
+%
+%       M        =  size of the full model
 %
 %       F_modes  =  a cell array of indices for resolved modes in the full
 %                   model

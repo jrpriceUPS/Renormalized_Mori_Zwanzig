@@ -1,10 +1,9 @@
 function simulation_params = complete_init_KdV(simulation_params)
 %
-%[simulation_params] = complete_fixed_init(simulation_params)
+%simulation_params = complete_fixed_init(simulation_params)
 %
 %Takes simulation_params structures and initializes them for a complete
-%memory approximation with known effective coefficients simulation and no
-%time-dependence
+%memory approximation with known effective coefficients
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Inputs:
@@ -13,18 +12,23 @@ function simulation_params = complete_init_KdV(simulation_params)
 % simulation_params: a structure in which data relevant to the simulation
 %                    no matter the model type
 %
-%       N         =  number of positive resolved modes
+%           N         =  number of positive resolved modes
 %
-%       epsilon   =  degree of dispersion
+%           epsilon   =  degree of dispersion
 %
-%       alpha     =  coefficient of nonlinearity
+%           dt        =  timestep
+% 
+%           coeffs    =  4x1 vector of coefficients for memory terms
+%                        (computed from scaling laws if not provided)
 %
-%       dt        =  timestep
+%           order     =  number of terms to use in memory (2 or 4, 4 by
+%                        default)
 %
-%       coeffs    =  4x1 vector of coefficients for memory terms
-%                    (optional, computed from scaling laws if not provided)
+%    time_dependence  =  if 0, algebraically decaying renormalization
+%                        coefficients (default). If 1, constant 
+%                        renormalization coefficients
 %
-%       order     =  number of terms to use in memory (2 or 4)
+%  initial_condition  =  initial condition as a function of x
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -33,6 +37,8 @@ function simulation_params = complete_init_KdV(simulation_params)
 %
 % simulation_params: a structure in which data relevant to the simulation
 %                    no matter the model type
+%
+%       M        =  size of the full model
 %
 %       F_modes  =  a cell array of indices for resolved modes in the full
 %                   model
@@ -67,9 +73,7 @@ dt      = simulation_params.dt;
 %define the ordinates in real space
 x=linspace(0,2*pi*(2*N-1)/(2*N),2*N);
 
-%define the initial condition as the Fourier transform of the sine function
-%and ensure that high energy modes are zero in spite of any numerical
-%errors
+%define the initial condition
 u_complete=fft_norm(simulation_params.initial_condition(x).');
 
 
@@ -134,6 +138,7 @@ if ~isfield(simulation_params,'coeffs')
     
 end
 
+%save relevant parameters into structure
 simulation_params.A = A;
 
 if simulation_params.order == 4
