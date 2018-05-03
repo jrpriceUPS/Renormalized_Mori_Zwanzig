@@ -44,7 +44,7 @@ for k = 1:num_runs
         simulation_params.initial_condition = @(x) a*sin(x) + b*sin(2*x) + (1-a-b)*sin(3*x);
         
         %full model with no approximations
-        simulation_params.initialization = @(x) full_init_KdV;
+        simulation_params.initialization = @(x) full_init_KdV(x);
         
         [t_list,u_list] = PDE_solve(simulation_params);
         

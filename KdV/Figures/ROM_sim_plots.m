@@ -21,9 +21,9 @@ simulation_params.tol = inf;    %tolerance for identifying instabilities
 simulation_params.N = 128;          %number of positive modes to simulate
 
 %full model with no approximations
-simulation_params.name = 'full';
+simulation_params.initialization = @(x) full_init_KdV(x);
 
-[t_list,u_list] = KdV_solve(simulation_params);
+[t_list,u_list] = PDE_solve(simulation_params);
 clear('simulation_params')
 
 
@@ -40,9 +40,9 @@ simulation_params.tol = inf;    %tolerance for identifying instabilities
 simulation_params.N = 20;          %number of positive modes to simulate
 
 %full model with no approximations
-simulation_params.name = 'full';
+simulation_params.initialization = @(x) full_init_KdV(x);
 
-[t_markov,u_markov] = KdV_solve(simulation_params);
+[t_markov,u_markov] = PDE_solve(simulation_params);
 clear('simulation_params')
 
 
@@ -58,9 +58,9 @@ simulation_params.tol = inf;    %tolerance for identifying instabilities
 simulation_params.N = 20;          %number of positive modes to simulate
 
 %full model with no approximations
-simulation_params.name = 'complete';
+simulation_params.initialization = @(x) complete_init_KdV(x);
 
-[t_ROM,u_ROM] = KdV_solve(simulation_params);
+[t_ROM,u_ROM] = PDE_solve(simulation_params);
 
 
 clear('simulation_params')

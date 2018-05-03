@@ -1,6 +1,5 @@
-%a function to compute a stable ROM for epsilon = 0.01 by extrapolating the
-%scaling laws for the renormalization coefficients and compare to the exact
-%answer
+%a function to compute the real space solutions at a variety of times
+%according to several models
 
 addpath ../simulation_functions
 addpath ../nonlinear

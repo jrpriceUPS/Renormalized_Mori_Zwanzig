@@ -32,11 +32,11 @@ for j = 1:length(epsilon)
     simulation_params.initial_condition = @(x) sin(x);
     
     %full model with no approximations
-    simulation_params.name = 'full';
+    simulation_params.initialization = @(x) full_init_KdV(x);
     
-    [t_list,u_list] = KdV_solve(simulation_params);
+    [t_list,u_list] = PDE_solve(simulation_params);
     
-    simulation_params = full_init(simulation_params);
+    simulation_params = full_init_KdV(simulation_params);
     
     [u_deriv_list,energy_flow_list,nonlin0_energy_flow,nonlin1_energy_flow,nonlin2_energy_flow,nonlin3_energy_flow,nonlin4_energy_flow] = generate_deriv_data_4func(t_list,u_list,simulation_params,N_list);
     coeffs_list = no_k_dependence_coeffs(t_list,energy_flow_list,nonlin0_energy_flow,nonlin1_energy_flow,nonlin2_energy_flow,nonlin3_energy_flow,nonlin4_energy_flow,N_list,0,10,0);
@@ -73,7 +73,7 @@ for i = 1:length(N_list)
     
     t4_eps = figure(2);
     hold on
-    plot(log(epsilon*2^(1/4)/(2*pi)),log(t4(i,:)/(2*sqrt(2)*pi)^4),'.','markersize',20)
+    plot(log(epsilon*2^(1/4)/(2*pi)),log(-t4(i,:)/(2*sqrt(2)*pi)^4),'.','markersize',20)
     plot(log(epsilon*2^(1/4)/(2*pi)),log(t4_form(1))+log(2*pi*N_list(i))*t4_form(2)+log(epsilon*2^(1/4)/(2*pi))*t4_form(3),'r')
     legend('log(t^4-coeff) from data',sprintf('log(%.3f*N^%.3f*epsilon^%.3f)',t4_form(1),t4_form(2),t4_form(3)))
     xlabel('log(epsilon)','fontsize',16)
@@ -96,7 +96,7 @@ for i = 1:length(epsilon)
     
     t4_N = figure(4);
     hold on
-    plot(log(2*pi*N_list),log(t4(:,i)/(2*sqrt(2)*pi)^4),'.','markersize',20)
+    plot(log(2*pi*N_list),log(-t4(:,i)/(2*sqrt(2)*pi)^4),'.','markersize',20)
     plot(log(2*pi*N_list),log(t4_form(1))+log(2*pi*N_list)*t4_form(2)+log(epsilon(i)*2^(1/4)/(2*pi))*t4_form(3),'r')
     legend('log(t^4-coeff) from data',sprintf('log(%.3f*N^%.3f*epsilon^%.3f)',t4_form(1),t4_form(2),t4_form(3)))
     xlabel('log(N)','fontsize',16)
