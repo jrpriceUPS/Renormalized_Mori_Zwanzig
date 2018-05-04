@@ -48,7 +48,7 @@ for k = 1:num_runs
         
         [t_list,u_list] = PDE_solve(simulation_params);
         
-        simulation_params = full_init(simulation_params);
+        simulation_params = full_init_KdV(simulation_params);
         
         [u_deriv_list,energy_flow_list,nonlin0_energy_flow,nonlin1_energy_flow,nonlin2_energy_flow,nonlin3_energy_flow,nonlin4_energy_flow] = generate_deriv_data_4func(t_list,u_list,simulation_params,N_list);
         coeffs_list = no_k_dependence_coeffs(t_list,energy_flow_list,nonlin0_energy_flow,nonlin1_energy_flow,nonlin2_energy_flow,nonlin3_energy_flow,nonlin4_energy_flow,N_list,0,10,0);
