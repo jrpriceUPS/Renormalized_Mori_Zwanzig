@@ -113,16 +113,13 @@ random_initial_conditions_3: computes optimal renormalization coefficients with 
 *NOT TESTED*
 
 real_space_plots: displays examples of real space solutions according to the exact model, Markov, and renormalized fourth order complete memory approximation
-*NOT TESTED*
 
 ROM_sim_plots: simulates N = 20 model exactly, with Markov, and with renormalized 4th order model, then plots snapshots of the real space solution in order to produce an animation
-*NOT TESTED*
 
 some_scaling_laws: computes optimal renormalization coefficients and the scaling laws describing them, then produces appealing log-log plots demonstrating the fit
 *NOT TESTED*
 
 scaling_laws_presentation_plots: computes optimal renormalization coefficients and the scaling laws describing them, then produces appealing log-log plots demonstrating the fit for a presentation
-*NOT TESTED*
 
 some_scaling_laws_paper: computes optimal renormalization coefficients for fourth order complete memory approximations of KdV in using non dimensional quantities and plots them in an appealing way
 *NOT TESTED*

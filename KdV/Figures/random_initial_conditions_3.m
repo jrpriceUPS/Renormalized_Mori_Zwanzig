@@ -65,6 +65,9 @@ for k = 1:num_runs
     
 end
 
+t2_form2 = zeros(3,num_runs);
+t4_form2 = zeros(3,num_runs);
+
 for k = 1:num_runs
     
     a = rand;
