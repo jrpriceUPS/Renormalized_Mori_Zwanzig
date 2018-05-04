@@ -15,6 +15,14 @@ function [t3,Ehat,Etilde,Fhat,Ftilde] = t3model_term(u_full,t0hat,t0tilde,t1hat,
 %
 %     t1hat  =  full array of current Fourier state of hat{t1-term}
 %
+%   t1tilde  =  full array of current Fourier state of tilde{t1-term}
+%     
+%      Ahat  =  resolved part of Dk(hat{u},hat{t0})
+%
+%    Atilde  =  unresolved part of Dk(hat{u},hat{t0})
+%
+%    Btilde  =  unresolved part of Dk(hat{u},tilde{t1}-Atilde) 
+%
 %         a  =  indices of positive resolved modes 1:M
 %
 %         b  =  indices of negative resolved modes -M:-1
@@ -33,9 +41,13 @@ function [t3,Ehat,Etilde,Fhat,Ftilde] = t3model_term(u_full,t0hat,t0tilde,t1hat,
 %
 %       t3  =  t^3-model term of derivative of each resolved mode
 %
-%    t3hat  =  resolved part of the t^3-model term of derivative of each resolved mode
+%     Ehat  =  resolved part of Dk(hat{t0},tilde{t0})
 %
-%  t3tilde  =  unresolved part of the t^3-model term of derivative of each resolved mode
+%   Etilde  =  unresolved part of Dk(hat{t0},tilde{t0})
+%
+%     Fhat  =  resolved part of Ck(hat{t0},hat{t0})
+%
+%   Ftilde  =  unresolved part of Ck(hat{t0},hat{t0})
 
 
 [~,Ehat,Etilde] = Dk(t0tilde,t0hat,a,b,k,a_tilde,a_tilde2);

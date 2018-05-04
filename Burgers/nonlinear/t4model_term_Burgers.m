@@ -16,6 +16,10 @@ function t4 = t4model_term_Burgers(alpha,F_modes,G_modes,u_full,t0hat,t0tilde,Ah
 %
 %  u_full   =  a full state vector (positive and negative modes)
 %
+%  t0hat    =  resolved part of Markov term
+%
+%  t0tilde  =  unresolved part of Markov term
+%
 %  Ahat     =  Chat(uhat,t0hat)
 %
 %  Atilde   =  Ctilde(uhat,t0hat)
@@ -24,15 +28,17 @@ function t4 = t4model_term_Burgers(alpha,F_modes,G_modes,u_full,t0hat,t0tilde,Ah
 %
 %  Btilde   =  Ctilde(uhat,t0tilde)
 %
+%  Dhat     =  Chat(t0tilde,t0tilde)
+%
 %  Dtilde   =  Ctilde(t0tilde,t0tilde)
 %
-%  Ehat    =  Chat(t0hat,t0hat)
+%  Ehat     =  Chat(t0hat,t0hat)
 %
-%  Etilde  =  Ctilde(t0hat,t0hat)
+%  Etilde   =  Ctilde(t0hat,t0hat)
 %
-%  Fhat    =  Chat(t0hat,t0tilde)
+%  Fhat     =  Chat(t0hat,t0tilde)
 %
-%  Ftilde  =  Ctilde(t0hat,t0tilde)
+%  Ftilde   =  Ctilde(t0hat,t0tilde)
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

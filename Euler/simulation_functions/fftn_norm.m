@@ -1,6 +1,6 @@
 function normalized_fftn = fftn_norm(u)
 %
-%Computes the n-dimensional FFT of the NxNxN u using the more standard
+%Computes the 3-dimensional FFT of the NxNxN u using the more standard
 %normalization of 1/N^3 instead of just 1.
 %
 %

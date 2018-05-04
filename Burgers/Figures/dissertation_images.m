@@ -1,13 +1,18 @@
+% creates images for my dissertation
+
 clear all;close all
 
+% set of resolutions to present
 N_list = 6:2:12;
 endtime = 1000;
 
+% compute the data!
 leg = {'Exact','n = 1, constant','n = 2, constant','n = 3, constant','n = 4, constant','n = 1, decaying','n = 2, decaying','n = 3, decaying','n = 4, decaying'};
 [times_array,energies_array,error_array] = generate_comparisons(N_list,endtime);
 
 
-
+% Create energy plots for constant and algebraically decaying 
+% renormalization coefficient ROMs
 for i = 1:4
     
     N = N_list(i);
@@ -68,7 +73,7 @@ saveas(gcf,'energy_burgers','png')
 
 
 
-
+% Create error for constant renormalization coefficient ROMs
 for i = 1:4
     
      N = N_list(i);

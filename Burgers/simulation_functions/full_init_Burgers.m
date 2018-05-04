@@ -26,17 +26,19 @@ function [simulation_params] = full_init_Burgers(simulation_params)
 % simulation_params: a structure in which data relevant to the simulation
 %                    no matter the model type
 %
-%       F_modes  =  a cell array of indices for resolved modes in the full
+%       M        =  size of the full model
+%
+%       F_modes  =  an array of indices for resolved modes in the full
 %                   model
 %
-%       G_modes  =  a cell array of indices for unresolved modes in the full
+%       G_modes  =  an array of indices for unresolved modes in the full
 %                   model
 %
-%       k        =  a cell array of wave numbers in full model
+%       k        =  an array of wave numbers in full model
 %
 %       u        =  state vector of positive modes of full model
 %
-%       B        =  function handle of nonlinear part of RHS in full model
+%       RHS     =  function handle of the RHS
 
 %create shorthand for ROM system size
 N = simulation_params.N;

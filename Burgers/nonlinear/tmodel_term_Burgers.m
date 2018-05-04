@@ -1,6 +1,6 @@
 function [t1,t1hat,t1tilde] = tmodel_term_Burgers(u_full,t0tilde,alpha,F_modes,G_modes)
 %
-%Computes the t-model term of KdV for a given state vector
+%Computes the t-model term of Burgers for a given state vector
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -23,7 +23,11 @@ function [t1,t1hat,t1tilde] = tmodel_term_Burgers(u_full,t0tilde,alpha,F_modes,G
 %Outputs:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-%  t1  =  the t-model term
+%       t1  =  the t-model term
+%
+%    t1hat  =  the resolved part of the t-model term
+%
+%  t1tilde  =  the unresolved part of the t-model term
 
 %compute t model term
 t1 = 2*convolution_sum_Burgers(u_full,t0tilde,alpha);

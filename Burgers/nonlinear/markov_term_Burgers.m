@@ -1,6 +1,6 @@
 function [t0,t0hat,t0tilde,u_full] = markov_term_Burgers(u,M,N,alpha,F_modes,G_modes)
 %
-%Computes the Markov term of KdV for a given state vector and size of full 
+%Computes the Markov term of Burgers for a given state vector and size of full 
 %model
 %
 %

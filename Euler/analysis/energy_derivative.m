@@ -1,4 +1,27 @@
 function deriv = energy_derivative(u,t,params)
+%
+% deriv = energy_derivative(u,t,params)
+%
+% Computes the energy derivative of every mode at all times for use in
+% renormalization computations
+%
+%
+%%%%%%%%%
+%INPUTS:%
+%%%%%%%%%
+%
+%       u  =  N x length(t) array of exact solution at all times
+%
+%       t  =  list of times associated with exact solution
+%
+%  params  =  parameters needed to compute the full Burgers' RHS
+%
+%
+%%%%%%%%%%
+%OUTPUTS:%
+%%%%%%%%%%
+%
+%  deriv  =  the exact energy derivative of every mode at all times
 
 
 deriv = zeros(length(t),1);

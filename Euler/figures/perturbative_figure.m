@@ -1,4 +1,17 @@
 function perturbative_figure(N_list,end_time,filetype)
+%
+% Produces a plot demonstrating the perturbative nature of the complete
+% memory approximation of Euler's equations
+%
+%%%%%%%%%
+%INPUTS:%
+%%%%%%%%%
+%
+%    N_list  =  a 4x1 list of resolutions to use in the demonstration
+%
+%  end_time  =  the end time of the simulation
+%
+%  filetype  =  the file extension to use for the figure
 
 format long
 close all

@@ -1,9 +1,37 @@
 function [times,energies,errors] = error_test(N,alpha,endtime)
+%
+%  [times,energies,errors] = error_test(N,alpha,endtime)
+%
+%  Computes ROMs of Burgers of many varieties and compares their energy
+%  evolution and errors
+%
+%
+%%%%%%%%%
+%INPUTS:%
+%%%%%%%%%
+%
+%        N  =  resolution of ROM
+%
+%    alpha  =  degree of nonlinearity
+%
+%  endtime  =  final time of simulation
+%
+%
+%%%%%%%%%%
+%OUTPUTS:%
+%%%%%%%%%%
+%
+%     times  =  structure containing times of each ROM
+%
+%  energies  =  structure containing energy at all times for each ROM
+%
+%    errors  =  structure containing errors at all times for each ROM
 
 addpath ../simulation_functions
 addpath ../nonlinear
 addpath ../analysis
 
+% load the exact solution if it exists, otherwise make it
 if ~(exist(sprintf('u_list%i.mat',endtime),'file') == 2)
     
     [t_list,u_list] = upwind_burgers(1,10000,endtime,1e-4,1000);
@@ -19,7 +47,7 @@ leg = {'Exact','n = 1, constant coefficients','n = 2, constant coefficients','n 
 
 
 
-
+% save shared parameters
 simulation_params.N = N;
 simulation_params.alpha = alpha;
 simulation_params.endtime = endtime;
@@ -35,8 +63,6 @@ simulation_params.initialization = @(x) ROM_init_Burgers(x);
 simulation_params.time_dependence = 1;
 [tc1B,uc1B] = PDE_solve(simulation_params);
 
-
-
 % Burgers-style 1+2 ROM
 type = 'c2B';
 simulation_params.time_dependence = 1;
@@ -45,7 +71,6 @@ simulation_params.coeffs = scaling_law(N,type);
 simulation_params.initialization = @(x) ROM_init_Burgers(x);
 simulation_params.time_dependence = 1;
 [tc2B,uc2B] = PDE_solve(simulation_params);
-
 
 % Burgers-style 1+2+3 ROM
 type = 'c3B';
@@ -56,7 +81,6 @@ simulation_params.initialization = @(x) ROM_init_Burgers(x);
 simulation_params.time_dependence = 1;
 [tc3B,uc3B] = PDE_solve(simulation_params);
 
-
 % Burgers-style 1+2+3+4 ROM
 type = 'c4B';
 simulation_params.time_dependence = 1;
@@ -65,9 +89,6 @@ simulation_params.coeffs = scaling_law(N,type);
 simulation_params.initialization = @(x) ROM_init_Burgers(x);
 simulation_params.time_dependence = 1;
 [tc4B,uc4B] = PDE_solve(simulation_params);
-
-
-
 
 % KdV-style 1 ROM
 type = 'c1KdV';
@@ -78,7 +99,6 @@ simulation_params.initialization = @(x) ROM_init_Burgers(x);
 simulation_params.time_dependence = 0;
 [tc1KdV,uc1KdV] = PDE_solve(simulation_params);
 
-
 % KdV-style 1+2 ROM
 type = 'c2KdV';
 simulation_params.time_dependence = 1;
@@ -88,7 +108,6 @@ simulation_params.initialization = @(x) ROM_init_Burgers(x);
 simulation_params.time_dependence = 0;
 [tc2KdV,uc2KdV] = PDE_solve(simulation_params);
 
-
 % KdV-style 1+2+3 ROM
 type = 'c3KdV';
 simulation_params.time_dependence = 1;
@@ -97,7 +116,6 @@ simulation_params.coeffs = scaling_law(N,type);
 simulation_params.initialization = @(x) ROM_init_Burgers(x);
 simulation_params.time_dependence = 0;
 [tc3KdV,uc3KdV] = PDE_solve(simulation_params);
-
 
 % KdV-style 1+2+3+4 ROM
 type = 'c4KdV';
@@ -109,11 +127,7 @@ simulation_params.time_dependence = 0;
 [tc4KdV,uc4KdV] = PDE_solve(simulation_params);
 
 
-
-
-
-
-
+% compute and plot energies
 energy_exact = get_energy(u_list,N);
 energyc1B = get_energy(uc1B,N);
 energyc2B = get_energy(uc2B,N);
@@ -145,11 +159,9 @@ ylabel('log(energy)')
 saveas(gcf,sprintf('Burgers_energy%i_%i',N,endtime),'png')
 close
 
+
+% compute and plot errors
 u_exact = u_list(1:N,:);
-% errc1B = sum((uc1B(:,1:length(tc1B)) - u_exact(:,1:length(tc1B))).*conj(uc1B(:,1:length(tc1B)) - u_exact(:,1:length(tc1B))),1)./sum(u_exact(:,1:length(tc1B)).*conj(u_exact(:,1:length(tc1B))),1);
-% errc2B = sum((uc2B(:,1:length(tc2B)) - u_exact(:,1:length(tc2B))).*conj(uc2B(:,1:length(tc2B)) - u_exact(:,1:length(tc2B))),1)./sum(u_exact(:,1:length(tc2B)).*conj(u_exact(:,1:length(tc2B))),1);
-% errc3B = sum((uc3B(:,1:length(tc3B)) - u_exact(:,1:length(tc3B))).*conj(uc3B(:,1:length(tc3B)) - u_exact(:,1:length(tc3B))),1)./sum(u_exact(:,1:length(tc3B)).*conj(u_exact(:,1:length(tc3B))),1);
-% errc4B = sum((uc4B(:,1:length(tc4B)) - u_exact(:,1:length(tc4B))).*conj(uc4B(:,1:length(tc4B)) - u_exact(:,1:length(tc4B))),1)./sum(u_exact(:,1:length(tc4B)).*conj(u_exact(:,1:length(tc4B))),1);
 
 errc1B = sum((uc1B(:,1:length(tc1B)) - u_exact(:,1:length(tc1B))).*conj(uc1B(:,1:length(tc1B)) - u_exact(:,1:length(tc1B))),1);
 errc2B = sum((uc2B(:,1:length(tc2B)) - u_exact(:,1:length(tc2B))).*conj(uc2B(:,1:length(tc2B)) - u_exact(:,1:length(tc2B))),1);
@@ -172,6 +184,8 @@ ylabel('error')
 saveas(gcf,sprintf('Burgers_err%i_%i',N,endtime),'png')
 close
 
+
+% save results
 energies.exact = energy_exact;
 energies.c1B = energyc1B;
 energies.c2B = energyc2B;
@@ -196,4 +210,3 @@ errors.c1B = errc1B;
 errors.c2B = errc2B;
 errors.c3B = errc3B;
 errors.c4B = errc4B;
-

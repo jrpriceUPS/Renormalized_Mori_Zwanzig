@@ -1,4 +1,47 @@
 function [c1,c2,c3,c4] = renormalize(alpha,N_list,u_list,t_list,exact_derivative,time)
+%
+% [c1,c2,c3,c4] = renormalize(alpha,N_list,u_list,t_list,exact_derivative,time)
+%
+% Computes optimal renormalization coefficients for ROMs of degree 
+% n = 1,2,3,4 using the full range of exact data
+%
+%
+%%%%%%%%%
+%INPUTS:%
+%%%%%%%%%
+%
+%             alpha  =  degree of dispersion
+%
+%            N_list  =  set of resolutiosn for which to compute renormalization
+%                       coefficients
+%
+%            u_list  =  Mxlength(t_list) array of the exact solution
+%
+%            t_list  =  the times associated with the u_list solutions
+%
+%  exact_derivative  =  the exact energy derivative for every mode at all
+%                       times
+%
+%              time  =  logical variable indicating whether time is
+%                       included in the fit (if 0, algebraically decaying
+%                       renormalization coefficients, if 1, constant
+%                       renormalization coefficients)
+%
+%
+%%%%%%%%%%
+%OUTPUTS:%
+%%%%%%%%%%
+%
+%  c1  =  1xlength(N_list) set of optimal coefficients for the t-model
+%
+%  c2  =  2xlength(N_list) set of optimal coefficients for the t-model and
+%         t^2-model
+%
+%  c3  =  3xlength(N_list) set of optimal coefficients for the t-model,
+%         t^2-model, and t^3-model
+%
+%  c4  =  4xlength(N_list) set of optimal coefficients for the t-model and
+%         t^2-model, t^3-model, and t^4-model
 
 markov_energy = zeros(max(N_list),length(t_list));
 tmodel_energy = zeros(max(N_list),length(t_list));
@@ -63,11 +106,7 @@ c3 = zeros(3,length(N_list));
 c4 = zeros(4,length(N_list));
 
 for i = 1:length(N_list)
-%     if time
-%         window = abs(sum(squeeze(tmodel_energy(1:N,i,:)),1)) > 1e-16 & abs(sum(squeeze(tmodel_energy(1:N,i,:)),1)) < 1e-10;
-%     else
-%         window = t_list.*abs(sum(squeeze(tmodel_energy(1:N,i,:)),1)) > 1e-16 & t_list.*abs(sum(squeeze(tmodel_energy(1:N,i,:)),1)) < 1e-10;
-%     end
+
     window = 1:length(t_list);
     
     N = N_list(i);
@@ -89,16 +128,6 @@ for i = 1:length(N_list)
     c1(1,i) = A11\b;
     
     
-    %         figure(1)
-    %         subplot(2,2,1)
-    %         hold off
-    %         plot(t_list(window),sum(exact,1),'b')
-    %         hold on
-    %         plot(t_list(window),sum(R0 + R1*c1(1,i,j),1),'r')
-    
-    
-    
-    
     b = [b
         -sum(RHS(:).*R2(:))];
     
@@ -114,16 +143,7 @@ for i = 1:length(N_list)
     
     c2(1:2,i) = A\b;
     
-    %         figure(1)
-    %         subplot(2,2,2)
-    %         hold off
-    %         plot(t_list(window),sum(exact,1),'b')
-    %         hold on
-    %         plot(t_list(window),sum(R0 + R1*c2(1,i,j) + R2*c2(2,i,j),1),'r')
-    
-    
-    
-    
+   
     b = [b
         -sum(RHS(:).*R3(:))];
     
@@ -142,15 +162,7 @@ for i = 1:length(N_list)
     
     c3(1:3,i) = A\b;
     
-    %         figure(1)
-    %         subplot(2,2,3)
-    %         hold off
-    %         plot(t_list(window),sum(exact,1),'b')
-    %         hold on
-    %         plot(t_list(window),sum(R0 + R1*c3(1,i,j) + R2*c3(2,i,j) + R3*c3(3,i,j),1),'r')
-    
-    
-    
+   
     b = [b
         -sum(RHS(:).*R4(:))];
     
@@ -171,17 +183,6 @@ for i = 1:length(N_list)
         A41 A42 A43 A44];
     
     c4(1:4,i) = A\b;
-    
-    %         figure(1)
-    %         subplot(2,2,4)
-    %         hold off
-    %         plot(t_list(window),sum(exact,1),'b')
-    %         hold on
-    %         plot(t_list(window),sum(R0 + R1*c4(1,i,j) + R2*c4(2,i,j) + R3*c4(3,i,j) + R4*c4(4,i,j),1),'r')
-    
-    
-    
-    
 end
 
 

@@ -15,6 +15,24 @@ function t4 = t4model_term(u_full,t0hat,t0tilde,t1hat,t1tilde,Ahat,Atilde,Bhat,B
 %
 %     t1hat  =  full array of current Fourier state of hat{t1-term}
 %
+%   t1tilde  =  full array of current Fourier state of tilde{t1-term}
+%
+%      Ahat  =  resolved part of Dk(hat{u},hat{t0})
+%
+%    Atilde  =  unresolved part of Dk(hat{u},hat{t0})
+%
+%      Bhat  =  resolved part of Dk(hat{u},tilde{t1}-Atilde) 
+%
+%    Btilde  =  unresolved part of Dk(hat{u},tilde{t1}-Atilde) 
+%
+%      Ehat  =  resolved part of Dk(hat{t0},tilde{t0})
+%
+%    Etilde  =  unresolved part of Dk(hat{t0},tilde{t0})
+%
+%      Fhat  =  resolved part of Ck(hat{t0},hat{t0})
+%
+%    Ftilde  =  unresolved part of Ck(hat{t0},hat{t0})
+%
 %         a  =  indices of positive resolved modes 1:M
 %
 %         b  =  indices of negative resolved modes -M:-1
@@ -32,10 +50,6 @@ function t4 = t4model_term(u_full,t0hat,t0tilde,t1hat,t1tilde,Ahat,Atilde,Bhat,B
 %%%%%%%%%%
 %
 %       t4  =  t^4-model term of derivative of each resolved mode
-%
-%    t4hat  =  resolved part of the t^4-model term of derivative of each resolved mode
-%
-%  t4tilde  =  unresolved part of the t^4-model term of derivative of each resolved mode
 
 [~,term1aa_hat,~] = Dk(u_full,Ahat - 3*t1hat - 5*Atilde + 3*t1tilde,a,b,k,a_tilde,a_tilde2);
 [~,~,term1ab_tilde] = Dk(u_full,-3*Ahat + 5*t1hat + 3*Atilde - t1tilde,a,b,k,a_tilde,a_tilde2);

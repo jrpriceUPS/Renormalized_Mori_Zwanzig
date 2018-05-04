@@ -1,4 +1,51 @@
 function [c1,c2,c3,c4] = renormalize_mult(alpha,N_list,u_list,t_list,exact_derivative,time)
+%
+% [c1,c2,c3,c4] = renormalize_mult(alpha,N_list,u_list,t_list,exact_derivative,time)
+%
+% Computes optimal renormalization coefficients for ROMs of degree 
+% n = 1,2,3,4 using a growing window of exact data
+%
+%
+%%%%%%%%%
+%INPUTS:%
+%%%%%%%%%
+%
+%             alpha  =  degree of dispersion
+%
+%            N_list  =  set of resolutiosn for which to compute renormalization
+%                       coefficients
+%
+%            u_list  =  Mxlength(t_list) array of the exact solution
+%
+%            t_list  =  the times associated with the u_list solutions
+%
+%  exact_derivative  =  the exact energy derivative for every mode at all
+%                       times
+%
+%              time  =  logical variable indicating whether time is
+%                       included in the fit (if 0, algebraically decaying
+%                       renormalization coefficients, if 1, constant
+%                       renormalization coefficients)
+%
+%
+%%%%%%%%%%
+%OUTPUTS:%
+%%%%%%%%%%
+%
+%  c1  =  1xlength(N_list)xlength(t_list) set of optimal coefficients for 
+%         the t-model computed from fits of [0,t] for all t
+%
+%  c2  =  2xlength(N_list)xlength(t_list) set of optimal coefficients for 
+%         the t-model and t^2-model computed from fits of [0,t] for all t
+%
+%  c3  =  3xlength(N_list)xlength(t_list) set of optimal coefficients for 
+%         the t-model, t^2-model, and t^3-model computed from fits of [0,t] 
+%         for all t
+%
+%  c4  =  4xlength(N_list)xlength(t_list) set of optimal coefficients for 
+%         the t-model, t^2-model, t^3-model and t^4-model computed from
+%         fits of [0,t] for all t
+
 
 markov_energy = zeros(max(N_list),length(t_list));
 tmodel_energy = zeros(max(N_list),length(t_list));
@@ -85,14 +132,6 @@ for j = 1:length(t_list)
         c1(1,i,j) = A11\b;
         
         
-        %         figure(1)
-        %         subplot(2,2,1)
-        %         hold off
-        %         plot(t_list(window),sum(exact,1),'b')
-        %         hold on
-        %         plot(t_list(window),sum(R0 + R1*c1(1,i,j),1),'r')
-        
-        
         
         
         b = [b
@@ -109,13 +148,6 @@ for j = 1:length(t_list)
             A21 A22];
         
         c2(1:2,i,j) = A\b;
-        
-        %         figure(1)
-        %         subplot(2,2,2)
-        %         hold off
-        %         plot(t_list(window),sum(exact,1),'b')
-        %         hold on
-        %         plot(t_list(window),sum(R0 + R1*c2(1,i,j) + R2*c2(2,i,j),1),'r')
         
         
         
@@ -137,13 +169,6 @@ for j = 1:length(t_list)
             A31 A32 A33];
         
         c3(1:3,i,j) = A\b;
-        
-        %         figure(1)
-        %         subplot(2,2,3)
-        %         hold off
-        %         plot(t_list(window),sum(exact,1),'b')
-        %         hold on
-        %         plot(t_list(window),sum(R0 + R1*c3(1,i,j) + R2*c3(2,i,j) + R3*c3(3,i,j),1),'r')
         
         
         
@@ -168,59 +193,8 @@ for j = 1:length(t_list)
         
         c4(1:4,i,j) = A\b;
         
-        %         figure(1)
-        %         subplot(2,2,4)
-        %         hold off
-        %         plot(t_list(window),sum(exact,1),'b')
-        %         hold on
-        %         plot(t_list(window),sum(R0 + R1*c4(1,i,j) + R2*c4(2,i,j) + R3*c4(3,i,j) + R4*c4(4,i,j),1),'r')
-        
         
     end
-    
-%     if mod(j,10) == 0
-%         figure(1)
-%         subplot(2,2,1)
-%         hold off
-%         plot(log(N_list),log(c1(1,:,j)),'b.','markersize',20)
-%         hold on
-%         plot(log(N_list),log(c2(1,:,j)),'r.','markersize',20)
-%         plot(log(N_list),log(c3(1,:,j)),'k.','markersize',20)
-%         plot(log(N_list),log(c4(1,:,j)),'c.','markersize',20)
-%         xlabel('log(N)','fontsize',16)
-%         ylabel('log(a)','fontsize',16)
-%         title(sprintf('t-model coefficient at t = %i',t_list(j)),'fontsize',16)
-%         legend('fit ROM 1','fit ROM 1+2','fit ROM 1+2+3','fit ROM 1+2+3+4')
-%         
-%         subplot(2,2,2)
-%         hold off
-%         plot(log(N_list),log(c2(2,:,j)),'r.','markersize',20)
-%         hold on
-%         plot(log(N_list),log(c3(2,:,j)),'k.','markersize',20)
-%         plot(log(N_list),log(c4(2,:,j)),'c.','markersize',20)
-%         xlabel('log(N)','fontsize',16)
-%         ylabel('log(a)','fontsize',16)
-%         title(sprintf('t^2-model coefficient at t = %i',t_list(j)),'fontsize',16)
-%         legend('fit ROM 1+2','fit ROM 1+2+3','fit ROM 1+2+3+4')
-%         
-%         subplot(2,2,3)
-%         hold off
-%         plot(log(N_list),log(c3(3,:,j)),'k.','markersize',20)
-%         hold on
-%         plot(log(N_list),log(c4(3,:,j)),'c.','markersize',20)
-%         xlabel('log(N)','fontsize',16)
-%         ylabel('log(a)','fontsize',16)
-%         title(sprintf('t^3-model coefficient at t = %i',t_list(j)),'fontsize',16)
-%         legend('fit ROM 1+2+3','fit ROM 1+2+3+4')
-%         
-%         subplot(2,2,4)
-%         hold off
-%         plot(log(N_list),log(c4(4,:,j)),'c.','markersize',20)
-%         xlabel('log(N)','fontsize',16)
-%         ylabel('log(a)','fontsize',16)
-%         title(sprintf('t^4-model coefficient at t = %i',t_list(j)),'fontsize',16)
-%         legend('fit ROM 1+2+3+4')
-%     end
     
 end
 

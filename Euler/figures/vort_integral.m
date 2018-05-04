@@ -1,4 +1,24 @@
 function vort_int = vort_integral(N_list,end_time,filetype)
+%
+%  vort_int = vort_integral(N_list,end_time,filetype)
+%
+%
+%%%%%%%%%
+%INPUTS:%
+%%%%%%%%%
+%
+%         N  =  resolution
+%
+%  end_time  =  time to run simulation to
+%
+%  filetype  =  file type in which to save figures
+%
+%
+%%%%%%%%%%
+%OUTPUTS:%
+%%%%%%%%%%
+%
+%
 
 format long
 close all

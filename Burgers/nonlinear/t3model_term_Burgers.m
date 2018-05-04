@@ -16,6 +16,10 @@ function [t3,Ehat,Etilde,Fhat,Ftilde] = t3model_term_Burgers(alpha,F_modes,G_mod
 %
 %  u_full   =  a full state vector (positive and negative modes)
 %
+%  t0hat    =  resolved part of Markov term
+%
+%  t0tilde  =  unresolved part of Markov term
+%
 %  Ahat     =  Chat(uhat,t0hat)
 %
 %  Atilde   =  Ctilde(uhat,t0hat)

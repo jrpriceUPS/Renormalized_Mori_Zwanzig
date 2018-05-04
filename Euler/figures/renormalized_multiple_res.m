@@ -1,5 +1,41 @@
 function [slopes,slopes2,turn_times,ens_max,ens_max_time,vort_max,vort_max_time] = renormalized_multiple_res(N_list,end_time,filetype)
+%
+%  [slopes,slopes2,turn_times,ens_max,ens_max_time,vort_max,vort_max_time] = renormalized_multiple_res(N_list,end_time,filetype)
+%
+%  A function to solve Euler's equations with 4th order complete memory
+%  approximation ROMs for a variety of resolutions and plot the results
+%
+%
+%%%%%%%%%
+%INPUTS:%
+%%%%%%%%%
+%
+%         N  =  resolution
+%
+%  end_time  =  time to run simulation to
+%
+%  filetype  =  file type in which to save figures
+%
+%
+%%%%%%%%%%
+%OUTPUTS:%
+%%%%%%%%%%
+%
+%         slopes  =  the initial log-log energy decay slopes
+% 
+%        slopes2  =  the secondary log-log energy decay slopes
+%
+%     turn_times  =  the times at which energy begins draining from the system
+%
+%        ens_max  =  the maximum enstrophy
+%
+%   ens_max_time  =  the time at which the maximum enstrophy is achieved
+%
+%       vort_max  =  the maximum of the vorticity
+%
+%  vort_max_time  =  the time at which the maximum vorticity is achieved
 
+%initialize everything needed for the simulation
 format long
 close all
 
@@ -17,6 +53,7 @@ ens_max_time = zeros(length(N_list),1);
 vort_max = zeros(length(N_list),1);
 vort_max_time = zeros(length(N_list),1);
 
+% create the legends
 for i = 1:length(N_list)
     
     N = N_list(i);
@@ -124,6 +161,7 @@ for i = 1:length(N_list)
     axis([log(t4(2)),max(log(t4)),-10,0])
     saveas(gcf,sprintf('energy_mult_%i',N),filetype)
     
+    % compute slopes and energy draining times
     turn_percent = 0.1;
     start_record_percent = 0.5;
     stop_record_percent = 0.9;
@@ -141,6 +179,8 @@ for i = 1:length(N_list)
     s2 = polyfit(log(t4(log(t4)>second_wind)),log(energy(log(t4)>second_wind)),1);
     slopes2(i) = s2(1);
     
+    % plot the times that were singled out to ensure visually that they
+    % make sense
     figure(2)
     hold on
     plot(log(t4),log(energy),'linewidth',2,'color',colors(i,:))
@@ -154,6 +194,7 @@ for i = 1:length(N_list)
     saveas(gcf,sprintf('energy_mult_slopes_%i',N),filetype)
     
     
+    % plot the enstrophy
     if exist(sprintf('enstrophy_%i_%i.mat',N,end_time),'file') == 2
         load(sprintf('enstrophy_%i_%i.mat',N,end_time))
     else
@@ -173,6 +214,7 @@ for i = 1:length(N_list)
     ylabel('enstrophy','fontsize',16)
     saveas(gcf,sprintf('enstrophy_mult_%i',N),filetype)
     
+    % plot the enstrophy on a smaller domain
     figure(4)
     hold on
     plot(t4(t4<=100),ens(t4<=100),'linewidth',1.5,'color',colors(i,:))
@@ -183,6 +225,7 @@ for i = 1:length(N_list)
     saveas(gcf,sprintf('enstrophy_mult_trim%i',N),filetype)
     
     
+    % plot the vorticity
     if exist(sprintf('vorticity_%i_%i.mat',N,end_time),'file') == 2
         load(sprintf('vorticity_%i_%i.mat',N,end_time))
     else
@@ -202,6 +245,7 @@ for i = 1:length(N_list)
     ylabel('Maximal vorticity','fontsize',16)
     saveas(gcf,sprintf('vorticity_mult_%i',N),filetype)
     
+    % plot the vorticity on a smaller domain
     figure(6)
     hold on
     plot(t4(t4<=100),vort2(t4<=100),'linewidth',1.5,'color',colors(i,:))
@@ -216,6 +260,7 @@ for i = 1:length(N_list)
         vort_int(j-1) = trapz(t4(1:j),vort2(1:j).');
     end
     
+    % plot the integral of the vorticity
     figure(7)
     hold on
     plot(t4(1:end-1),vort_int,'linewidth',1.5,'color',colors(i,:))
@@ -225,6 +270,7 @@ for i = 1:length(N_list)
     ylabel('Integral of max vorticity','fontsize',16)
     saveas(gcf,sprintf('vorticity_int_%i',N),filetype)
     
+    % plot the integral of the vorticity on a smaller domain
     figure(8)
     hold on
     plot(t4(t4(1:end-1)<=100),vort_int(t4(1:end-1)<=100),'linewidth',1.5,'color',colors(i,:))

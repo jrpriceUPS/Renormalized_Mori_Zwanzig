@@ -1,4 +1,15 @@
 function coeffs = scaling_law(N,type)
+%
+% coeffs = scaling_law(N,type)
+%
+%%%%%%%%%
+%INPUTS:%
+%%%%%%%%%
+%
+%     N  =  resolution of ROM
+%
+%  type  =  type of ROM (format: 'cn*style*' where n is 1,2,3, or 4, and
+%           *style* is B for constant of KdV for algebraically decaying)
 
 % computed on [0,1] April 18
 coeffs = zeros(4,1);

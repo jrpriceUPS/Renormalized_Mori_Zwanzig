@@ -18,7 +18,7 @@ function u = u_squishify(u_full,N)
 %%%%%%%%%%
 %
 %  u  =  NxNxNx3x4 array of only the non-conjugate Fourier modes (cuts
-%        array size in half)
+%        array size in half or more)
 
 % compute number of modes in the original array
 s = size(u_full);

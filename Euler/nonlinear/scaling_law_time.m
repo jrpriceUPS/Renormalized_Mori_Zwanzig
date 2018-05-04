@@ -1,12 +1,11 @@
 function coefficients = scaling_law_time(N,degree)
 %
 % Produces renormalization coefficients for a renormalized model of
-% resolution N and degree "degree" that does not cancel out the algebraic
-% time dependence of the Taylor series
+% resolution N and degree "degree"
 %
-% Based upon simulations done on March 19 from N = 32 data with no time
-% dependence and a non-variable windwo (N = 16 t-model between 1e-16 and
-% 1e-10)
+% Based upon simulations done on April 27 from N = 48 data with 
+% constant renormalization coefficients and a non-variable window (N = 24 
+% t-model between 1e-16 and 1e-10)
 %
 %
 %%%%%%%%%

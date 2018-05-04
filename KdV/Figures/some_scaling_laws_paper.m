@@ -62,7 +62,7 @@ save t2_form t2_form
 save t4_form t4_form
 
 
-results_style2 = {'.','o','*','x','+'};
+results_style2 = {'b.','bo','b*','bx','b+'};
 results_style4 = {'k.','ko','k*','kx','k+'};
 
 %plot results

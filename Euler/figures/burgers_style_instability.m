@@ -1,4 +1,17 @@
 function burgers_style_instability(N,end_time,filetype)
+%
+% Demonstrates the instability of constant renormalization coefficient
+% complete memory approximation ROMs
+%
+%%%%%%%%%
+%INPUTS:%
+%%%%%%%%%
+%
+%         N  =  resolution
+%
+%  end_time  =  time to run simulation to
+%
+%  filetype  =  file type in which to save figure
 
 format long
 

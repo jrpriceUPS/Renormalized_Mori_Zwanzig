@@ -15,7 +15,12 @@ function du_dt = markov_RHS(params)
 %
 %        k  =  array of wavenumbers (2Mx2Mx2Mx3)
 %
+%        N  =  maximum positive wavenumber
+%
 %  a_tilde  =  indices of unresolved modes
+%
+% a_tilde2  =  indices corresponding to modes included only for
+%               dealiasing
 %
 %
 %%%%%%%%%%

@@ -7,21 +7,27 @@ function du_dt = t4model_RHS(params)
 %INPUTS:%
 %%%%%%%%%
 %
-%   u_full  =  full array of current Fourier state (2Mx2Mx2Mx3)
+%    u_full  =  full array of current Fourier state (2Mx2Mx2Mx3)
 %
-%        a  =  indices of positive resolved modes 1:N
+%         a  =  indices of positive resolved modes 1:N
 %
-%        b  =  indices of negative resolved modes -N:-1
+%         b  =  indices of negative resolved modes -N:-1
 %
-%        k  =  array of wavenumbers (2Mx2Mx2Mx3)
+%         k  =  array of wavenumbers (2Mx2Mx2Mx3)
 %
-%  a_tilde  =  indices of positive unresolved modes
+%   a_tilde  =  indices of positive unresolved modes
 %
-%        N  =  maximal mode of reduced model
+%  a_tilde2  =  indices corresponding to modes included only for
+%               dealiasing
 %
-%     time  =  current time in simulation
+%         N  =  maximal mode of reduced model
 %
-%    coeff  =  constant coefficient assigned to t-model
+%      time  =  current time in simulation
+%
+%     coeff  =  constant coefficient assigned to t-model
+%
+%   no_time  =  a logical variable equal to 1 if the time is to be
+%               disregarded (KdV-like time decay)
 %
 %
 %%%%%%%%%%

@@ -9,10 +9,9 @@ function [t2,Ahat,Atilde,Bhat,Btilde,Dhat,Dtilde] = t2model_term_Burgers(u_full,
 %
 %  u_full   =  a full state vector (positive and negative modes)
 %
-%  nonlin0  =  the result of a convolution of u_full with itself (markov
-%              term)
+%  t0hat    =  the resolved part of the Markov term
 %
-%  uu_star  =  the unresolved part of the markov convolution
+%  t0tilde  =  the unresolved part of the Markov term
 %
 %  F_modes  =  vector of which modes in u_full correspond to resolved modes
 %

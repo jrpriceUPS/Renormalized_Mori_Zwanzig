@@ -13,7 +13,7 @@ function [t2,Ahat,Atilde,Bhat,Btilde] = t2model_term(u_full,t0hat,t0tilde,t1tild
 %
 %   t0tilde  =  full array of current Fourier state of C_tilde(u,u)
 %
-%     t1hat  =  full array of current Fourier state of hat{t1-term}
+%   t1tilde  =  full array of current Fourier state of tilde{t1-term}
 %
 %         a  =  indices of positive resolved modes 1:M
 %
@@ -31,11 +31,15 @@ function [t2,Ahat,Atilde,Bhat,Btilde] = t2model_term(u_full,t0hat,t0tilde,t1tild
 %OUTPUTS:%
 %%%%%%%%%%
 %
-%       t2  =  t-model term of derivative of each resolved mode
+%       t2  =  t^2-model term of derivative of each resolved mode
 %
-%    t2hat  =  resolved part of the t-model term of derivative of each resolved mode
+%     Ahat  =  resolved part of Dk(hat{u},hat{t0})
 %
-%  t2tilde  =  unresolved part of the t-model term of derivative of each resolved mode
+%   Atilde  =  unresolved part of Dk(hat{u},hat{t0})
+%
+%     Bhat  =  resolved part of Dk(hat{u},tilde{t1}-Atilde)
+%
+%   Btilde  =  unresolved part of Dk(hat{u},tilde{t1}-Atilde)
 
 [~,Ahat,Atilde] = Dk(u_full,t0hat,a,b,k,a_tilde,a_tilde2);
 [B,Bhat,Btilde] = Ck(t0tilde,t0tilde,a,b,k,a_tilde,a_tilde2);
