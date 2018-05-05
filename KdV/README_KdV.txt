@@ -107,10 +107,8 @@ long_time_error20: produces plots of the error for N = 20 Markov models, and sec
 non_renormalized_blow_up: demonstrates that the unrenormalized models are unstable
 
 random_initial_conditions_2: computes optimal renormalization coefficients with random initial conditions of the form a*sin(x) + (1-a)*sin(2x) and plots the results
-*NOT TESTED*
 
 random_initial_conditions_3: computes optimal renormalization coefficients with random initial conditions of the form a*sin(x) + b*sin(2x) + (1-a-b)*sin(3x)
-*NOT TESTED*
 
 real_space_plots: displays examples of real space solutions according to the exact model, Markov, and renormalized fourth order complete memory approximation
 

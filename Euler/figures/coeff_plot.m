@@ -1,4 +1,16 @@
 function coeff_plot(N)
+%
+% coeff_plot(N)
+%
+% Computes constant and algebraically decaying renormalization coefficients
+% for Euler's equations and plot them
+%
+%
+%%%%%%%%%
+%INPUTS:%
+%%%%%%%%%
+%
+%  N  =  resolution of exact model to use
 
 format long
 close all
@@ -7,6 +19,7 @@ addpath ../simulation_functions
 addpath ../nonlinear
 addpath ../analysis
 
+% load exact data and use 4:2:N/2 for the ROM resolutions to fit
 N_list = 4:2:N/2;
 load(sprintf('c%i.mat',N))
 load(sprintf('laws%i.mat',N))
@@ -14,6 +27,7 @@ load(sprintf('laws%i.mat',N))
 coeff_array = c48;
 scaling_laws = laws48;
 
+% calculate and plot the optimal scaling laws and plot the results
 colors = linspecer(4,'qualitative');
 dots = zeros(4,4);
 
@@ -87,7 +101,7 @@ close
 
 
 
-
+% load the exact data
 load(sprintf('c%i_t.mat',N))
 load(sprintf('laws%i_t.mat',N))
 
@@ -146,6 +160,7 @@ for j = 1:4
     end
 end
 
+% calculate and plot the optimal scaling laws and plot the results
 subplot(2,2,1)
 legend([dots(1,1) dots(1,2) dots(1,3) dots(1,4)],{'n = 1','n = 2','n = 3','n = 4'},'location','southwest')
 

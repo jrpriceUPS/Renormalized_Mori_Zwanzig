@@ -45,7 +45,7 @@ simulation_params.N = N;               %number of positive modes to simulate
 simulation_params.initialization = @(x) complete_init_KdV(x);    %complete ROM
 simulation_params.order = 4;            %use fourth order ROM
 simulation_params.time_dependence = 1;  %include time dependence!
-simulation_params.coeffs = ones(4,1);   %no renormalization
+simulation_params.coeffs = [1;-1/2;1/6;-1/24];   %no renormalization
 simulation_params.dt = 1e-5;
 
 
