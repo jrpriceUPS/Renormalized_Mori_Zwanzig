@@ -103,13 +103,14 @@ saveas(error,'error','png')
 
 
 %create animation comparing all three
+figure
 
 for i = 1:5:length(t_list)
     plot(x,exact(:,i),'linewidth',2)
     hold on
     plot(x,markov(:,i),'r','linewidth',2)
     plot(x,ROM(:,i),'k','linewidth',2)
-    axis([0,2*pi,-3,3])
+    axis([0,2*pi*19/20,-3,3])
     title(sprintf('t = %.1f', t_list(i)))
     legend('Exact','Markov model','Complete ROM','location','southwest')
     drawnow

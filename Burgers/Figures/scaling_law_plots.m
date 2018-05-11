@@ -9,7 +9,7 @@ N_list = 10:2:24;
 % load the exact data if it exists (or create it)
 if ~(exist(sprintf('u_list%i.mat',endtime),'file') == 2)
     
-    create_data(1,10000,10,1e-4,100);
+    [t_list,u_list,exact_derivative] = create_data(1,10000,10,1e-4,100);
      
 else
      load(sprintf('u_list%i',endtime));

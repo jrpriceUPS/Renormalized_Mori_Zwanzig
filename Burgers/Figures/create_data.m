@@ -1,4 +1,4 @@
-function create_data(alpha,num_points,endtime,dt,howoften)
+function [t_list,u_list,exact_derivative] = create_data(alpha,num_points,endtime,dt,howoften)
 %
 %  create_data(alpha,num_points,endtime,dt,howoften)
 %
@@ -18,6 +18,17 @@ function create_data(alpha,num_points,endtime,dt,howoften)
 %          dt  =  timestep
 %
 %    howoften  =  how often to save results (if 0, save all timesteps)
+%
+%
+%%%%%%%%%%
+%OUTPUTS:%
+%%%%%%%%%%
+%
+%            t_list  =  times in the simulation
+%
+%            u_list  =  exact solution at each time
+%
+%  exact_derivative  =  exact derivative at each time for each mode
 
 
 

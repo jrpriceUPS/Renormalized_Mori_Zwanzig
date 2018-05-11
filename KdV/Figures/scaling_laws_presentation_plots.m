@@ -13,9 +13,6 @@ addpath ../analysis
 N_list = 32:2:60;
 epsilon = fliplr(0.065:0.005:0.1);
 
-save N_list N_list
-save epsilon epsilon
-
 t2 = zeros(length(N_list),length(epsilon));
 t4 = zeros(length(N_list),length(epsilon));
 
