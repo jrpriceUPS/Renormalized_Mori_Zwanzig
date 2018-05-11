@@ -1,9 +1,9 @@
-function simulation_params = complete_init_KdV(simulation_params)
+function simulation_params = complete_init_constant_KdV(simulation_params)
 %
-%simulation_params = complete_init_KdV(simulation_params)
+%simulation_params = complete_init_constant(simulation_params)
 %
 %Takes simulation_params structures and initializes them for a complete
-%memory approximation with known effective coefficients
+%memory approximation with constant coefficients
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Inputs:
@@ -118,22 +118,22 @@ end
 
 %default time dependence is none
 if ~isfield(simulation_params,'time_dependence')
-    simulation_params.time_dependence = 0;
+    simulation_params.time_dependence = 1;
 end
 
 %if coefficients are not provided, compute them from function
 if ~isfield(simulation_params,'coeffs')
     
     if simulation_params.order == 4
-        simulation_params.coeffs = zeros(4,1);
+        %simulation_params.coeffs = zeros(4,1);
         
-        simulation_params.coeffs(2) = -1.200557496049101*epsilon^-3.701319784646586*N^-5.738411475366152;
-        simulation_params.coeffs(4) = -0.331765896671333*epsilon^-7.405248509731031*N^-11.471487980232354;
+        %simulation_params.coeffs(2) = -1.200557496049101*epsilon^-3.701319784646586*N^-5.738411475366152;
+        %simulation_params.coeffs(4) = -0.331765896671333*epsilon^-7.405248509731031*N^-11.471487980232354;
         
         
     elseif simulation_params.order == 2
-        simulation_params.coeffs = zeros(2,1);
-        simulation_params.coeffs(2) = -0.792320392542639*epsilon^-3.783222616952010*N^-5.825426679579797;
+        %simulation_params.coeffs = zeros(2,1);
+        %simulation_params.coeffs(2) = -0.792320392542639*epsilon^-3.783222616952010*N^-5.825426679579797;
     end
     
 end

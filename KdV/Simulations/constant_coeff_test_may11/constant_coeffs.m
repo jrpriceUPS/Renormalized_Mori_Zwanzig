@@ -58,7 +58,10 @@ function coeffs_list = constant_coeffs(t_list,energy_flow_list,nonlin0_energy_fl
 endtime = t_list(end);
 
 s = size(nonlin0_energy_flow);
-t_array = repmat(t_list,s(1),1);
+t_array = zeros(s);
+for i = 1:s(1)
+    t_array(i,:,:) = repmat(t_list,s(2),1);
+end
 nonlin1_energy_flow = t_array.*nonlin1_energy_flow;
 nonlin2_energy_flow = t_array.^2.*nonlin2_energy_flow;
 nonlin3_energy_flow = t_array.^3.*nonlin3_energy_flow;
