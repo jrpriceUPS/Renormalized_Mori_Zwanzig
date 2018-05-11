@@ -163,10 +163,10 @@ close
 % compute and plot errors
 u_exact = u_list(1:N,:);
 
-errc1B = sum((uc1B(:,1:length(tc1B)) - u_exact(:,1:length(tc1B))).*conj(uc1B(:,1:length(tc1B)) - u_exact(:,1:length(tc1B))),1);
-errc2B = sum((uc2B(:,1:length(tc2B)) - u_exact(:,1:length(tc2B))).*conj(uc2B(:,1:length(tc2B)) - u_exact(:,1:length(tc2B))),1);
-errc3B = sum((uc3B(:,1:length(tc3B)) - u_exact(:,1:length(tc3B))).*conj(uc3B(:,1:length(tc3B)) - u_exact(:,1:length(tc3B))),1);
-errc4B = sum((uc4B(:,1:length(tc4B)) - u_exact(:,1:length(tc4B))).*conj(uc4B(:,1:length(tc4B)) - u_exact(:,1:length(tc4B))),1);
+errc1B = sum((uc1B(:,1:length(tc1B)) - u_exact(:,1:length(tc1B))).*conj(uc1B(:,1:length(tc1B)) - u_exact(:,1:length(tc1B))),1)./sum(u_exact(:,1:length(tc1B)).*conj(u_exact(:,1:length(tc1B))),1);
+errc2B = sum((uc2B(:,1:length(tc2B)) - u_exact(:,1:length(tc2B))).*conj(uc2B(:,1:length(tc2B)) - u_exact(:,1:length(tc2B))),1)./sum(u_exact(:,1:length(tc2B)).*conj(u_exact(:,1:length(tc2B))),1);
+errc3B = sum((uc3B(:,1:length(tc3B)) - u_exact(:,1:length(tc3B))).*conj(uc3B(:,1:length(tc3B)) - u_exact(:,1:length(tc3B))),1)./sum(u_exact(:,1:length(tc3B)).*conj(u_exact(:,1:length(tc3B))),1);
+errc4B = sum((uc4B(:,1:length(tc4B)) - u_exact(:,1:length(tc4B))).*conj(uc4B(:,1:length(tc4B)) - u_exact(:,1:length(tc4B))),1)./sum(u_exact(:,1:length(tc4B)).*conj(u_exact(:,1:length(tc4B))),1);
 
 figure(1)
 hold off

@@ -125,9 +125,9 @@ for j = 1:length(window_edges)
         if disp_plots == 1
             figure(1)
             hold off
-            plot(t_list(range),r)
+            plot(t_list(range),sum(r2))
             hold on
-            plot(t_list(range),coeffs(1)*x + coeffs(2)*y + coeffs(3)*z + coeffs(4)*w,'r')
+            plot(t_list(range),coeffs(1)*sum(x2) + coeffs(2)*sum(y2) + coeffs(3)*sum(z2) + coeffs(4)*sum(w2),'r')
             current_ax = axis;
             axis([min(t_list(range)),max(t_list(range)),current_ax(3),current_ax(4)]);
             title(sprintf('N = %i net energy derivative',N_list(i)))

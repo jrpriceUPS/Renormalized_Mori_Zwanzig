@@ -9,7 +9,7 @@ addpath ../analysis
 
 N_list = 8:4:32;
 epsilon = 0.1;
-endtime = 1;
+endtime = 100;
 howoften = 100;
 
 %find the exact solution
