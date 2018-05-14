@@ -2,7 +2,7 @@ function coeff_plot(N)
 %
 % coeff_plot(N)
 %
-% Computes constant and algebraically decaying renormalization coefficients
+% Loads constant and algebraically decaying renormalization coefficients
 % for Euler's equations and plot them
 %
 %

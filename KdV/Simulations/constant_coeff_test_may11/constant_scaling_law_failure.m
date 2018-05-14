@@ -104,9 +104,11 @@ err_24 = sum((u_24_real-u_real(:,1:length(t_24))).^2,1)./sum(u_real(:,1:length(t
 figure(2)
 hold off
 plot(t_all,err_all,'r')
+hold on
 plot(t_24,err_24,'k')
 legend('t-model through t^4-model','only t^2-model and t^4-model','location','northeast')
 xlabel('time','fontsize',16)
 ylabel('relative error','fontsize',16)
 title('N = 20','fontsize',16)
-
+axis([0,100,0,10])
+saveas(gcf,'constant_coeff_err','png')

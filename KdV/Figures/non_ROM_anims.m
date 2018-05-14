@@ -1,3 +1,6 @@
+% produces animations of the full solution and a comparison of the full
+% solution to the Markov solution
+
 clear all;close all;
 
 addpath ../simulation_functions

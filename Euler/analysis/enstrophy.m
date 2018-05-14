@@ -21,6 +21,8 @@ function enstrophy = enstrophy(u_array)
 %%%%%%%%%%
 %
 %  enstrophy  =  a length(t)x1 array of the enstrophy at all times
+
+
 s = size(u_array);
 N = s(1);
 

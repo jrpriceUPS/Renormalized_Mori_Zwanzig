@@ -13,8 +13,7 @@ function [nonlin0,u_full] = markov_term_KdV(u,M,N,alpha)
 %  M        =  size of the "full" model upon which we will be basing 
 %              calculations
 %
-%  N        =  size of reduced model (I think this should be the same as
-%              length(u), but I'm not 100% certain - should check out)
+%  N        =  size of reduced model
 %
 %  alpha    =  coefficient on the nonlinear term
 %

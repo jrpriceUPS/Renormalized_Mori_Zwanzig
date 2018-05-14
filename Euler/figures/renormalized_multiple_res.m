@@ -278,6 +278,6 @@ for i = 1:length(N_list)
     title('Integral of maximum of vorticity','fontsize',16)
     xlabel('time','fontsize',16)
     ylabel('Integral of max vorticity','fontsize',16)
-    saveas(gcf,sprintf('vorticity_int_%i',N),filetype)
+    saveas(gcf,sprintf('vorticity_int_trim%i',N),filetype)
     
 end

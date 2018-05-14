@@ -55,11 +55,11 @@ linspecer: a function to produce visibly differentiated colors for plotting
 
 get_energy: computes the energy in a subset of modes at all times from a solution array
 
+make_real_space: converts a Fourier solution into real space for plotting and error calculations
+
 make_plots: creates an animation comparing several solutions in real space
 
 single_plot: creates an animation of a single solution in real space
-
-make_real_space: converts a Fourier solution into real space for plotting and error calculations
 
 energy_derivative: computes the exact energy derivative of every mode at every time from an exact trajectory
 
@@ -79,15 +79,22 @@ Files associated with figures generated for the dissertation
 create_data: creates exact solution data for fitting renormalization coefficients
 
 scaling_law_plots: compute optimal constant renormalization coefficients for Burgers’ equation and plot the results on a log-log plot
+produces: burgers_coeffs_constant.png
 
 scaling_law_plots_KdV: compute optimal algebraically decaying renormalization coefficients for Burgers’ equation and plot the results on a log-log plot
+produces: burgers_coeffs_algebraic.png
 
 error_test: for a given resolution N, computes ROMs of all varieties and compares their errors and energy evolutions
 
 generate_comparisons: executes error_test for a number of different resolutions N and plots and saves the result
 
 dissertation_images: creates images using generate_comparisons for presentation in my dissertation
+produces: energy_burgers.png, error_burgers.png
 
+burgers_energy_plot:  produces exact plot of Burgers energy evolution for presentation
+produces: burger_energy.png
+
+coeff_test: compares different types of ROM solutions to Burgers’ equation (from testing phase, not final draft figures)
 
 
 %%%%%%%%%%%%%

@@ -1,8 +1,7 @@
 function nonlin=renormalized_complete_Burgers(u,t,simulation_params)
 %
 %Computes the nonlinear part of the right hand side of the t^4-model of the
-%Burgers equation based upon a "full" model with M positive modes (M>N) and no
-%t dependence
+%Burgers equation based upon a "full" model with M positive modes (M>N)
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

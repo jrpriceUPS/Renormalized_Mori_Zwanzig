@@ -10,7 +10,7 @@ function [simulation_params] = full_init_KdV(simulation_params)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % simulation_params: a structure in which data relevant to the simulation
-%                    no matter the model type
+%                    no matter the model type is saved
 %
 %       N                  =  number of positive resolved modes
 %
@@ -28,7 +28,7 @@ function [simulation_params] = full_init_KdV(simulation_params)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % simulation_params: a structure in which data relevant to the simulation
-%                    no matter the model type
+%                    no matter the model type is saved
 %
 %       M        =  size of the full model
 %
@@ -63,7 +63,7 @@ dt      = simulation_params.dt;
 
 
 %define the ordinates in real space
-x=linspace(0,2*pi*(2*N-1)/(2*N),2*N);
+x = linspace(0,2*pi*(2*N-1)/(2*N),2*N);
 
 %define the initial condition as the Fourier transform of the sine function
 %and ensure that high energy modes are zero in spite of any numerical

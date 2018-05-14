@@ -1,4 +1,4 @@
-This folder contains Matlab and Mathematica files used to construct and simulate reduced order models of partial differential equations on periodic domains. Each subfolder here contains a similar README that explains the contents of the subdirectories.
+This folder contains Matlab and Mathematica files used to construct and simulate reduced order models of partial differential equations on periodic domains. Each subfolder here contains a README that explains the contents of the subdirectories.
 
 %%%%%%%%%%%%%%%%
 %SUBDIRECTORIES%

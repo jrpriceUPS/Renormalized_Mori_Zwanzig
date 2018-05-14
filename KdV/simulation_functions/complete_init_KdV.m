@@ -10,14 +10,14 @@ function simulation_params = complete_init_KdV(simulation_params)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % simulation_params: a structure in which data relevant to the simulation
-%                    no matter the model type
+%                    no matter the model type is saved
 %
 %           N         =  number of positive resolved modes
 %
 %           epsilon   =  degree of dispersion
 %
 %           dt        =  timestep
-% 
+%
 %           coeffs    =  4x1 vector of coefficients for memory terms
 %                        (computed from scaling laws if not provided)
 %
@@ -25,7 +25,7 @@ function simulation_params = complete_init_KdV(simulation_params)
 %                        default)
 %
 %    time_dependence  =  if 0, algebraically decaying renormalization
-%                        coefficients (default). If 1, constant 
+%                        coefficients (default). If 1, constant
 %                        renormalization coefficients
 %
 %  initial_condition  =  initial condition as a function of x
@@ -36,7 +36,7 @@ function simulation_params = complete_init_KdV(simulation_params)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % simulation_params: a structure in which data relevant to the simulation
-%                    no matter the model type
+%                    no matter the model type is saved
 %
 %       M        =  size of the full model
 %
@@ -79,12 +79,12 @@ u_complete=fft_norm(simulation_params.initial_condition(x).');
 
 if ~isfield(simulation_params,'M')
     simulation_params.M = 3*N;
-    
-    %initialize cells indicating index information, and populate them
-    simulation_params.F_modes = [1:N,2*N:4*N+2,5*N+2:6*N];
-    simulation_params.G_modes = N+1:5*N+1;
-    simulation_params.k = [0:3*N-1,-3*N:-1].';
 end
+
+%initialize cells indicating index information, and populate them
+simulation_params.F_modes = [1:N,2*N:4*N+2,5*N+2:6*N];
+simulation_params.G_modes = N+1:5*N+1;
+simulation_params.k = [0:3*N-1,-3*N:-1].';
 
 %compute cutoff for different regimes of behavior
 cutoff = ceil((2.8/(dt*epsilon^2))^(1/3));

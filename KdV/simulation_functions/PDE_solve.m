@@ -10,7 +10,7 @@ function [t_list,u_list]=PDE_solve(simulation_params)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % simulation_params: a structure in which data relevant to the simulation
-%                    no matter the model type
+%                    no matter the model type is saved
 %
 %    epsilon            =  degree of dispersion
 %
@@ -23,7 +23,7 @@ function [t_list,u_list]=PDE_solve(simulation_params)
 %    endtime            =  time at which simulation ends
 %
 %    howoften           =  how frequently to save the solution (i.e. 10 -> every 10
-%                             timesteps)
+%                          timesteps)
 %
 %    blowup             =  logical variable indicating how to handle loss of energy
 %                          conservation (if 1, save the data up to current time, if 0

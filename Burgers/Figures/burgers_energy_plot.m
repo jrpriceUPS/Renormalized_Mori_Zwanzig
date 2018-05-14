@@ -1,3 +1,5 @@
+% produces exact plot of Burgers energy evolution for presentation
+
 clear all;close all;
 
 addpath ../simulation_functions

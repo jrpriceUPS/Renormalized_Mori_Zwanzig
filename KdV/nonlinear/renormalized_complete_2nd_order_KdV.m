@@ -2,7 +2,7 @@ function nonlin=renormalized_complete_2nd_order_KdV(u,t,simulation_params)
 %
 %Computes the nonlinear part of the right hand side of the complete 
 %t^2-model of the KdV equation based upon a "full" model with M positive 
-%modes (M>N) with no time dependence and fixed coefficients
+%modes (M>N)
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -63,7 +63,7 @@ epsilon =simulation_params.epsilon;
 %compute nonlinear part of right hand side of t-model for KdV
 if simulation_params.time_dependence == 1
     
-    nonlin = nonlin0(1:N) + t*coeffs(1)*nonlin1(1:N) - t^2/2*coeffs(2)*nonlin2(1:N);
+    nonlin = nonlin0(1:N) + t*coeffs(1)*nonlin1(1:N) + t^2*coeffs(2)*nonlin2(1:N);
     
 elseif simulation_params.time_dependence == 0
     

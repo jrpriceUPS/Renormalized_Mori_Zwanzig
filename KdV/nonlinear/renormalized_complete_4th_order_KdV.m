@@ -1,8 +1,7 @@
 function nonlin=renormalized_complete_4th_order_KdV(u,t,simulation_params)
 %
 %Computes the nonlinear part of the right hand side of the t^4-model of the
-%KdV equation based upon a "full" model with M positive modes (M>N) and no
-%t dependence
+%KdV equation based upon a "full" model with M positive modes (M>N)
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

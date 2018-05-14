@@ -1,6 +1,6 @@
 function du_dt = RHS(u,time,params)
 %
-% The ODE a RHS of 3D Euler's equations:
+% The ODE of an RHS of an ROM of 3D Euler's equations:
 %
 % du_k/dt = func(u)
 %

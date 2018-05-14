@@ -98,16 +98,35 @@ enstrophy: computes the enstrophy (2-norm of vorticity) of a simulation at every
 Files associated with figures generated for the dissertation
 
 burgers_style_instability: demonstrates the instability of constant renormalization coefficient complete memory approximation ROMs
+produces: unstable_burgers_12.png
 
 perturbative_figure: produces plots demonstrating the convergence of the complete memory approximation as the number of terms included increases
+produces: perturbative_euler.png
 
 coeff_plot: load and plot the scaling law behavior of optimal renormalization coefficients
+produces: coeff_plot48_ROM.png, coeff_plot48_ROM_t.png
 
 renormalized_multiple_res: produces energy, enstrophy, and maximum vorticity plots for algebraically decaying renormalization coefficient complete memory approximation ROMs
+produces: energy_mult_24.png, energy_mult_slopes_24.png, enstrophy_mult_24.png, enstropy_mult_trim24.png, vorticity_mult_24.png, vorticity_mult_trim24.png, vorticity_int_24.png, vorticity_int_trim24.png
 
 singularity_plots: produces the plots from renormalized_multiple_res from saved data (in case of crashed code)
+produces: turn_times.png, slopes.png, slopes2.png, enstrophy.png, vorticity.png
 
 vort_integral: computes the integral of the vorticity at all times in a simulation
+
+turn_times: time at which ROMs started draining energy
+
+slopes: initial slope (log-log plot) at which ROMs started draining energy
+
+slopes2: secondary slope (log-log plot) at which ROMs eventually drain energy
+
+ens_max: maximum enstrophy for different ROMs
+
+ens_max_time: time at which those maxima were achieved
+
+vort_max: maximum vorticity for different ROMs
+
+vort_max_time: time at which this maxima were achieved
 
 
 
