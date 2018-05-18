@@ -1,4 +1,4 @@
-function make_plots(t,x,u_real)
+function make_plots(t,x,u_real,leg)
 %
 %Makes real space plot gif of several real space solutions
 %
@@ -13,6 +13,8 @@ function make_plots(t,x,u_real)
 %
 %  u_real  =  cell array of each real space solution at each timestep (each
 %             entry is length(x) x length(t))
+%
+%  leg     =  legend to display
 
 colors = {'b','r','k','g','m'};
 figure
@@ -22,7 +24,8 @@ for i = 1:length(t)-1
         hold on
         axis([0,2*pi,-3,3])
         title(sprintf('t = %g', t(i+1)))
-        drawnow
     end
+    legend(leg{:})
+    drawnow
     hold off
 end

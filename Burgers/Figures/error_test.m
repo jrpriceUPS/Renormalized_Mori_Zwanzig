@@ -168,6 +168,11 @@ errc2B = sum((uc2B(:,1:length(tc2B)) - u_exact(:,1:length(tc2B))).*conj(uc2B(:,1
 errc3B = sum((uc3B(:,1:length(tc3B)) - u_exact(:,1:length(tc3B))).*conj(uc3B(:,1:length(tc3B)) - u_exact(:,1:length(tc3B))),1)./sum(u_exact(:,1:length(tc3B)).*conj(u_exact(:,1:length(tc3B))),1);
 errc4B = sum((uc4B(:,1:length(tc4B)) - u_exact(:,1:length(tc4B))).*conj(uc4B(:,1:length(tc4B)) - u_exact(:,1:length(tc4B))),1)./sum(u_exact(:,1:length(tc4B)).*conj(u_exact(:,1:length(tc4B))),1);
 
+errc1KdV = sum((uc1KdV(:,1:length(tc1KdV)) - u_exact(:,1:length(tc1KdV))).*conj(uc1KdV(:,1:length(tc1KdV)) - u_exact(:,1:length(tc1KdV))),1)./sum(u_exact(:,1:length(tc1KdV)).*conj(u_exact(:,1:length(tc1KdV))),1);
+errc2KdV = sum((uc2KdV(:,1:length(tc2KdV)) - u_exact(:,1:length(tc2KdV))).*conj(uc2KdV(:,1:length(tc2KdV)) - u_exact(:,1:length(tc2KdV))),1)./sum(u_exact(:,1:length(tc2KdV)).*conj(u_exact(:,1:length(tc2KdV))),1);
+errc3KdV = sum((uc3KdV(:,1:length(tc3KdV)) - u_exact(:,1:length(tc3KdV))).*conj(uc3KdV(:,1:length(tc3KdV)) - u_exact(:,1:length(tc3KdV))),1)./sum(u_exact(:,1:length(tc3KdV)).*conj(u_exact(:,1:length(tc3KdV))),1);
+errc4KdV = sum((uc4KdV(:,1:length(tc4KdV)) - u_exact(:,1:length(tc4KdV))).*conj(uc4KdV(:,1:length(tc4KdV)) - u_exact(:,1:length(tc4KdV))),1)./sum(u_exact(:,1:length(tc4KdV)).*conj(u_exact(:,1:length(tc4KdV))),1);
+
 figure(1)
 hold off
 plot(tc1B,errc1B,'r','linewidth',1.5)
@@ -178,10 +183,26 @@ plot(tc4B,errc4B,'m','linewidth',1.5)
 axis([0,endtime,0,2])
 legend(leg{2:5},'location','northeast')
 
-title(sprintf('N = %i',N),'fontsize',16)
+title(sprintf('Constant coefficients, N = %i',N),'fontsize',16)
 xlabel('t')
 ylabel('error')
-saveas(gcf,sprintf('Burgers_err%i_%i',N,endtime),'png')
+saveas(gcf,sprintf('Burgers_const_err%i_%i',N,endtime),'png')
+close
+
+figure(2)
+hold off
+plot(tc1KdV,errc1KdV,'r','linewidth',1.5)
+hold on
+plot(tc2KdV,errc2KdV,'k','linewidth',1.5)
+plot(tc3KdV,errc3KdV,'c','linewidth',1.5)
+plot(tc4KdV,errc4KdV,'m','linewidth',1.5)
+axis([0,endtime,0,2])
+legend(leg{2:5},'location','northeast')
+
+title(sprintf('Decaying coefficients, N = %i',N),'fontsize',16)
+xlabel('t')
+ylabel('error')
+saveas(gcf,sprintf('Burgers_decay_err%i_%i',N,endtime),'png')
 close
 
 
@@ -210,3 +231,7 @@ errors.c1B = errc1B;
 errors.c2B = errc2B;
 errors.c3B = errc3B;
 errors.c4B = errc4B;
+errors.c1KdV = errc1KdV;
+errors.c2KdV = errc2KdV;
+errors.c3KdV = errc3KdV;
+errors.c4KdV = errc4KdV;
