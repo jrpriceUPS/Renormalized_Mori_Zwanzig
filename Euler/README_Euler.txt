@@ -114,6 +114,12 @@ produces: turn_times.png, slopes.png, slopes2.png, enstrophy.png, vorticity.png
 
 vort_integral: computes the integral of the vorticity at all times in a simulation
 
+turn_time_plot: produces a plot to help find what the time of energy drain converges to
+produces: turn_time_plot.png
+
+vort_int_short: produces a shortened plot of the vorticity integral
+produces: vorticity_int_24.png
+
 turn_times: time at which ROMs started draining energy
 
 slopes: initial slope (log-log plot) at which ROMs started draining energy
