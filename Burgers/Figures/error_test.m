@@ -196,7 +196,6 @@ hold on
 plot(tc2KdV,errc2KdV,'k','linewidth',1.5)
 plot(tc3KdV,errc3KdV,'c','linewidth',1.5)
 plot(tc4KdV,errc4KdV,'m','linewidth',1.5)
-axis([0,endtime,0,2])
 legend(leg{2:5},'location','northeast')
 
 title(sprintf('Decaying coefficients, N = %i',N),'fontsize',16)
