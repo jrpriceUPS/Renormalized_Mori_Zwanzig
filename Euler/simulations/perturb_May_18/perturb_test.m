@@ -4,7 +4,7 @@ addpath ../../simulation_functions
 addpath ../../analysis
 addpath ../../nonlinear
 
-N = 6;
+N = 16;
 end_time = 100;
 M = 3*N;
 
@@ -191,10 +191,10 @@ err3 = sum(sum(sum(sum(sum((u_array3 - u_array4).*conj(u_array3 - u_array4),1),2
 
 figure(1)
 hold on
-plot(t4,err0,'b','linewidth',2)
-plot(t4,err1,'r','linewidth',2)
-plot(t4,err2,'k','linewidth',2)
-plot(t4,err3,'c','linewidth',2)
+plot(t4,squeeze(err0),'b','linewidth',2)
+plot(t4,squeeze(err1),'r','linewidth',2)
+plot(t4,squeeze(err2),'k','linewidth',2)
+plot(t4,squeeze(err3),'c','linewidth',2)
 title(sprintf('Relative error compared to fourth order ROM, N = %i',N))
 legend('Markov model', '1st order ROM', '2nd order ROM','3rd order ROM')
 xlabel('Time')
