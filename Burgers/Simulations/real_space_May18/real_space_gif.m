@@ -2,7 +2,7 @@ addpath ../simulation_functions
 addpath ../nonlinear
 addpath ../analysis
 
-endtime = 10;
+endtime = 100;
 N = 20;
 alpha = 1;
 
@@ -140,3 +140,48 @@ u3{4} = u_c3KdV;
 u3{5} = u_c4KdV;
 leg3 = {'Exact','First order decaying','Second order decaying','Third order decaying','Fourth order decaying'};
 make_plots(t_list,x3,u3,leg3);
+
+
+
+
+
+% energy spectra:
+
+energy_exact = 2*u_list(1:N,:).*conj(u_list(1:N,:));
+
+energy_c1B = 2*uc1B.*conj(uc1B);
+energy_c2B = 2*uc2B.*conj(uc2B);
+energy_c3B = 2*uc3B.*conj(uc3B);
+energy_c4B = 2*uc4B.*conj(uc4B);
+
+energy_c1KdV = 2*uc1KdV.*conj(uc1KdV);
+energy_c2KdV = 2*uc2KdV.*conj(uc2KdV);
+energy_c3KdV = 2*uc3KdV.*conj(uc3KdV);
+energy_c4KdV = 2*uc4KdV.*conj(uc4KdV);
+
+figure(1)
+hold off
+plot(log(2:N),log(energy_exact(2:end,end)),'k')
+hold on
+plot(log(2:N),log(energy_c1B(2:end,end)),'b-.')
+plot(log(2:N),log(energy_c2B(2:end,end)),'b-*')
+plot(log(2:N),log(energy_c3B(2:end,end)),'b-s')
+plot(log(2:N),log(energy_c4B(2:end,end)),'b-o')
+legend('exact','n = 1, constant','n = 2, constant','n = 3, constant','n = 4, constant','location','southwest')
+title(sprintf('Energy spectrum at t = %i',endtime),'fontsize',16)
+xlabel('log(N)')
+ylabel('log(E(N))')
+
+figure(2)
+hold off
+plot(log(2:N),log(energy_exact(2:end,end)),'k')
+hold on
+plot(log(2:N),log(energy_c1KdV(2:end,end)),'r-.')
+plot(log(2:N),log(energy_c2KdV(2:end,end)),'r-*')
+plot(log(2:N),log(energy_c3KdV(2:end,end)),'r-s')
+plot(log(2:N),log(energy_c4KdV(2:end,end)),'r-o')
+
+legend('exact','n = 1, decaying','n = 2, decaying','n = 3, decaying','n = 4, decaying','location','southwest')
+title(sprintf('Energy spectrum at t = %i',endtime),'fontsize',16)
+xlabel('log(N)')
+ylabel('log(E(N))')

@@ -39,10 +39,10 @@ params.a_tilde2 = 2*N+1:M;
 params.print_time = 1;
 params.no_time = 1;
 
-if exist(sprintf('u_array4_%i_%it.mat',N,end_time),'file') == 2
+if exist(sprintf('u_array4_%i_%i.mat',N,end_time),'file') == 2
     
-    load(sprintf('u_array4_%i_%it.mat',N,end_time))
-    load(sprintf('t4_%i_%it',N,end_time))
+    load(sprintf('u_array4_%i_%i.mat',N,end_time))
+    load(sprintf('t4_%i_%i',N,end_time))
     
 else
     
@@ -62,8 +62,8 @@ else
         u_array4(:,:,:,:,:,i) = reshape(u_raw4(i,:),[N,N,N,3,4]);
     end
     
-    save(sprintf('t4_%i_%it',N,end_time),'t4');
-    save(sprintf('u_array4_%i_%it',N,end_time),'u_array4');
+    save(sprintf('t4_%i_%i',N,end_time),'t4');
+    save(sprintf('u_array4_%i_%i',N,end_time),'u_array4');
     
 end
 
@@ -98,10 +98,10 @@ else
     
 end
 
-if exist(sprintf('u_array1_%i_%it.mat',N,end_time),'file') == 2
+if exist(sprintf('u_array1_%i_%i.mat',N,end_time),'file') == 2
     
-    load(sprintf('u_array1_%i_%it.mat',N,end_time))
-    load(sprintf('t1_%i_%it',N,end_time))
+    load(sprintf('u_array1_%i_%i.mat',N,end_time))
+    load(sprintf('t1_%i_%i',N,end_time))
     
 else
     
@@ -122,15 +122,15 @@ else
         u_array1(:,:,:,:,:,i) = reshape(u_raw1(i,:),[N,N,N,3,4]);
     end
     
-    save(sprintf('t1_%i_%it',N,end_time),'t1');
-    save(sprintf('u_array1_%i_%it',N,end_time),'u_array1');
+    save(sprintf('t1_%i_%i',N,end_time),'t1');
+    save(sprintf('u_array1_%i_%i',N,end_time),'u_array1');
     
 end
 
-if exist(sprintf('u_array2_%i_%it.mat',N,end_time),'file') == 2
+if exist(sprintf('u_array2_%i_%i.mat',N,end_time),'file') == 2
     
-    load(sprintf('u_array2_%i_%it.mat',N,end_time))
-    load(sprintf('t2_%i_%it',N,end_time))
+    load(sprintf('u_array2_%i_%i.mat',N,end_time))
+    load(sprintf('t2_%i_%i',N,end_time))
     
 else
     
@@ -150,15 +150,15 @@ else
         u_array2(:,:,:,:,:,i) = reshape(u_raw2(i,:),[N,N,N,3,4]);
     end
     
-    save(sprintf('t2_%i_%it',N,end_time),'t2');
-    save(sprintf('u_array2_%i_%it',N,end_time),'u_array2');
+    save(sprintf('t2_%i_%i',N,end_time),'t2');
+    save(sprintf('u_array2_%i_%i',N,end_time),'u_array2');
     
 end
 
-if exist(sprintf('u_array3_%i_%it.mat',N,end_time),'file') == 2
+if exist(sprintf('u_array3_%i_%i.mat',N,end_time),'file') == 2
     
-    load(sprintf('u_array3_%i_%it.mat',N,end_time))
-    load(sprintf('t3_%i_%it',N,end_time))
+    load(sprintf('u_array3_%i_%i.mat',N,end_time))
+    load(sprintf('t3_%i_%i',N,end_time))
     
 else
     
@@ -178,8 +178,8 @@ else
         u_array3(:,:,:,:,:,i) = reshape(u_raw3(i,:),[N,N,N,3,4]);
     end
     
-    save(sprintf('t3_%i_%it',N,end_time),'t3');
-    save(sprintf('u_array3_%i_%it',N,end_time),'u_array3');
+    save(sprintf('t3_%i_%i',N,end_time),'t3');
+    save(sprintf('u_array3_%i_%i',N,end_time),'u_array3');
     
 end
 
@@ -191,12 +191,13 @@ err3 = sum(sum(sum(sum(sum((u_array3 - u_array4).*conj(u_array3 - u_array4),1),2
 
 figure(1)
 hold on
-plot(t4,squeeze(err0),'b','linewidth',2)
+%plot(t4,squeeze(err0),'b','linewidth',2)
 plot(t4,squeeze(err1),'r','linewidth',2)
 plot(t4,squeeze(err2),'k','linewidth',2)
 plot(t4,squeeze(err3),'c','linewidth',2)
 title(sprintf('Relative error compared to fourth order ROM, N = %i',N))
-legend('Markov model', '1st order ROM', '2nd order ROM','3rd order ROM')
+%legend('Markov model', '1st order ROM', '2nd order ROM','3rd order ROM')
+legend( '1st order ROM', '2nd order ROM','3rd order ROM')
 xlabel('Time')
 ylabel('Relative error')
 saveas(gcf,'euler_perturb','png')

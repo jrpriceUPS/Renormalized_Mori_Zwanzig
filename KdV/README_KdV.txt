@@ -143,6 +143,9 @@ produces: markov_anim#.png, exact_anim#.png
 energy_deriv_pres: computes the exact energy derivative for N = 20 and compares it to the t^2 and t^4 terms for the presentation.
 produces: energy_deriv.png
 
+locked_in: computes optimal renormalization coefficients fit over different time ranges to show the “locking in” of the t^2 and t^4 model coefficients
+produces: coeffs_convergence.png
+
 
 
 %%%%%%%%%%%%%
