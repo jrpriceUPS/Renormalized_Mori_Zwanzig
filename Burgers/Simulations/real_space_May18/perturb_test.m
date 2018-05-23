@@ -2,9 +2,9 @@ function perturb_test(N,endtime,alpha)
 
 %produces plots demonstrating the perturbative convergence of both kinds of
 %Burgers ROMs
-addpath ../simulation_functions
-addpath ../nonlinear
-addpath ../analysis
+addpath ../../simulation_functions
+addpath ../../nonlinear
+addpath ../../analysis
 
 % load the exact solution if it exists, otherwise make it
 if ~(exist(sprintf('u_list%i.mat',endtime),'file') == 2)
@@ -156,32 +156,26 @@ legend(leg{2:5},'location','northeast')
 title(sprintf('N = %i',N),'fontsize',16)
 xlabel('t')
 ylabel('error')
-saveas(gcf,sprintf('Burgers_err%i_%i',N,endtime),'png')
+saveas(gcf,sprintf('Burgers_err_constant%i_%i',N,endtime),'png')
 close
 
+errc1KdV = sum((uc1KdV(:,1:length(tc1KdV)) - u_exact(:,1:length(tc1KdV))).*conj(uc1KdV(:,1:length(tc1KdV)) - u_exact(:,1:length(tc1KdV))),1)./sum(u_exact(:,1:length(tc1KdV)).*conj(u_exact(:,1:length(tc1KdV))),1);
+errc2KdV = sum((uc2KdV(:,1:length(tc2KdV)) - u_exact(:,1:length(tc2KdV))).*conj(uc2KdV(:,1:length(tc2KdV)) - u_exact(:,1:length(tc2KdV))),1)./sum(u_exact(:,1:length(tc2KdV)).*conj(u_exact(:,1:length(tc2KdV))),1);
+errc3KdV = sum((uc3KdV(:,1:length(tc3KdV)) - u_exact(:,1:length(tc3KdV))).*conj(uc3KdV(:,1:length(tc3KdV)) - u_exact(:,1:length(tc3KdV))),1)./sum(u_exact(:,1:length(tc3KdV)).*conj(u_exact(:,1:length(tc3KdV))),1);
+errc4KdV = sum((uc4KdV(:,1:length(tc4KdV)) - u_exact(:,1:length(tc4KdV))).*conj(uc4KdV(:,1:length(tc4KdV)) - u_exact(:,1:length(tc4KdV))),1)./sum(u_exact(:,1:length(tc4KdV)).*conj(u_exact(:,1:length(tc4KdV))),1);
 
-% save results
-energies.exact = energy_exact;
-energies.c1B = energyc1B;
-energies.c2B = energyc2B;
-energies.c3B = energyc3B;
-energies.c4B = energyc4B;
-energies.c1KdV = energyc1KdV;
-energies.c2KdV = energyc2KdV;
-energies.c3KdV = energyc3KdV;
-energies.c4KdV = energyc4KdV;
+figure(1)
+hold off
+plot(tc1KdV,errc1KdV,'r','linewidth',1.5)
+hold on
+plot(tc2KdV,errc2KdV,'k','linewidth',1.5)
+plot(tc3KdV,errc3KdV,'c','linewidth',1.5)
+plot(tc4KdV,errc4KdV,'m','linewidth',1.5)
+axis([0,endtime,0,2])
+legend(leg{6:9},'location','northeast')
 
-times.exact = t_list;
-times.c1B = tc1B;
-times.c2B = tc2B;
-times.c3B = tc3B;
-times.c4B = tc4B;
-times.c1KdV = tc1KdV;
-times.c2KdV = tc2KdV;
-times.c3KdV = tc3KdV;
-times.c4KdV = tc4KdV;
-
-errors.c1B = errc1B;
-errors.c2B = errc2B;
-errors.c3B = errc3B;
-errors.c4B = errc4B;
+title(sprintf('N = %i',N),'fontsize',16)
+xlabel('t')
+ylabel('error')
+saveas(gcf,sprintf('Burgers_err_algebraic%i_%i',N,endtime),'png')
+close

@@ -2,9 +2,9 @@ function perturb_test(N,endtime,alpha)
 
 %produces plots demonstrating the perturbative convergence of both kinds of
 %Burgers ROMs
-addpath ../simulation_functions
-addpath ../nonlinear
-addpath ../analysis
+addpath ../../simulation_functions
+addpath ../../nonlinear
+addpath ../../analysis
 
 % load the exact solution if it exists, otherwise make it
 if ~(exist(sprintf('u_list%i.mat',endtime),'file') == 2)
