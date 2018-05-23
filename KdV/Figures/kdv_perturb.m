@@ -8,7 +8,7 @@ addpath ../analysis
 
 N = 20;
 epsilon = 0.1;
-endtime = 10;
+endtime = 100;
 howoften = 100;
 
 %find the exact solution
