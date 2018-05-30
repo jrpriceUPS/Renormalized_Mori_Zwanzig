@@ -53,3 +53,15 @@ xlabel('N','fontsize',16)
 ylabel('Maximum vorticity','fontsize',16)
 title('Maximum Vorticity','fontsize',16)
 saveas(gcf,'vorticity','png')
+
+
+figure(6)
+hold off
+plot(N_list,ens_max,'.','markersize',20)
+hold on
+plot(N_list,vort_max,'r.','markersize',20)
+xlabel('N','fontsize',16)
+ylabel('Value','fontsize',16)
+title('Maximum enstrophy and vorticity','fontsize',16)
+legend('Maximum enstrophy','Maximum vorticity','location','northwest')
+saveas(gcf,'maxima','png')

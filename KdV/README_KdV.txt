@@ -107,7 +107,7 @@ produces: logerr_SI.png
 long_time_error_PNAS: produces plots indicating the error at t = 100 for Markov and 4th order models at a variety of resolutions
 produces: logerr.png (in color)
 
-long_time_error20: produces plots of the error for N = 20 Markov models, and second and fourth order ROMS for a long simulation
+long_time_error20: produces plots of the error for N = 20 Markov models, and second and fourth order ROMs for a long simulation
 produces: real_err20.png
 
 non_renormalized_blow_up: demonstrates that the unrenormalized models are unstable
@@ -134,7 +134,7 @@ produces: t_eps_pres.png, t_N_pres.png
 some_scaling_laws_paper: computes optimal renormalization coefficients for fourth order complete memory approximations of KdV in using non dimensional quantities and plots them in an appealing way
 produces: t_eps_N.png
 
-some_scaling_laws_paper2: computes optimal renormalization coefficients for second order complete memory approximations of KdV in using non dimensional quantities and plots them in an appealing way
+some_scaling_laws_paper2: computes optimal renormalization coefficients for second order complete memory approximations of KdV using nondimensional quantities and plots them in an appealing way
 produces: t_eps_N2.png
 
 non_ROM_anims: simulates N = 12 model exactly and with Markov and plots snapshots of the solutions to demonstrate the breakdown of accuracy for the Markov model.
@@ -146,9 +146,14 @@ produces: energy_deriv.png
 locked_in: computes optimal renormalization coefficients fit over different time ranges to show the “locking in” of the t^2 and t^4 model coefficients
 produces: coeffs_convergence.png
 
+kdv_perturb: demonstrates the perturbative convergence of KdV ROMs
+produces: kdv_perturb.png
+
+old_files: out-of-date files used in past iterations of the repository
+
 
 
 %%%%%%%%%%%%%
 %Simulations% 
 %%%%%%%%%%%%%
-Subdirectories associated with numerical experiments (all out of date now)
+Subdirectories associated with numerical experiments

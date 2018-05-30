@@ -21,8 +21,6 @@ ifft_norm: computes the IFFT of a vector using the standard normalization
 
 PDE_solve: solves KdV with given parameters
 
-RK4_stiff_nonstiff_step: computes a single step in an integration scheme known to function well for KdV with small dispersion
-
 
 
 %%%%%%%%%%%
@@ -32,7 +30,7 @@ Files associated with the RHS of Burgers full and ROM simulations
 
 scaling_law: contains optimal renormalization coefficient laws (both constant and algebraically decaying) as a function of number of included degrees and resolution
 
-renormalized_complete_Burgers: RHS of Burgers (computes only up through the degree included in the model)
+renormalized_complete_Burgers: RHS of complete memory approximation ROM of Burgers (computes only up through the degree included in the model)
 
 markov_term_Burgers: computes the Markov term of Burgers
 
@@ -60,8 +58,6 @@ make_real_space: converts a Fourier solution into real space for plotting and er
 make_plots: creates an animation comparing several solutions in real space
 
 single_plot: creates an animation of a single solution in real space
-
-energy_derivative: computes the exact energy derivative of every mode at every time from an exact trajectory
 
 renormalize: computes optimal renormalization coefficients of both types for a variety of resolutions given an exact solution (uses all times)
 
@@ -100,4 +96,4 @@ coeff_test: compares different types of ROM solutions to Burgers’ equation (fr
 %%%%%%%%%%%%%
 %Simulations% 
 %%%%%%%%%%%%%
-Subdirectories associated with numerical experiments (largely out of date)
+Subdirectories associated with numerical experiments

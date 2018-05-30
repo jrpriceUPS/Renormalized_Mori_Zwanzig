@@ -2,8 +2,8 @@ addpath ../simulation_functions
 addpath ../nonlinear
 addpath ../analysis
 
-endtime = 100;
-N = 20;
+endtime = 20;
+N = 50;
 alpha = 1;
 
 % load the exact solution if it exists, otherwise make it
@@ -111,7 +111,7 @@ simulation_params.time_dependence = 0;
 x1{1} = x_e;
 u1{1} = u_e;
 leg1{1} = 'Exact';
-make_plots(t_list,x1,u1,leg1);
+%make_plots(t_list,x1,u1,leg1);
 pause
 
 x2{1} = x_e;
@@ -164,10 +164,11 @@ hold off
 plot(log(2:N),log(energy_exact(2:end,end)),'k')
 hold on
 plot(log(2:N),log(energy_c1B(2:end,end)),'b-.')
-plot(log(2:N),log(energy_c2B(2:end,end)),'b-*')
+%plot(log(2:N),log(energy_c2B(2:end,end)),'b-*')
 plot(log(2:N),log(energy_c3B(2:end,end)),'b-s')
-plot(log(2:N),log(energy_c4B(2:end,end)),'b-o')
-legend('exact','n = 1, constant','n = 2, constant','n = 3, constant','n = 4, constant','location','southwest')
+%plot(log(2:N),log(energy_c4B(2:end,end)),'b-o')
+%legend('exact','n = 1, constant','n = 2, constant','n = 3, constant','n = 4, constant','location','southwest')
+legend('exact','n = 1, constant','n = 3, constant','location','southwest')
 title(sprintf('Energy spectrum at t = %i',endtime),'fontsize',16)
 xlabel('log(N)')
 ylabel('log(E(N))')
@@ -177,11 +178,12 @@ hold off
 plot(log(2:N),log(energy_exact(2:end,end)),'k')
 hold on
 plot(log(2:N),log(energy_c1KdV(2:end,end)),'r-.')
-plot(log(2:N),log(energy_c2KdV(2:end,end)),'r-*')
+%plot(log(2:N),log(energy_c2KdV(2:end,end)),'r-*')
 plot(log(2:N),log(energy_c3KdV(2:end,end)),'r-s')
-plot(log(2:N),log(energy_c4KdV(2:end,end)),'r-o')
+%plot(log(2:N),log(energy_c4KdV(2:end,end)),'r-o')
 
-legend('exact','n = 1, decaying','n = 2, decaying','n = 3, decaying','n = 4, decaying','location','southwest')
+%legend('exact','n = 1, decaying','n = 2, decaying','n = 3, decaying','n = 4, decaying','location','southwest')
+legend('exact','n = 1, decaying','n = 3, decaying','location','southwest')
 title(sprintf('Energy spectrum at t = %i',endtime),'fontsize',16)
 xlabel('log(N)')
 ylabel('log(E(N))')

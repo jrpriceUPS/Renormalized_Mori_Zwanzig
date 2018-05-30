@@ -1,6 +1,6 @@
 This folder contains Matlab files to derive and simulate reduced order models for the Euler’s equations:
 
-*FILL IN HERE*.
+u_t + u dot grad u = -grad p, grad dot u = 0.
 
 %%%%%%%%%%%%%%%%%%%%%%
 %simulation_functions% 
@@ -110,15 +110,12 @@ renormalized_multiple_res: produces energy, enstrophy, and maximum vorticity plo
 produces: energy_mult_24.png, energy_mult_slopes_24.png, enstrophy_mult_24.png, enstropy_mult_trim24.png, vorticity_mult_24.png, vorticity_mult_trim24.png, vorticity_int_24.png, vorticity_int_trim24.png
 
 singularity_plots: produces the plots from renormalized_multiple_res from saved data (in case of crashed code)
-produces: turn_times.png, slopes.png, slopes2.png, enstrophy.png, vorticity.png
+produces: turn_times.png, slopes.png, slopes2.png, enstrophy.png, vorticity.png, maxima.png
 
 vort_integral: computes the integral of the vorticity at all times in a simulation
 
 turn_time_plot: produces a plot to help find what the time of energy drain converges to
 produces: turn_time_plot.png
-
-vort_int_short: produces a shortened plot of the vorticity integral
-produces: vorticity_int_24.png
 
 turn_times: time at which ROMs started draining energy
 
@@ -132,11 +129,11 @@ ens_max_time: time at which those maxima were achieved
 
 vort_max: maximum vorticity for different ROMs
 
-vort_max_time: time at which this maxima were achieved
+vort_max_time: time at which those maxima were achieved
 
 
 
 %%%%%%%%%%%%%
 %Simulations% 
 %%%%%%%%%%%%%
-Subdirectories associated with numerical experiments (all out of date now)
+Subdirectories associated with numerical experiments
