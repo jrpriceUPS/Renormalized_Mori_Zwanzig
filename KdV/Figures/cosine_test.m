@@ -51,10 +51,10 @@ for j = 1:length(epsilon)
 end
 
 %compute the scaling law using log-log least squares method
-t1_form = find_scaling_law(t1.'/((2*pi*sqrt(2))^2),epsilon*2^(1/4)/(2*pi),2*pi*N_list)
-t2_form = find_scaling_law(t2.'/((2*pi*sqrt(2))^4),epsilon*2^(1/4)/(2*pi),2*pi*N_list)
-t3_form = find_scaling_law(t3.'/((2*pi*sqrt(2))^2),epsilon*2^(1/4)/(2*pi),2*pi*N_list)
-t4_form = find_scaling_law(t4.'/((2*pi*sqrt(2))^4),epsilon*2^(1/4)/(2*pi),2*pi*N_list)
+t1_form = find_scaling_law(t1.',epsilon,N_list)
+t2_form = find_scaling_law(t2.',epsilon,N_list)
+t3_form = find_scaling_law(t3.',epsilon,N_list)
+t4_form = find_scaling_law(t4.',epsilon,N_list)
 
 %save t2 t2
 %save t4 t4
@@ -68,17 +68,17 @@ for i = 1:length(N_list)
    
     t1_eps = figure(1);
     hold on
-    plot(log(epsilon*2^(1/4)/(2*pi)),log(t1(i,:)/(2*sqrt(2)*pi)^2),'.','markersize',20)
-    plot(log(epsilon*2^(1/4)/(2*pi)),log(t1_form(1))+log(2*pi*N_list(i))*t1_form(2)+log(epsilon*2^(1/4)/(2*pi))*t1_form(3),'r')
+    plot(log(epsilon),log(-t1(i,:)),'.','markersize',20)
+    plot(log(epsilon),log(t1_form(1))+log(N_list(i))*t1_form(2)+log(epsilon)*t1_form(3),'r')
     legend('log(t-coeff) from data',sprintf('log(%.3f*N^%.3f*epsilon^%.3f)',t1_form(1),t1_form(2),t1_form(3)))
     xlabel('log(epsilon)','fontsize',16)
-    ylabel('log(coeff)','fontsize',16)
+    ylabel('log(-coeff)','fontsize',16)
     title('t-model epsilon scaling law','fontsize',16)
     
     t2_eps = figure(2);
     hold on
-    plot(log(epsilon*2^(1/4)/(2*pi)),log(-t2(i,:)/(2*sqrt(2)*pi)^2),'.','markersize',20)
-    plot(log(epsilon*2^(1/4)/(2*pi)),log(t2_form(1))+log(2*pi*N_list(i))*t2_form(2)+log(epsilon*2^(1/4)/(2*pi))*t2_form(3),'r')
+    plot(log(epsilon),log(-t2(i,:)),'.','markersize',20)
+    plot(log(epsilon),log(t2_form(1))+log(N_list(i))*t2_form(2)+log(epsilon)*t2_form(3),'r')
     legend('log(-t^2-coeff) from data',sprintf('log(%.3f*N^%.3f*epsilon^%.3f)',t2_form(1),t2_form(2),t2_form(3)))
     xlabel('log(epsilon)','fontsize',16)
     ylabel('log(-coeff)','fontsize',16)
@@ -86,18 +86,18 @@ for i = 1:length(N_list)
     
     t3_eps = figure(3);
     hold on
-    plot(log(epsilon*2^(1/4)/(2*pi)),log(t3(i,:)/(2*sqrt(2)*pi)^2),'.','markersize',20)
-    plot(log(epsilon*2^(1/4)/(2*pi)),log(t3_form(1))+log(2*pi*N_list(i))*t3_form(2)+log(epsilon*2^(1/4)/(2*pi))*t3_form(3),'r')
+    plot(log(epsilon),log(-t3(i,:)),'.','markersize',20)
+    plot(log(epsilon),log(t3_form(1))+log(N_list(i))*t3_form(2)+log(epsilon)*t3_form(3),'r')
     legend('log(t^3-coeff) from data',sprintf('log(%.3f*N^%.3f*epsilon^%.3f)',t3_form(1),t3_form(2),t3_form(3)))
     xlabel('log(epsilon)','fontsize',16)
-    ylabel('log(coeff)','fontsize',16)
+    ylabel('log(-coeff)','fontsize',16)
     title('t^3-model epsilon scaling law','fontsize',16)
     
     
     t4_eps = figure(4);
     hold on
-    plot(log(epsilon*2^(1/4)/(2*pi)),log(-t4(i,:)/(2*sqrt(2)*pi)^4),'.','markersize',20)
-    plot(log(epsilon*2^(1/4)/(2*pi)),log(t4_form(1))+log(2*pi*N_list(i))*t4_form(2)+log(epsilon*2^(1/4)/(2*pi))*t4_form(3),'r')
+    plot(log(epsilon),log(-t4(i,:)),'.','markersize',20)
+    plot(log(epsilon),log(t4_form(1))+log(N_list(i))*t4_form(2)+log(epsilon)*t4_form(3),'r')
     legend('log(t^4-coeff) from data',sprintf('log(%.3f*N^%.3f*epsilon^%.3f)',t4_form(1),t4_form(2),t4_form(3)))
     xlabel('log(epsilon)','fontsize',16)
     ylabel('log(-coeff)','fontsize',16)
@@ -110,17 +110,17 @@ for i = 1:length(epsilon)
     
     t1_N = figure(5);
     hold on
-    plot(log(2*pi*N_list),log(t1(:,i)/(2*sqrt(2)*pi)^2),'.','markersize',20)
-    plot(log(2*pi*N_list),log(t1_form(1))+log(2*pi*N_list)*t1_form(2)+log(epsilon(i)*2^(1/4)/(2*pi))*t1_form(3),'r')
+    plot(log(N_list),log(-t1(:,i)),'.','markersize',20)
+    plot(log(N_list),log(t1_form(1))+log(N_list)*t1_form(2)+log(epsilon(i))*t1_form(3),'r')
     legend('log(t-coeff) from data',sprintf('log(%.3f*N^%.3f*epsilon^%.3f)',t1_form(1),t1_form(2),t1_form(3)))
     xlabel('log(N)','fontsize',16)
-    ylabel('log(coeff)','fontsize',16)
+    ylabel('log(-coeff)','fontsize',16)
     title('t^1-model N scaling law','fontsize',16)
    
     t2_N = figure(6);
     hold on
-    plot(log(2*pi*N_list),log(-t2(:,i)/(2*sqrt(2)*pi)^2),'.','markersize',20)
-    plot(log(2*pi*N_list),log(t2_form(1))+log(2*pi*N_list)*t2_form(2)+log(epsilon(i)*2^(1/4)/(2*pi))*t2_form(3),'r')
+    plot(log(N_list),log(-t2(:,i)),'.','markersize',20)
+    plot(log(N_list),log(t2_form(1))+log(N_list)*t2_form(2)+log(epsilon(i))*t2_form(3),'r')
     legend('log(-t^2-coeff) from data',sprintf('log(%.3f*N^%.3f*epsilon^%.3f)',t2_form(1),t2_form(2),t2_form(3)))
     xlabel('log(N)','fontsize',16)
     ylabel('log(-coeff)','fontsize',16)
@@ -128,17 +128,17 @@ for i = 1:length(epsilon)
     
     t3_N = figure(7);
     hold on
-    plot(log(2*pi*N_list),log(t3(:,i)/(2*sqrt(2)*pi)^2),'.','markersize',20)
-    plot(log(2*pi*N_list),log(t3_form(1))+log(2*pi*N_list)*t3_form(2)+log(epsilon(i)*2^(1/4)/(2*pi))*t3_form(3),'r')
+    plot(log(N_list),log(-t3(:,i)),'.','markersize',20)
+    plot(log(N_list),log(t3_form(1))+log(N_list)*t3_form(2)+log(epsilon(i))*t3_form(3),'r')
     legend('log(t^3-coeff) from data',sprintf('log(%.3f*N^%.3f*epsilon^%.3f)',t3_form(1),t3_form(2),t3_form(3)))
     xlabel('log(N)','fontsize',16)
-    ylabel('log(coeff)','fontsize',16)
+    ylabel('log(-coeff)','fontsize',16)
     title('t^3-model N scaling law','fontsize',16)
     
     t4_N = figure(8);
     hold on
-    plot(log(2*pi*N_list),log(-t4(:,i)/(2*sqrt(2)*pi)^4),'.','markersize',20)
-    plot(log(2*pi*N_list),log(t4_form(1))+log(2*pi*N_list)*t4_form(2)+log(epsilon(i)*2^(1/4)/(2*pi))*t4_form(3),'r')
+    plot(log(N_list),log(-t4(:,i)),'.','markersize',20)
+    plot(log(N_list),log(t4_form(1))+log(N_list)*t4_form(2)+log(epsilon(i))*t4_form(3),'r')
     legend('log(t^4-coeff) from data',sprintf('log(%.3f*N^%.3f*epsilon^%.3f)',t4_form(1),t4_form(2),t4_form(3)))
     xlabel('log(N)','fontsize',16)
     ylabel('log(-coeff)','fontsize',16)
@@ -150,8 +150,8 @@ saveas(t1_eps,'t1_eps','png')
 saveas(t2_eps,'t2_eps','png')
 saveas(t3_eps,'t3_eps','png')
 saveas(t4_eps,'t4_eps','png')
-saveas(t1_N,'t2_N','png')
-saveas(t2_N,'t4_N','png')
-saveas(t3_N,'t2_N','png')
+saveas(t1_N,'t1_N','png')
+saveas(t2_N,'t2_N','png')
+saveas(t3_N,'t3_N','png')
 saveas(t4_N,'t4_N','png')
 close all
