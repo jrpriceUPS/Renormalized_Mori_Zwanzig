@@ -4,6 +4,8 @@ turn_times = zeros(length(N_list),1);
 
 for i = 1:length(N_list)
     
+    N = N_list(i);
+    
     % plot the energy in some modes
     load(sprintf('energy_%i_%i.mat',N,end_time))
     load(sprintf('t4_%i_%i',N,end_time))
