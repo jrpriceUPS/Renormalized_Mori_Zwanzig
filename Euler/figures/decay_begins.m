@@ -1,4 +1,4 @@
-function turn_times = decay_begins(N_list,percentage)
+function turn_times = decay_begins(N_list,percentage,end_time)
 
 turn_times = zeros(length(N_list),1);
 
