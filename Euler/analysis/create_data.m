@@ -23,9 +23,9 @@ function create_data(N,end_time)
 %  tN.dat  =  saved array of times associated with solution
 
 % load relevant folders into the path
-addpath ../../simulation_functions
-addpath ../../nonlinear
-addpath ../../analysis
+addpath ../simulation_functions
+addpath ../nonlinear
+addpath ../analysis
 
 % size of array needed for dealiasing
 M = 3*N;
