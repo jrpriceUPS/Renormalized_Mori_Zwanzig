@@ -1,4 +1,4 @@
-function scaling_laws = renormalize_exponent(u,N_list,t_list,x0)
+function [scaling_laws1,scaling_laws2] = renormalize_exponent(u,N_list,t_list,x0_1,x0_2)
 %
 % A function to take a fully resolved u to compute optimal renormalization
 % coefficients, including accounting for time exponent
@@ -187,4 +187,7 @@ for j = 1:length(N_list);
     end
 end
     
-scaling_laws = fminsearch(@(x)  optimize(x,N_array,t_array,exact,R0,R1,R2,R3,R4),x0);
+
+options = optimset('MaxIter',100000);
+scaling_laws1 = fminsearch(@(x)  optimize(x,N_array,t_array,exact,R0,R1,R2,R3,R4),x0_1,options);
+scaling_laws2 = fminsearch(@(x)  optimize(x,N_array,t_array,exact,R0,R1,R2,R3,R4),x0_2,options);

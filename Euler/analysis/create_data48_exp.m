@@ -107,5 +107,5 @@ x0_time = [ 2.45 -0.91 1
            -0.86 -4.31 4];
 
 % compute the renormalization coefficients
-scaling_laws_1 = renormalize_exponent(u,N_list,t_list,x0_no_time);
-scaling_laws_2 = renormalize_exponent(u,N_list,t_list,x0_time);
+scaling_laws_1 = renormalize_exponent(u,N_list,t,x0_no_time);
+scaling_laws_2 = renormalize_exponent(u,N_list,t,x0_time);

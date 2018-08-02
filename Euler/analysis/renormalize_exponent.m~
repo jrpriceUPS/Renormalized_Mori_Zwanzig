@@ -1,4 +1,4 @@
-%function scaling_laws = renormalize_exponent(u,N_list,t_list)
+function [scaling_laws1,scaling_laws2] = renormalize_exponent(u,N_list,t_list,x0_1,x0_2)
 %
 % A function to take a fully resolved u to compute optimal renormalization
 % coefficients, including accounting for time exponent
@@ -14,8 +14,7 @@
 %
 %  t_list  =  a vector of the times corresponding to the solution u
 %
-%   print  =  a logical variable (1 if figures are to be printed and saved,
-%             0 otherwise)
+%      x0  =  initial guess of coefficients for optimization
 %
 %
 %%%%%%%%%%
@@ -84,7 +83,7 @@ t_array = cell(length(N_list),1);
 for i = 1:length(t_list)
     for j = 1:length(N_list)
         N = N_list(j);
-        t_array{j} = repmat(t_list(i),2*N,2*N,2*N,3,t);
+        t_array{j}(:,:,:,:,i) = repmat(t_list(i),2*N,2*N,2*N,3);
     end
 end
 
@@ -187,10 +186,8 @@ for j = 1:length(N_list);
         R4{j}(:,:,:,:,i) = t4_energy(res_exact,res_exact,res_exact,:);
     end
 end
-
-x0 = [ 3.11 -0.92 0
-      -5.01 -1.96 0
-       4.92 -3.12 0
-      -1.83 -4.31 0];
     
-scaling_laws = fminsearch(@(x)  optimize(x,N_array,t_array,exact,R0,R1,R2,R3,R4),x0);
+
+options = optimset('MaxIter',100000);
+scaling_laws1 = fminsearch(@(x)  optimize(x,N_array,t_array,exact,R0,R1,R2,R3,R4),x0_1,options);
+scaling_laws2 = fminsearch(@(x)  optimize(x,N_array,t_array,exact,R0,R1,R2,R3,R4),x0_2,options);
