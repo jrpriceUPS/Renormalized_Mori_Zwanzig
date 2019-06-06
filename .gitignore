@@ -1,9 +1,6 @@
 KdV/Old/*
+*.DS_Store
 KdV/Simulations/old_simulations/*
-Burgers/Simulations/renormalization_test_Apr17/t_list.mat
-
-Burgers/Simulations/renormalization_test_Apr17/u_list.mat
-
-Burgers/Simulations/renormalization_test_Apr17/exact_derivative.mat
-
-Burgers/Figures/t_list10.mat
+*.mat
+*.png
+*.m~
