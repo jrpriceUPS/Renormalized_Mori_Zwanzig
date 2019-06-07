@@ -8,6 +8,7 @@ N = 48;
 M = 3*N;
 
 alpha_list = [0.1;0.01;0.001];
+namelist = {'p1', 'p01', 'p001'};
 N_list = 4:2:24;
 
 renormalization_range = zeros(2,length(alpha_list));
@@ -23,14 +24,13 @@ r_t = zeros(length(alpha_list),4,4);
 for j = 1:length(alpha_list)
     
     
-    if ~(exist(sprintf('u48_%i.mat',alpha_list(j)),'file') == 2)
-        create_data_alpha(N,1,alpha_list(j));
+    if ~(exist(['u48_' namelist{j} '.mat'],'file') == 2)
+        create_data_alpha(N,1,alpha_list(j),namelist{j});
     end
-    if ~(exist(sprintf('u48_2_%i.mat',alpha_list(j)),'file')==2)
+    if ~(exist(['u48_2_' extension '.mat'],'file')==2)
         
-        load u48;
-        load(sprintf('u%i.mat',N))
-        load(sprintf('t%i.mat',N))
+        load(['u48_' extension '.mat'])
+        load(['t48_' extension '.mat'])
         start_time = t(end);
         u0 = u(:,:,:,:,:,end);
         
@@ -69,19 +69,19 @@ for j = 1:length(alpha_list)
         t2 = t_new;
         u2 = u_new;
         
-        save(sprintf('t%i_2_%i',N,alpha_list(j)),'t2');
-        save(sprintf('u%i_2_%i',N,alpha_list(j)),'u2');
+        save(['u48_2_' extension '.mat'],'t2');
+        save(['t48_2' extension '.mat'],'u2');
         
     end
     
     
     
     
-    load(sprintf('u48_%i',alpha_list(j)))
-    load(sprintf('u48_2_%i',alpha_list(j)))
+    load(['u48_' extension '.mat'])
+    load(['t48_' extension '.mat'])
     
-    load(sprintf('t48_%i',alpha_list(j)))
-    load(sprintf('t48_2_%i',alpha_list(j)))
+    load(['u48_2_' extension '.mat'])
+    load(['t48_2' extension '.mat'])
     
     s = size(u);
     
@@ -91,13 +91,13 @@ for j = 1:length(alpha_list)
     
     t_both = [t;t2];
     
-    if ~(exist('tmodel_size_list48.mat','file') == 2)
+    if ~(exist(['tmodel_size_list48_' extension '.mat'],'file') == 2)
         [tmodel_size_list,tmodel_size_list_full] = resolve_array(u_both,t_both);
-        save('tmodel_size_list48','tmodel_size_list')
-        save('tmodel_size_list_full48','tmodel_size_list_full')
+        save(['tmodel_size_list48_' extension '.mat'],'tmodel_size_list')
+        save(['tmodel_size_list_full48_' extension '.mat'],'tmodel_size_list_full')
     end
     
-    load tmodel_size_list48
+    load(['tmodel_size_list48_' extension '.mat'])
     min_tol = 1e-16;
     max_tol = 1e-10;
     
