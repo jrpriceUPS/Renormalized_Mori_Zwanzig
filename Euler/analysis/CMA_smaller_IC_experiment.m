@@ -8,6 +8,7 @@ N = 48;
 M = 3*N;
 
 alpha_list = [0.1;0.01;0.001];
+N_list = 4:2:24;
 
 renormalization_range = zeros(2,length(alpha_list));
 
@@ -22,8 +23,8 @@ r_t = zeros(length(alpha_list),4,4);
 for j = 1:length(alpha_list)
     
     
-    if ~(exist(sprintf('u48_%i.mat',j),alpha_list(j)),'file') == 2)
-        create_data_alpha(N,1);
+    if ~(exist(sprintf('u48_%i.mat',alpha_list(j)),'file') == 2)
+        create_data_alpha(N,1,alpha_list(j));
     end
     if ~(exist(sprintf('u48_2_%i.mat',alpha_list(j)),'file')==2)
         

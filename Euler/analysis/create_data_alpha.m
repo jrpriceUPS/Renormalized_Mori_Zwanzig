@@ -32,12 +32,12 @@ addpath ../analysis
 % size of array needed for dealiasing
 M = 3*N;
 
-if exist(sprintf('u%i.mat',N),'file') == 2
+if exist(sprintf('u48_%i.mat',alpha),'file') == 2
     
     % if there is already data for this resolution, load it and continue the
     % simulation from the previous end time up to the proposed end time
-    load(sprintf('u%i.mat',N))
-    load(sprintf('t%i.mat',N))
+    load(sprintf('u48_%i.mat',alpha))
+    load(sprintf('t48_%i.mat',alpha))
     start_time = t(end);
     u0 = u(:,:,:,:,:,end);
     
@@ -93,7 +93,7 @@ for i = 1:length(t_new)
     u_new(:,:,:,:,:,i) = reshape(u_raw(i,:),[N,N,N,3,4]);
 end
 
-if exist(sprintf('u%i.mat',N),'file') == 2
+if exist(sprintf('u48_%i.mat',alpha),'file') == 2
     
     % if this resolution has been run before, append the new results to
     % those results
