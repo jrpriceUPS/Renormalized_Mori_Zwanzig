@@ -34,12 +34,12 @@ addpath ../analysis
 % size of array needed for dealiasing
 M = 3*N;
 
-if exist(['u48_' extension '.mat'],'file') == 2
+if exist(['u_' extension '.mat'],'file') == 2
     
     % if there is already data for this resolution, load it and continue the
     % simulation from the previous end time up to the proposed end time
-    load(['u48_' extension '.mat'])
-    load(['t48_' extension '.mat'])
+    load(['u_' extension '.mat'])
+    load(['t_' extension '.mat'])
     start_time = t(end);
     u0 = u(:,:,:,:,:,end);
     
@@ -95,7 +95,7 @@ for i = 1:length(t_new)
     u_new(:,:,:,:,:,i) = reshape(u_raw(i,:),[N,N,N,3,4]);
 end
 
-if exist(['u48_' extension '.mat'],'file') == 2
+if exist(['u_' extension '.mat'],'file') == 2
     
     % if this resolution has been run before, append the new results to
     % those results
@@ -111,5 +111,5 @@ else
 end
 
 % save the results into the directory
-save(['u48_' extension '.mat'],'t');
-save(['t48_' extension '.mat'],'u');
+save(['u_' extension '.mat'],'t');
+save(['t_' extension '.mat'],'u');
