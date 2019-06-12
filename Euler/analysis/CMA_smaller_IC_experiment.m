@@ -8,7 +8,7 @@ N = 24;
 M = 3*N;
 
 alpha_list = [1;0.1;0.01;0.001];
-endtime_list = [2;20;200;3000];
+endtime_list = [2;20;200;4000];
 namelist = {'1','p1', 'p01', 'p001'};
 N_list = 4:2:12;
 
@@ -188,7 +188,7 @@ for i = 1:length(alpha_list)
     end
 end
 
-
+close all
 
 
 
@@ -246,3 +246,4 @@ for i = 1:length(alpha_list)
         saveas(gcf,sprintf('coeff_plot_smaller_IC_t_ROM%i',j),'png')
     end
 end
+close all
