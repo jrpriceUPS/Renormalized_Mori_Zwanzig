@@ -1,0 +1,125 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1.0in]{geometry}
+\linespread{1.3}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\begin{document}
+
+\section*{2D Euler Fourier Transform}
+
+Consider 2D Euler:
+\[
+\mathbf{u}_t+\mathbf{u}\cdot\nabla\mathbf{u}=-\nabla{p},\qquad\nabla\cdot{u}=0
+\]
+\noindent where $\mathbf{u}(x,t)$ is a 2D vector that is periodic in both dimensions and $p$ is pressure.
+
+To find an expression for $p$ we take the divergence of both sides:
+\begin{align*}
+    \nabla\cdot(-\nabla{p})
+    &=\nabla\cdot(\mathbf{u}_t+\mathbf{u}\cdot\nabla\mathbf{u})\\
+    &=\nabla\cdot\mathbf{u}_t+\nabla\cdot(\mathbf{u}\cdot\nabla\mathbf{u})
+\end{align*}
+Since $\nabla\cdot{u}=0$, we have:
+\begin{align*}
+    \nabla\cdot\begin{bmatrix}-\frac{\partial{p}}{\partial{x}}\\-\frac{\partial{p}}{\partial{y}}\end{bmatrix}
+    =&\nabla\cdot\begin{bmatrix}u^x\frac{\partial{u}^x}{\partial{x}}+u^y\frac{\partial{u}^x}{\partial{y}}\\
+    u^x\frac{\partial{u}^y}{\partial{x}}+u^y\frac{\partial{u}^y}{\partial{y}}\end{bmatrix}\\
+    -\left(\frac{\partial^2p}{\partial{x}^2}+\frac{\partial^2p}{\partial{y}^2}\right)
+    =&\frac{\partial{u}^x}{\partial{x}}\frac{\partial{u}^x}{\partial{x}}+u^x\frac{\partial^2u^x}{\partial{x}^2}+\frac{\partial{u}^y}{\partial{x}}\frac{\partial{u}^x}{\partial{y}}+u^y\frac{\partial^2u^x}{\partial{x}\partial{y}}\\
+    &+\frac{\partial{u}^x}{\partial{y}}\frac{\partial{u}^y}{\partial{x}}+u^x\frac{\partial^2u^y}{\partial{x}\partial{y}}+\frac{\partial{u}^y}{\partial{y}}\frac{\partial{u}^y}{\partial{y}}+u^y\frac{\partial^2u^y}{\partial{y}^2}
+\end{align*}
+Notice that
+\[
+u^x\frac{\partial^2u^x}{\partial{x}^2}+u^x\frac{\partial^2u^y}{\partial{x}\partial{y}}=u^x\frac{\partial}{\partial{x}}(\nabla\cdot{u})=0
+\]
+and
+\[
+u^y\frac{\partial^2u^x}{\partial{x}\partial{y}}+u^y\frac{\partial^2u^y}{\partial{y}^2}=u^y\frac{\partial}{\partial{y}}(\nabla\cdot{u})=0.
+\]
+So,
+\[
+    -\left(\frac{\partial^2p}{\partial{x}^2}+\frac{\partial^2p}{\partial{y}^2}\right)
+    =\frac{\partial{u}^x}{\partial{x}}\frac{\partial{u}^x}{\partial{x}}+\frac{\partial{u}^y}{\partial{x}}\frac{\partial{u}^x}{\partial{y}}+\frac{\partial{u}^x}{\partial{y}}\frac{\partial{u}^y}{\partial{x}}+\frac{\partial{u}^y}{\partial{y}}\frac{\partial{u}^y}{\partial{y}}.
+\]
+Since $\mathbf{u}$ is periodic, we can represent it as a Fourier series
+\[
+\mathbf{u}(x,t)=\sum_{\mathbf{k}}\mathbf{u_k}(t)e^{i\mathbf{k\cdot{x}}}
+\]
+where $\mathbf{k}$ is a 2D wavevector and we sum over all possible integer-valued wavevectors. We can do the same for $p$:
+\[
+p=\sum_{\mathbf{k}}p_\mathbf{k}(t)e^{i\mathbf{k\cdot{x}}}
+\]
+Now we can write the left-hand side as
+\begin{align*}
+ -\left(\frac{\partial^2p}{\partial{x}^2}+\frac{\partial^2p}{\partial{y}^2}\right)=&-\left(\sum_\mathbf{k}-k_x^2p_\mathbf{k}e^{i\mathbf{k\cdot{x}}}+\sum_\mathbf{k}-k_y^2p_\mathbf{k}e^{i\mathbf{k\cdot{x}}}\right)\\
+ =&\sum_\mathbf{k}(k_x^2+k_y^2)p_\mathbf{k}e^{i\mathbf{k\cdot{x}}}\\
+ =&\sum_\mathbf{k}|\mathbf{k}|^2p_\mathbf{k}e^{i\mathbf{k\cdot{x}}}
+\end{align*}
+and the right-hand side as
+\[
+\left(\sum_\mathbf{p}ip_xu_\mathbf{p}^xe^{i\mathbf{p\cdot{x}}}\right)\left(\sum_\mathbf{q}iq_xu_\mathbf{q}^xe^{i\mathbf{q\cdot{x}}}\right)
++\left(\sum_\mathbf{p}ip_xu_\mathbf{p}^ye^{i\mathbf{p\cdot{x}}}\right)\left(\sum_\mathbf{q}iq_yu_\mathbf{q}^xe^{i\mathbf{q\cdot{x}}}\right)\\
+\]
+\[
++\left(\sum_\mathbf{p}ip_yu_\mathbf{p}^xe^{i\mathbf{p\cdot{x}}}\right)\left(\sum_\mathbf{q}iq_xu_\mathbf{q}^ye^{i\mathbf{q\cdot{x}}}\right)
++\left(\sum_\mathbf{p}ip_yu_\mathbf{p}^ye^{i\mathbf{p\cdot{x}}}\right)\left(\sum_\mathbf{q}iq_yu_\mathbf{q}^ye^{i\mathbf{q\cdot{x}}}\right)\]
+\begin{align*}
+&=-\sum_\mathbf{k}\sum_\mathbf{p+q=k}(p_xq_xu_\mathbf{p}^xu_\mathbf{q}^x+p_xq_yu_\mathbf{p}^yu_\mathbf{q}^x+p_yq_xu_\mathbf{p}^xu_\mathbf{q}^y+p_yq_yu_\mathbf{p}^yu_\mathbf{q}^y)e^{i\mathbf{k\cdot{x}}}\\
+&=-\sum_\mathbf{k}\sum_\mathbf{p+q=k}(\mathbf{p}\cdot{u}_\mathbf{q})(\mathbf{q}\cdot{u}_\mathbf{p})e^{i\mathbf{k\cdot{x}}}
+\end{align*}
+Since $\nabla\cdot\mathbf{u}=0$,
+\begin{align*}
+0&=\sum_\mathbf{k}(ik_xu_\mathbf{k}^x+ik_yu_\mathbf{k}^y)e^{i\mathbf{k\cdot{x}}}\\
+&=i\sum_\mathbf{k}(\mathbf{k}\cdot{u}_\mathbf{k})e^{i\mathbf{k\cdot{x}}}
+\end{align*}
+We multiply by $e^{-i\mathbf{j\cdot{x}}}$ and integrate:
+\begin{align*}
+0&=\int^{2\pi}_0i\sum_\mathbf{k}(\mathbf{k}\cdot{u}_\mathbf{k})e^{i(\mathbf{k-j})\cdot\mathbf{x}}d\mathbf{x}\\
+&=i(\mathbf{j}\cdot{u}_\mathbf{j})
+\end{align*}
+Since $i(\mathbf{q}\cdot{u}_\mathbf{q})=0$ and $i\neq0$, $\mathbf{q}\cdot{u}_\mathbf{q}=0$. Therefore,  $\mathbf{p}\cdot{u}_\mathbf{q}=\mathbf{p}\cdot{u}_\mathbf{q}+\mathbf{q}\cdot{u}_\mathbf{q}=\mathbf{k}\cdot{u}_\mathbf{q}$ and, similarly, $\mathbf{q}\cdot{u}_\mathbf{p}=\mathbf{k}\cdot{u}_\mathbf{p}$. We can now rewrite our equation.
+\[
+\sum_\mathbf{k}|\mathbf{k}|^2p_\mathbf{k}e^{i\mathbf{k\cdot{x}}}=-\sum_\mathbf{k}\sum_\mathbf{p+q=k}(\mathbf{k}\cdot{u}_\mathbf{q})(\mathbf{k}\cdot{u}_\mathbf{p})e^{i\mathbf{k\cdot{x}}}
+\]
+Again, we multiply by $e^{-i\mathbf{j\cdot{x}}}$ and integrate:
+\begin{align*}
+\int^{2\pi}_0\sum_\mathbf{k}|\mathbf{k}|^2p_\mathbf{k}e^{i(\mathbf{k-j})\cdot\mathbf{x}}d\mathbf{x} &=-\int^{2\pi}_0\sum_\mathbf{k}\sum_\mathbf{p+q=k}(\mathbf{k}\cdot{u}_\mathbf{q})(\mathbf{k}\cdot{u}_\mathbf{p})e^{i(\mathbf{k-j})\cdot\mathbf{x}}d\mathbf{x}\\
+|\mathbf{j}|^2p_\mathbf{j}&=-\sum_\mathbf{p+q=j}(\mathbf{j}\cdot{u}_\mathbf{q})(\mathbf{j}\cdot{u}_\mathbf{p})
+\end{align*}
+So we can express $p$ as
+\[
+p_\mathbf{k}=-\frac{1}{|\mathbf{k}|^2}\sum_\mathbf{p+q=k}(\mathbf{k}\cdot{u}_\mathbf{q})(\mathbf{k}\cdot{u}_\mathbf{p})
+\]
+If we return to the original equation, we can find a Fourier representation for each term.
+\[
+\mathbf{u}_t =\begin{bmatrix}\frac{\partial{u^x}}{\partial{t}}\\\frac{\partial{u^y}}{\partial{t}}\end{bmatrix}=\sum_\mathbf{k}\frac{d\mathbf{u_k}}{dt}e^{i\mathbf{k\cdot{x}}}
+\]
+\begin{align*}
+\mathbf{u}\cdot\nabla\mathbf{u}=\begin{bmatrix}u^x\frac{\partial{u^x}}{\partial{x}}+u^y\frac{\partial{u^x}}{\partial{y}}\\u^x\frac{\partial{u^y}}{\partial{x}}+u^y\frac{\partial{u^y}}{\partial{y}}\end{bmatrix}&=\sum_\mathbf{k}\sum_\mathbf{p+q=k}\begin{bmatrix}iq_xu_\mathbf{p}^xu_\mathbf{q}^x+iq_yu_\mathbf{p}^yu_\mathbf{q}^x\\iq_xu_\mathbf{p}^xu_\mathbf{q}^y+iq_yu_\mathbf{p}^yu_\mathbf{q}^y\end{bmatrix}e^{i\mathbf{k\cdot{x}}}\\
+&=i\sum_\mathbf{k}\sum_\mathbf{p+q=k}(\mathbf{q}\cdot{u}_\mathbf{p})u_\mathbf{q}e^{i\mathbf{k\cdot{x}}}\\
+&=i\sum_\mathbf{k}\sum_\mathbf{p+q=k}(\mathbf{k}\cdot{u}_\mathbf{p})u_\mathbf{q}e^{i\mathbf{k\cdot{x}}}
+\end{align*}
+\begin{align*}
+-\nabla{p}=-\begin{bmatrix}\frac{\partial{p}}{\partial{x}}\\\frac{\partial{p}}{\partial{y}}\end{bmatrix}&=-\sum_\mathbf{k}\begin{bmatrix}ik_xp_\mathbf{k}\\ik_yp_\mathbf{k}\end{bmatrix}e^{i\mathbf{k\cdot{x}}}\\
+&=-i\sum_\mathbf{k}\mathbf{k}p_\mathbf{k}e^{i\mathbf{k\cdot{x}}}\\
+&=i\sum_\mathbf{k}\frac{\mathbf{k}}{|\mathbf{k}|^2}\left(\sum_\mathbf{p+q=k}(\mathbf{k}\cdot{u}_\mathbf{q})(\mathbf{k}\cdot{u}_\mathbf{p})\right)e^{i\mathbf{k\cdot{x}}}
+\end{align*}
+We plug these in to the original equation, and then we multiply by $e^{-i\mathbf{j\cdot{x}}}$ and integrate.
+\begin{align*}
+&\int^{2\pi}_0\sum_\mathbf{k}\frac{d\mathbf{u_k}}{dt}e^{i(\mathbf{k-j})\cdot\mathbf{x}}d\mathbf{x}&\\
+&+\int^{2\pi}_0i\sum_\mathbf{k}\sum_\mathbf{p+q=k}(\mathbf{k}\cdot{u}_\mathbf{p})u_\mathbf{q}e^{i(\mathbf{k-j})\cdot\mathbf{x}}d\mathbf{x}&=\int^{2\pi}_0i\sum_\mathbf{k}\frac{\mathbf{k}}{|\mathbf{k}|^2}\left(\sum_\mathbf{p+q=k}(\mathbf{k}\cdot{u}_\mathbf{q})(\mathbf{k}\cdot{u}_\mathbf{p})\right)e^{i(\mathbf{k-j})\cdot\mathbf{x}}d\mathbf{x}\\
+\end{align*}
+\[
+\frac{d\mathbf{u_j}}{dt}+i\sum_\mathbf{p+q=j}(\mathbf{j}\cdot{u}_\mathbf{p})u_\mathbf{q} = i\frac{\mathbf{j}}{|\mathbf{j}|^2}\sum_\mathbf{p+q=j}(\mathbf{j}\cdot{u}_\mathbf{q})(\mathbf{j}\cdot{u}_\mathbf{p})
+\]
+So we have our final Fourier transform
+\[
+\frac{d\mathbf{u_k}}{dt}=-i\sum_\mathbf{p+q=k}\left((\mathbf{k}\cdot{u}_\mathbf{p})u_\mathbf{q}-\frac{\mathbf{k}}{|\mathbf{k}|^2}(\mathbf{k}\cdot{u}_\mathbf{q})(\mathbf{k}\cdot{u}_\mathbf{p})\right)
+\]
+which we can represent more clearly using a matrix $A$ as
+\[
+\frac{d\mathbf{u_k}}{dt}=-i\sum_\mathbf{p+q=k}\mathbf{k}\cdot{u}_\mathbf{p}A_\mathbf{k}u_\mathbf{q}
+\]
+where $A_\mathbf{k}=I-\frac{\mathbf{kk}^T}{|\mathbf{k}|^2}$.
+\end{document}
