@@ -25,12 +25,12 @@ end
 
 
 % eliminate terms that do not have conjugate pair
-normalized_fftn(s(1)/2+1,:,:,:) = 0;
-normalized_fftn(:,s(1)/2+1,:,:) = 0;
-normalized_fftn(:,:,s(1)/2+1,:) = 0;
-
-normalized_fftn(s(1)/2+1,s(1)/2+1,:,:) = 0;
-normalized_fftn(s(1)/2+1,:,s(1)/2+1,:) = 0;
-normalized_fftn(:,s(1)/2+1,s(1)/2+1,:) = 0;
-
-normalized_fftn(s(1)/2+1,s(1)/2+1,s(1)/2+1,:) = 0;
+% normalized_fftn(s(1)/2+1,:,:,:) = 0;
+% normalized_fftn(:,s(1)/2+1,:,:) = 0;
+% normalized_fftn(:,:,s(1)/2+1,:) = 0;
+% 
+% normalized_fftn(s(1)/2+1,s(1)/2+1,:,:) = 0;
+% normalized_fftn(s(1)/2+1,:,s(1)/2+1,:) = 0;
+% normalized_fftn(:,s(1)/2+1,s(1)/2+1,:) = 0;
+% 
+% normalized_fftn(s(1)/2+1,s(1)/2+1,s(1)/2+1,:) = 0;
