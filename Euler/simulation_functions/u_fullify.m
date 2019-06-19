@@ -36,6 +36,7 @@ u_full = zeros(2*M,2*M,2*M,3); % create output array
 %     - means negative entries in that coordinate of k
 %     0 means zeros in that coordinate of k
 
+
 u_full(a,a,a,:) = u(a,a,a,:,1); % k = [+,+,+]
 u_full(a,a,b,:) = u(a,a,a,:,2); % k = [+,+,-]
 u_full(a,b,a,:) = u(a,a,a,:,3); % k = [+,-,+]

@@ -25,6 +25,12 @@ function convolution = convolve(u_full,v_full)
 u_real = ifftn_norm(u_full);
 v_real = ifftn_norm(v_full);
 
+for i = 1:2M
+    for j = 1:2M
+        uv_T(i,j,:,:) = squeeze(u(i,j,:))*squeeze(v(i,j,:))'
+    end
+end
+
 s = size(u_real);
 
 v_1 = repmat(v_real(:,:,:,1),[1,1,1,3]);
