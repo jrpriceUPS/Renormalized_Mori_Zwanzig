@@ -1,8 +1,10 @@
 clear all;close all;
 
-addpath ../simulation_functions
-addpath ../nonlinear
-addpath ../analysis
+addpath ../../simulation_functions
+addpath ../../nonlinear
+addpath ../../analysis
+
+create_data48
 
 load u48
 load u48_2

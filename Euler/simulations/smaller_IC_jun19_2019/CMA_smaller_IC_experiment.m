@@ -1,8 +1,8 @@
 clear all;close all;
 
-addpath ../simulation_functions
-addpath ../nonlinear
-addpath ../analysis
+addpath ../../simulation_functions
+addpath ../../nonlinear
+addpath ../../analysis
 
 N = 24;
 M = 3*N;
