@@ -24,8 +24,8 @@ function convolution = convolve(u_full,v_full)
 % 
 %
 
-u_real = ifftn_norm2(u_full);
-v_real = ifftn_norm2(v_full);
+u_real = ifftn_norm(u_full);
+v_real = ifftn_norm(v_full);
 
 s = size(u_real);
 
@@ -37,4 +37,4 @@ uv_T(:,:,:,1) = u_real.*v_1;
 uv_T(:,:,:,2) = u_real.*v_2;
 
 
-convolution = fftn_norm_conv2(uv_T);
+convolution = fftn_norm_conv(uv_T);
