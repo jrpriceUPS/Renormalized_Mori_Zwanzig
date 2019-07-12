@@ -1,6 +1,6 @@
-edfunction du_dt = t3model_RHS(params)
+function du_dt = t4model_RHS_new(params)
 %
-% Computes the t^3-model for every mode in 3D Euler
+% Computes the t^4-model for every mode in 3D Euler
 %
 %
 %%%%%%%%%
@@ -26,8 +26,9 @@ edfunction du_dt = t3model_RHS(params)
 %
 %     coeff  =  constant coefficient assigned to t-model
 %
-%   no_time  =  a logical variable equal to 1 if the time is to be
-%               disregarded (KdV-like time decay)
+%  time_exp  =  the fractional multiplier of the power of t in the
+%               renormalized model (for KdV-style, this should be 0, for
+%               Burgers'-style it should be 1)
 %
 %
 %%%%%%%%%%
@@ -45,6 +46,7 @@ a_tilde2 = params.a_tilde2;
 N = params.N;
 time = params.time;
 coeff = params.coeff;
+time_exp = params.time_exp;
 
 % compute the full model term
 [t0,t0hat,t0tilde] = markov_term(u_full,a,b,k,a_tilde,a_tilde2);
@@ -53,19 +55,19 @@ coeff = params.coeff;
 [t1,t1hat,t1tilde] = tmodel_term(u_full,t0tilde,a,b,k,a_tilde,a_tilde2);
 
 % compute the t^2-model term
-[t2,Ahat,Atilde,~,Btilde] = t2model_term(u_full,t0hat,t0tilde,t1tilde,a,b,k,a_tilde,a_tilde2);
+[t2,Ahat,Atilde,Bhat,Btilde] = t2model_term(u_full,t0hat,t0tilde,t1tilde,a,b,k,a_tilde,a_tilde2);
 
-% compute the t^2-model term
-t3 = t3model_term(u_full,t0hat,t0tilde,t1hat,t1tilde,Ahat,Atilde,Btilde,a,b,k,a_tilde,a_tilde2);
+% compute the t^3-model term
+[t3,Ehat,Etilde,Fhat,Ftilde] = t3model_term(u_full,t0hat,t0tilde,t1hat,t1tilde,Ahat,Atilde,Btilde,a,b,k,a_tilde,a_tilde2);
+
+% compute the t^4-model term
+t4 = t4model_term(u_full,t0hat,t0tilde,t1hat,t1tilde,Ahat,Atilde,Bhat,Btilde,Ehat,Etilde,Fhat,Ftilde,a,b,k,a_tilde,a_tilde2);
 
 t0 = u_squishify(t0,N);
 t1 = u_squishify(t1,N);
 t2 = u_squishify(t2,N);
 t3 = u_squishify(t3,N);
-
-if params.no_time
-    time = 1;
-end
+t4 = u_squishify(t4,N);
 
 % compute the derivative
-du_dt = t0 + t1 * time * coeff(1) + t2 * time^2 * coeff(2) + t3 * time^3 * coeff(3);
+du_dt = t0 + t1 * time^(1*time_exp) * coeff(1) + t2 * time^(2*time_exp) * coeff(2) + t3 * time^(3*time_exp) * coeff(3) + t4 * time^(4*time_exp) * coeff(4);

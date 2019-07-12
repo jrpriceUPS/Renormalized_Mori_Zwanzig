@@ -53,8 +53,11 @@ else
     [X,Y] = ndgrid(x,y);
     
     % create initial condition
-    eval = taylor_green(X,Y);
-    u_full = fftn_norm(eval);
+    %eval = rand([size(X),2]);
+    %u_full = fftn_norm(eval);
+    u_full = rand([size(X),2]) + 1i*rand([size(X),2]);
+    squish = u_squishify(u_full,N);
+    u_full = u_fullify(squish,N);
     u0 = u_squishify(u_full,N);
     
 end
