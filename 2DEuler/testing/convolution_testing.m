@@ -1,21 +1,18 @@
-N = 2;
-M = 6;
+N = 4;
+M = 2*N;
 
+% make k array
+kvec2 = [0:N-1,-N:1:-1];
+[kx,ky] = ndgrid(kvec2,kvec2);
 k = zeros(2*N,2*N,2);
-k(1,:,1) = 0;
-k(2,:,1) = 1;
-k(3,:,1) = -2;
-k(4,:,1) = -1;
-k(:,1,2) = 0;
-k(:,2,2) = 1;
-k(:,3,2) = -2;
-k(:,4,2) = -1;
+k(:,:,1) = kx;
+k(:,:,2) = ky;
 
-u = rand(2*N,2*N,2);
+u = rand(2*N,2*N,2)+1i*rand(2*N,2*N,2);
 %u(:,:,1) = [0 1i 2i 3i;4i 5i 6i 7i;8i 9i 10i 11i;12i 13i 14i 15i];
 %u(:,:,2) = [0 1i 2i 3i;4i 5i 6i 7i;8i 9i 10i 11i;12i 13i 14i 15i];
 
-v = rand(2*N,2*N,2);
+v = rand(2*N,2*N,2)+1i*rand(2*N,2*N,2);
 %v(:,:,1) = [0 -1i -2i -3i;-4i -5i -6i -7i;-8i -9i -10i -11i;-12i -13i -14i -15i];
 %v(:,:,2) = [0 -1i -2i -3i;-4i -5i -6i -7i;-8i -9i -10i -11i;-12i -13i -14i -15i];
 
@@ -31,16 +28,16 @@ C1 = zeros(size(u));
 C2 = zeros(size(u));
 convo1 = 0;
 convo2 = 0;
-for i = 1:4
-    for j = 1:4
-        if i == 1 & j == 1
+for i = 1:(2*N)
+    for j = 1:(2*N)
+        if i == 1 && j == 1
         else
             k_vec = squeeze(k(i,j,:));
-            for m = 1:4
-                for n = 1:4
+            for m = 1:(2*N)
+                for n = 1:(2*N)
                     a_vec = squeeze(k(m,n,:));
-                    for p = 1:4
-                        for q = 1:4
+                    for p = 1:(2*N)
+                        for q = 1:(2*N)
                             b_vec = squeeze(k(p,q,:));
                             if (a_vec(1) + b_vec(1) == k_vec(1)) && (a_vec(2) + b_vec(2) == k_vec(2))
                                 u_vec = squeeze(u(m,n,:));
