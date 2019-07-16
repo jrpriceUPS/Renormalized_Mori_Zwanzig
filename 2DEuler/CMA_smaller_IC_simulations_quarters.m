@@ -98,7 +98,7 @@ for j = 1:length(alpha_list)
         params.a_tilde = N+1:M;
         params.a_tilde2 = 2*N+1:M;
         params.print_time = 1;
-        params.time_exp = 1/2;
+        params.time_exp = 1/4;
         
         
         params4 = params;
@@ -106,13 +106,13 @@ for j = 1:length(alpha_list)
         
         zeros(length(alpha_list),4,2,4);
         
-        load('diff_IC_coeffs_half')
+        load('diff_IC_coeffs_p75')
         params4.coeff = squeeze(coefficients(j,:,i,4));
         
-        if exist([sprintf('u_array4_half_%i_%i_',N,end_time) namelist{j} '.mat'],'file') == 2
+        if exist([sprintf('u_array4_p75_%i_%i_',N,end_time) namelist{j} '.mat'],'file') == 2
             
-            load([sprintf('u_array4_half_%i_%i_',N,end_time) namelist{j} '.mat'])
-            load([sprintf('t4_half_%i_%i_',N,end_time) namelist{j} '.mat'])
+            load([sprintf('u_array4_p75_%i_%i_',N,end_time) namelist{j} '.mat'])
+            load([sprintf('t4_p75_%i_%i_',N,end_time) namelist{j} '.mat'])
             
         else
             
@@ -128,18 +128,18 @@ for j = 1:length(alpha_list)
                 u_array4(:,:,:,:,:,l) = reshape(u_raw4(l,:),[N,N,N,3,4]);
             end
             
-            save([sprintf('t4_half_%i_%i_',N,end_time) namelist{j} '.mat'],'t4');
-            save([sprintf('u_array4_half_%i_%i_',N,end_time) namelist{j} '.mat'],'u_array4');
+            save([sprintf('t4_p75_%i_%i_',N,end_time) namelist{j} '.mat'],'t4');
+            save([sprintf('u_array4_p75_%i_%i_',N,end_time) namelist{j} '.mat'],'u_array4');
             
         end
         
         % plot the energy in some modes
-        if exist([sprintf('energy_half_%i_%i_',N,end_time) namelist{j}],'file') == 2
-            load([sprintf('energy_half_%i_%i_',N,end_time) namelist{j}])
-            load([sprintf('t4_half_%i_%i_',N,end_time) namelist{j} '.mat'])
+        if exist([sprintf('energy_p75_%i_%i_',N,end_time) namelist{j}],'file') == 2
+            load([sprintf('energy_p75_%i_%i_',N,end_time) namelist{j}])
+            load([sprintf('t4_p75_%i_%i_',N,end_time) namelist{j} '.mat'])
         else
             energy = get_3D_energy(u_array4,N);
-            save([sprintf('energy_half_%i_%i_',N,end_time) namelist{j} '.mat'],'energy');
+            save([sprintf('energy_p75_%i_%i_',N,end_time) namelist{j} '.mat'],'energy');
         end
         figure(1)
         hold on
@@ -151,7 +151,7 @@ for j = 1:length(alpha_list)
         if sum(isnan([log(t4(2)),max(log(t4)),log(energy(end))-0.5,log(energy(1))+1]))==0
             axis([log(t4(2)),max(log(t4)),log(energy(end))-0.5,log(energy(1))+1])
         end
-        saveas(gcf,[sprintf('energy_half_%i_%i_',N,end_time) namelist{j}],filetype)
+        saveas(gcf,[sprintf('energy_p75_%i_%i_',N,end_time) namelist{j}],filetype)
         
 %         % compute slopes and energy draining times
 %         turn_percent = 0.1;
@@ -187,11 +187,11 @@ for j = 1:length(alpha_list)
         
         
         % plot the enstrophy
-        if exist([sprintf('enstrophy_half_%i_%i_',N,end_time) namelist{j} '.mat'],'file') == 2
-            load([sprintf('enstrophy_half_%i_%i_',N,end_time) namelist{j} '.mat'])
+        if exist([sprintf('enstrophy_p75_%i_%i_',N,end_time) namelist{j} '.mat'],'file') == 2
+            load([sprintf('enstrophy_p75_%i_%i_',N,end_time) namelist{j} '.mat'])
         else
             ens = enstrophy(u_array4);
-            save([sprintf('enstrophy_half_%i_%i_',N,end_time) namelist{j} '.mat'],'ens');
+            save([sprintf('enstrophy_p75_%i_%i_',N,end_time) namelist{j} '.mat'],'ens');
         end
         [m,peak_time] = max(ens);
         ens_max(i) = m;
@@ -204,7 +204,7 @@ for j = 1:length(alpha_list)
         title('Enstrophy','fontsize',16)
         xlabel('time','fontsize',16)
         ylabel('enstrophy','fontsize',16)
-        saveas(gcf,[sprintf('enstrophy_mult_half_%i_',N) namelist{j}],filetype)
+        saveas(gcf,[sprintf('enstrophy_mult_p75_%i_',N) namelist{j}],filetype)
         
         % plot the enstrophy on a smaller domain
         figure(4)
@@ -214,15 +214,15 @@ for j = 1:length(alpha_list)
         title('Enstrophy','fontsize',16)
         xlabel('time','fontsize',16)
         ylabel('enstrophy','fontsize',16)
-        saveas(gcf,[sprintf('enstrophy_mult_trim_half_%i_',N) namelist{j}],filetype)
+        saveas(gcf,[sprintf('enstrophy_mult_trim_p75_%i_',N) namelist{j}],filetype)
         
         
         % plot the vorticity
-        if exist([sprintf('vorticity_half_%i_%i_',N,end_time) namelist{j} '.mat'],'file') == 2
-            load([sprintf('vorticity_half_%i_%i_',N,end_time) namelist{j} '.mat'])
+        if exist([sprintf('vorticity_p75_%i_%i_',N,end_time) namelist{j} '.mat'],'file') == 2
+            load([sprintf('vorticity_p75_%i_%i_',N,end_time) namelist{j} '.mat'])
         else
             [~,vort2] = vorticity(u_array4);
-            save([sprintf('vorticity_half_%i_%i_',N,end_time) namelist{j} '.mat'],'vort2');
+            save([sprintf('vorticity_p75_%i_%i_',N,end_time) namelist{j} '.mat'],'vort2');
         end
         [m,peak_time] = max(vort2);
         vort_max(i) = m;
@@ -235,7 +235,7 @@ for j = 1:length(alpha_list)
         title('Maximum of vorticity','fontsize',16)
         xlabel('time','fontsize',16)
         ylabel('Maximal vorticity','fontsize',16)
-        saveas(gcf,[sprintf('vorticity_mult_half_%i_',N) namelist{j}],filetype)
+        saveas(gcf,[sprintf('vorticity_mult_p75_%i_',N) namelist{j}],filetype)
         
         % plot the vorticity on a smaller domain
         figure(6)
@@ -245,7 +245,7 @@ for j = 1:length(alpha_list)
         title('Maximum of vorticity','fontsize',16)
         xlabel('time','fontsize',16)
         ylabel('maximal vorticity','fontsize',16)
-        saveas(gcf,[sprintf('vorticity_mult_trim_half_%i_',N) namelist{j}],filetype)
+        saveas(gcf,[sprintf('vorticity_mult_trim_p75_%i_',N) namelist{j}],filetype)
         
         vort_int = zeros(length(t4)-1,1);
         for l = 2:length(t4)

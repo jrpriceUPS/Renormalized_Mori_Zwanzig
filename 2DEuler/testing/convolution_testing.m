@@ -8,7 +8,7 @@ k = zeros(2*N,2*N,2);
 k(:,:,1) = kx;
 k(:,:,2) = ky;
 
-u = rand(2*N,2*N,2)+1i*rand(2*N,2*N,2);
+u = rand(2*N,2*N,2) + 1i*rand(2*N,2*N,2);
 %u(:,:,1) = [0 1i 2i 3i;4i 5i 6i 7i;8i 9i 10i 11i;12i 13i 14i 15i];
 %u(:,:,2) = [0 1i 2i 3i;4i 5i 6i 7i;8i 9i 10i 11i;12i 13i 14i 15i];
 
@@ -75,5 +75,6 @@ b = 2*M:-1:M+2;
 a_tilde = N+1:M;
 a_tilde2 = 2*N+1:M;
 [C1_new,C2_new] = Ck(u_big,v_big,a,b,k2,a_tilde,a_tilde2);
-u_squishify(C1,N) - u_squishify(C1_new,N)
-u_squishify(C2,N) - u_squishify(C2_new,N)
+u_fullify(u_squishify(C1,N),N)-C1
+%u_squishify(C1,N) - u_squishify(C1_new,N)
+%u_squishify(C2,N) - u_squishify(C2_new,N)
