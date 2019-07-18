@@ -56,8 +56,12 @@ t1 = tmodel_term(u_full,t0tilde,a,b,k,a_tilde,a_tilde2);
 t0 = u_squishify(t0,N);
 t1 = u_squishify(t1,N);
 
-if params.no_time
-    time = 1;
+if params.no_time == 1
+    time_exp = 0;
+elseif params.no_time == 0
+    time_exp = 1;
+else
+    time_exp = params.time_exp;
 end
 
-du_dt = t0 + t1 * time * coeff;
+du_dt = t0 + t1 * time^(1*time_exp) * coeff(1);

@@ -1,4 +1,4 @@
-function create_data(N,end_time)
+function create_data(N,end_time,alpha,extension)
 %
 % A function to generate a full model simulation of size N up to time
 % end_time
@@ -13,6 +13,15 @@ function create_data(N,end_time)
 %  end_time  =  final time desired for simulation
 %
 %
+%%%%%%%%%%%%%%%%%%
+%OPTIONAL INPUTS:%
+%%%%%%%%%%%%%%%%%%
+%
+%     alpha  =  size of the Taylor-Green initial condition
+%
+% extension  =  extension to be appended to name of output to differentiate
+%
+%
 %%%%%%%%%
 %OUTPUS:%
 %%%%%%%%%
@@ -22,6 +31,11 @@ function create_data(N,end_time)
 %
 %  tN.dat  =  saved array of times associated with solution
 
+if nargin == 2
+    alpha = 1;
+    extension = '1';
+end
+
 % load relevant folders into the path
 addpath ../simulation_functions
 addpath ../nonlinear
@@ -30,12 +44,12 @@ addpath ../analysis
 % size of array needed for dealiasing
 M = 3*N;
 
-if exist(sprintf('u%i.mat',N),'file') == 2
+if exist(['u_' extension '.mat'],'file') == 2
     
     % if there is already data for this resolution, load it and continue the
     % simulation from the previous end time up to the proposed end time
-    load(sprintf('u%i.mat',N))
-    load(sprintf('t%i.mat',N))
+    load(['u_' extension '.mat'])
+    load(['t_' extension '.mat'])
     start_time = t(end);
     u0 = u(:,:,:,:,:,end);
     
@@ -54,7 +68,7 @@ else
     [X,Y,Z] = ndgrid(x,y,z);
     
     % create initial condition
-    eval = taylor_green(X,Y,Z);
+    eval = alpha*taylor_green(X,Y,Z);
     u_full = fftn_norm(eval);
     u0 = u_squishify(u_full,N);
     
@@ -91,7 +105,7 @@ for i = 1:length(t_new)
     u_new(:,:,:,:,:,i) = reshape(u_raw(i,:),[N,N,N,3,4]);
 end
 
-if exist(sprintf('u%i.mat',N),'file') == 2
+if exist(['u_' extension '.mat'],'file') == 2
     
     % if this resolution has been run before, append the new results to
     % those results
@@ -107,5 +121,5 @@ else
 end
 
 % save the results into the directory
-save(sprintf('t%i',N),'t');
-save(sprintf('u%i',N),'u');
+save(['u_' extension '.mat'],'t');
+save(['t_' extension '.mat'],'u');

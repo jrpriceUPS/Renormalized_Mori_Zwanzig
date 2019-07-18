@@ -46,7 +46,6 @@ a_tilde2 = params.a_tilde2;
 N = params.N;
 time = params.time;
 coeff = params.coeff;
-time_exp = params.time_exp;
 
 % compute the full model term
 [t0,t0hat,t0tilde] = markov_term(u_full,a,b,k,a_tilde,a_tilde2);
@@ -68,6 +67,16 @@ t1 = u_squishify(t1,N);
 t2 = u_squishify(t2,N);
 t3 = u_squishify(t3,N);
 t4 = u_squishify(t4,N);
+
+if params.no_time == 1
+    time_exp = 0;
+elseif params.no_time == 0
+    time_exp = 1;
+else
+    time_exp = params.time_exp;
+end
+
+
 
 % compute the derivative
 du_dt = t0 + t1 * time^(1*time_exp) * coeff(1) + t2 * time^(2*time_exp) * coeff(2) + t3 * time^(3*time_exp) * coeff(3) + t4 * time^(4*time_exp) * coeff(4);
