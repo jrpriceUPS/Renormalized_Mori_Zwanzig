@@ -1,4 +1,4 @@
-function time_exp_and_smaller_IC(N,endtime_list,alpha_list,scaling)
+function time_exp_and_smaller_IC(N,endtime_list,alpha_list,scaling,coeff_plots)
 
 close all
 
@@ -11,9 +11,9 @@ lines = {'b','r','g','k'};
 
 N_list = 4:2:N/2;
 
-coefficients = zeros(length(alpha_list),4,length(N_list),4);
-laws = zeros(length(alpha_list),4,2,4);
-r = zeros(length(alpha_list),4,4);
+coefficients = zeros(4,length(N_list),4);
+laws = zeros(4,2,4);
+r = zeros(4,4);
 
 for j = 1:length(alpha_list)
     
@@ -45,62 +45,71 @@ for j = 1:length(alpha_list)
     
     for i = 1:length(scaling)
         
-        % compute the renormalization coefficients
-        [c_find,laws_find,r_find] = renormalize_frac(u_array,N_list,t_array,scaling(i),1);
-        coefficients(j,:,:,:) = c_find;
-        laws(j,:,:,:) = laws_find;
-        r(j,:,:) = r_find;
-        save(['coeffs_eps_' num2str(alpha_list(j)) '_scalepow_' num2str(scaling(i)-1) 'k'],'coefficients')
-        save(['laws_eps_' num2str(alpha_list(j)) '_scalepow_' num2str(scaling(i)-1) 'k'],'laws')
-        save(['r_eps_' num2str(alpha_list(j)) '_scalepow_' num2str(scaling(i)-1) 'k'],'r')
+        if ~(exist(['coeffs_eps_' num2str(alpha_list(j)) '_scalepow_' num2str(scaling(i)-1) 'k_' num2str(N) '.mat'],'file') == 2)
+            % compute the renormalization coefficients
+            [c_find,laws_find,r_find] = renormalize_frac(u_array,N_list,t_array,scaling(i),0);
+            coefficients(:,:,:) = c_find;
+            laws(:,:,:) = laws_find;
+            r(:,:) = r_find;
+            save(['coeffs_eps_' num2str(alpha_list(j)) '_scalepow_' num2str(scaling(i)-1) 'k_' num2str(N) '.mat'],'coefficients')
+            save(['laws_eps_' num2str(alpha_list(j)) '_scalepow_' num2str(scaling(i)-1) 'k_' num2str(N) '.mat'],'laws')
+            save(['r_eps_' num2str(alpha_list(j)) '_scalepow_' num2str(scaling(i)-1) 'k_' num2str(N) '.mat'],'r')
+        end
         
-        for figwin = 1:4
-            figure(figwin)
-            subplot(2,2,1)
-            plot(log(N_list),log(squeeze(coefficients(i,1,:,figwin))),markers{i},'markersize',20)
-            hold on
-            plot([1,log(N_list(end))+1],polyval(squeeze(laws(i,1,:,figwin)),[1,log(N_list(end))+1]),lines{i})
-            title(['t-model coefficient, eps = ' num2str(alpha_list(j)) ', scaling = ' num2str(scaling(i)-1) 'k'],'fontsize',16)
-            xlabel('log(N)')
-            ylabel('log(a_1)')
-            
-            if figwin > 1
-                
-                subplot(2,2,2)
-                plot(log(N_list),log(squeeze(-coefficients(i,2,:,figwin))),markers{i},'markersize',20)
+        load(['coeffs_eps_' num2str(alpha_list(j)) '_scalepow_' num2str(scaling(i)-1) 'k_' num2str(N) '.mat'])
+        load(['laws_eps_' num2str(alpha_list(j)) '_scalepow_' num2str(scaling(i)-1) 'k_' num2str(N) '.mat'])
+        load(['r_eps_' num2str(alpha_list(j)) '_scalepow_' num2str(scaling(i)-1) 'k_' num2str(N) '.mat'])
+        
+        if coeff_plots
+            for figwin = 1:4
+                figure(1)
+                subplot(2,2,1)
+                plot(log(N_list),log(squeeze(coefficients(1,:,figwin))),markers{figwin},'markersize',20)
                 hold on
-                plot([1,log(N_list(end))+1],polyval(squeeze(laws(i,2,:,figwin)),[1,log(N_list(end))+1]),lines{i})
-                title(['t^2-model coefficient, eps = ' num2str(alpha_list(j)) ', scaling = ' num2str(scaling(i)-1) 'k'],'fontsize',16)
+                plot([1,log(N_list(end))+1],polyval(squeeze(laws(1,:,figwin)),[1,log(N_list(end))+1]),lines{figwin})
+                title(['t, eps = ' num2str(alpha_list(j)) ', scaling = ' num2str(scaling(i)-1) 'k'],'fontsize',16)
                 xlabel('log(N)')
-                ylabel('log(a_2)')
+                ylabel('log(a_1)')
+
                 
-                if figwin > 2
+                if figwin > 1
                     
-                    subplot(2,2,3)
-                    plot(log(N_list),log(squeeze(coefficients(i,3,:,figwin))),markers{i},'markersize',20)
+                    subplot(2,2,2)
+                    plot(log(N_list),log(squeeze(-coefficients(2,:,figwin))),markers{figwin},'markersize',20)
                     hold on
-                    plot([1,log(N_list(end))+1],polyval(squeeze(laws(i,3,:,figwin)),[1,log(N_list(end))+1]),lines{i})
-                    title(['t^3-model coefficient, eps = ' num2str(alpha_list(j)) ', scaling = ' num2str(scaling(i)-1) 'k'],'fontsize',16)
+                    plot([1,log(N_list(end))+1],polyval(squeeze(laws(2,:,figwin)),[1,log(N_list(end))+1]),lines{figwin})
+                    title(['t^2, eps = ' num2str(alpha_list(j)) ', scaling = ' num2str(scaling(i)-1) 'k'],'fontsize',16)
                     xlabel('log(N)')
-                    ylabel('log(a_3)')
+                    ylabel('log(a_2)')
                     
-                    if figwin > 3
+                    if figwin > 2
                         
-                        subplot(2,2,4)
-                        plot(log(N_list),log(squeeze(-coefficients(i,4,:,figwin))),markers{i},'markersize',20)
+                        subplot(2,2,3)
+                        plot(log(N_list),log(squeeze(coefficients(3,:,figwin))),markers{figwin},'markersize',20)
                         hold on
-                        plot([1,log(N_list(end))+1],polyval(squeeze(laws(i,4,:,figwin)),[1,log(N_list(end))+1]),lines{i})
-                        title(['t^4-model coefficient, eps = ' num2str(alpha_list(j)) ', scaling = ' num2str(scaling(i)-1) 'k'],'fontsize',16)
+                        plot([1,log(N_list(end))+1],polyval(squeeze(laws(3,:,figwin)),[1,log(N_list(end))+1]),lines{figwin})
+                        title(['t^3, eps = ' num2str(alpha_list(j)) ', scaling = ' num2str(scaling(i)-1) 'k'],'fontsize',16)
                         xlabel('log(N)')
-                        ylabel('log(a_4)')
+                        ylabel('log(a_3)')
+                        
+                        if figwin > 3
+                            
+                            subplot(2,2,4)
+                            plot(log(N_list),log(squeeze(-coefficients(4,:,figwin))),markers{figwin},'markersize',20)
+                            hold on
+                            plot([1,log(N_list(end))+1],polyval(squeeze(laws(4,:,figwin)),[1,log(N_list(end))+1]),lines{figwin})
+                            title(['t^4, eps = ' num2str(alpha_list(j)) ', scaling = ' num2str(scaling(i)-1) 'k'],'fontsize',16)
+                            xlabel('log(N)')
+                            ylabel('log(a_4)')
+                        end
                     end
                 end
+                saveas(gcf,['coeffs_plot_eps_' num2str(alpha_list(j)) '_scalepow_' num2str(scaling(i)-1) 'k_' num2str(figwin) '.png'],'png')
             end
-            saveas(gcf,['coeffs_plot_eps_' num2str(alpha_list(j)) '_scalepow_' num2str(scaling(i)-1) 'k'],'png')
         end
+        
+        close all
     end
-    
-    close all
     
 end
 

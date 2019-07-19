@@ -132,8 +132,8 @@ for j = 1:length(alpha_list)
     
 end
 
-markers = {'b.','r*','gs','kx'};
-lines = {'b','r','g','k'};
+markers = {'b.','r*','gs'};
+lines = {'b','r','g'};
 load('diff_IC_coeffs_p75')
 load('diff_IC_laws_p75')
 
