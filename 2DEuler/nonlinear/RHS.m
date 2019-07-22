@@ -54,4 +54,5 @@ du_dt = params.func(params);
 
 % unspool the derivative so it can be used by ode45
 du_dt = du_dt(:);
+max(abs(du_dt))
 

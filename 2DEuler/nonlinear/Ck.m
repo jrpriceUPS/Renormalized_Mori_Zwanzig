@@ -42,15 +42,12 @@ convo = convolve(v_full,w_full);
 M = a(end);
 C = zeros(M,M,2,2);
 
-
 % fill in the modes in a compressed form, keeping only the ones that matter
 C(a,a,:,1) = Ck_fill(a,a,k,convo);
 C(a,a,:,2) = Ck_fill(a,b,k,convo);
 
 C(1,a,:,1) = Ck_fill(1,a,k,convo);
 C(a,1,:,1) = Ck_fill(a,1,k,convo);
-
-C(1,a,:,2) = Ck_fill(1,b,k,convo);
 
 C(1,1,:,1) = Ck_fill(1,1,k,convo);
 
@@ -63,4 +60,5 @@ Ctilde = mode_clearer(Ctilde,a_tilde2);
 C = u_fullify(C,M);
 Chat = u_fullify(Chat,M);
 Ctilde = u_fullify(Ctilde,M);
+
 

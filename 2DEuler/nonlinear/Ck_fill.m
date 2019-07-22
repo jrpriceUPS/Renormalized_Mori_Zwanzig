@@ -1,4 +1,4 @@
-function C = Ck_fill(irange,jrange,k,convo)
+function [C] = Ck_fill(irange,jrange,k,convo)
 %
 % A function to use the computed convolution of v and w to fill out the
 % array for Ck(v,w)
@@ -48,6 +48,5 @@ t2(irange,jrange,:) = k(irange,jrange,:).*B./wave_vec_mag;
 
 
 
-
 % retain only relevant terms
-C = t1(irange,jrange,:) - t2(irange,jrange,:);
+C = t1(irange,jrange,:)-t2(irange,jrange,:);

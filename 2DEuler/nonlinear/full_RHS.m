@@ -29,6 +29,7 @@ a = params.a;
 b = params.b;
 k = params.k;
 N = params.N;
+M = params.M;
 
 % the full model is a simple convolution Ck(u,u)
 du_dt = Ck(u_full,u_full,a,b,k,[],[]);
