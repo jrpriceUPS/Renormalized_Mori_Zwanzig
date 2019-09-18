@@ -123,7 +123,7 @@ end
 
 
 
-percent_increase = 10;
+percent_increase = 0.1;
 
 
 
@@ -219,9 +219,8 @@ for l = 1:length(scaling)
             load(['coeffs_eps_' num2str(alpha) '_scalepow_' num2str(scaling(l)-1) 'k_' num2str(bigN) '.mat'])
             params4.coeff = squeeze(coefficients(:,i,4));
             
-            if exist(['u_array4_' num2str(alpha) '_scalepow_' num2str(scaling(l)-1) 'k_' num2str(N) '.mat'],'file') == 2
-%             test = 0;
-%             if test 
+           %if exist(['u_array4_' num2str(alpha) '_scalepow_' num2str(scaling(l)-1) 'k_' num2str(N) '.mat'],'file') == 2
+                
                 load(['u_array4_' num2str(alpha) '_scalepow_' num2str(scaling(l)-1) 'k_' num2str(N) '.mat'])
                 load(['t4_' num2str(alpha) '_scalepow_' num2str(scaling(l)-1) 'k_' num2str(N) '.mat'])
                 
@@ -237,7 +236,7 @@ for l = 1:length(scaling)
                 
                 u_full = u_fullify(u,M);
                 init_energy = sum(sum(sum(sum(u_full(a,a,a,:).*conj(u_full(a,a,a,:))))));
-                options = odeset('RelTol',1e-10,'Stats','on','InitialStep',1e-3,'Events',@(t,u) energy_grow(t,u,init_energy,percent_increase,params4));
+                options = odeset('RelTol',1e-10,'Stats','on','InitialStep',1e-3,'Events',@(t,u) energy_grow(t,u,init_energy,percent_increase));
                 [t4,u_raw4] = ode45(@(t,u) RHS(u,t,params4),[0,sim_endtime],u(:),options);
                 
                 
