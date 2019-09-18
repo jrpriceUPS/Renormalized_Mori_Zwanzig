@@ -53,8 +53,9 @@ else
     [X,Y] = ndgrid(x,y);
     
     % create initial condition
-    eval = fftn_norm(rand(2*N,2*N,2));
-    u_full = incomp_init(eval);
+    %eval = fftn_norm(rand(2*N,2*N,2));
+    %u_full = incomp_init(eval);
+    u_full = decay_init(N);
     
     %eval = taylor_green(X,Y);
     %u_full = fftn_norm(eval);

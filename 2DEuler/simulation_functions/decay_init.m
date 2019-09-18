@@ -17,7 +17,7 @@ v = zeros(2*N,2*N,2);
 for i = 1:2*N
     for j = 1:2*N
         if i ~= 1 && j ~= 1
-            decay = -2*norm(squeeze(k(i,j,:)));
+            decay = exp(norm(squeeze(k(i,j,:))));
             v(i,j,:) = u(i,j,:)./decay;
         end
     end
