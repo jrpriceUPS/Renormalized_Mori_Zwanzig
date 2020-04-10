@@ -17,9 +17,6 @@ function [coeff_array,scaling_laws,r] = renormalize(u,N_list,t_list,time)
 %    time  =  a logical variable (1 if algebraic time dependence of
 %             renormalization coefficients is retained, 0 if they are not)
 %
-%   print  =  a logical variable (1 if figures are to be printed and saved,
-%             0 otherwise)
-%
 %
 %%%%%%%%%%
 %OUTPUTS:%
