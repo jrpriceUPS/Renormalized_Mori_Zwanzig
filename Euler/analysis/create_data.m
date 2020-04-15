@@ -121,5 +121,5 @@ else
 end
 
 % save the results into the directory
-save(['u_' extension '.mat'],'t');
-save(['t_' extension '.mat'],'u');
+save(['u_' extension '.mat'],'u');
+save(['t_' extension '.mat'],'t');

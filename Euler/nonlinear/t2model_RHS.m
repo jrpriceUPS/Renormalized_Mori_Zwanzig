@@ -70,4 +70,8 @@ end
 
 
 % compute the derivative
-du_dt = t0 + t1 * time^(1*time_exp) * coeff(1) + t2 * time^(2*time_exp) * coeff(2);
+if time == 0
+    du_dt = t0;
+else
+    du_dt = t0 + t1 * time^(1*time_exp) * coeff(1) + t2 * time^(2*time_exp) * coeff(2);
+end

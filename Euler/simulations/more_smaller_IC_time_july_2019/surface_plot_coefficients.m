@@ -38,12 +38,12 @@ for l = 1:length(whichN)
             end
             
             figure(1)
-            h = scatter3(scaling(i)-1,1/alpha_list(j),log(squeeze(coefficients(1,N_ind,1))),my_color);
+            h = scatter3(scaling(i)-1,1/alpha_list(j),log(squeeze(coefficients(1,N_ind,1))),75,my_color,'filled');
             hold on
             
-            ylabel('1/epsilon','fontsize',16)
-            xlabel('Time dependence t^{(alpha*k)}','fontsize',16)
-            title('t-model coefficients for size','fontsize',16)
+            ylabel('1/epsilon','fontsize',20)
+            xlabel('Time dependence t^{(alpha*k)}','fontsize',20)
+            %title('t-model coefficients for size','fontsize',20)
             
         end
         plot3(new_list(:,1),new_list(:,2),new_list(:,3),'k')
