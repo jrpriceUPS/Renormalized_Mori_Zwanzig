@@ -64,4 +64,8 @@ else
     time_exp = params.time_exp;
 end
 
-du_dt = t0 + t1 * time^(1*time_exp) * coeff(1);
+if time == 0
+    du_dt = t0;
+else
+    du_dt = t0 + t1 * time^(1*time_exp) * coeff(1);
+end
