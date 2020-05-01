@@ -1,4 +1,4 @@
-function [coeff_array,scaling_laws,r] = renormalize(u,N_list,t_list,time)
+function [coeff_array,r] = renormalize(u,N_list,t_list,time)
 %
 % A function to take a fully resolved u to compute optimal renormalization
 % coefficients for several ROMs
