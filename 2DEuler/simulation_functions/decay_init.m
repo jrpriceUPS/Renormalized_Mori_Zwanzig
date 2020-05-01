@@ -16,7 +16,7 @@ for i = 1:2*N
     for j = 1:2*N
         if i ~= 1 && j ~= 1
             decay = exp(norm(squeeze(k(i,j,:))));
-            v(i,j,:) = u_full(i,j,:)./decay;
+            v(i,j,:) = u_full(i,j,:)./decay^2./norm(squeeze(u_full(i,j,:)));
         end
     end
 end

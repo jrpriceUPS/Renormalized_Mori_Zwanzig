@@ -14,7 +14,7 @@ function create_data(N,end_time)
 %
 %
 %%%%%%%%%
-%OUTPUS:%
+%OUTPUTS:%
 %%%%%%%%%
 %
 %  uN.dat  =  saved array of Fourier modes from time zero to time end_time
