@@ -11,6 +11,7 @@ M = 3*N;
 if ~(exist('u48.mat','file') == 2)
     create_data(N,1);
 end
+
 if ~(exist('u48_2.mat','file')==2)
     
     load u48;
@@ -85,6 +86,10 @@ end
 load tmodel_size_list48
 min_tol = 1e-16;
 max_tol = 1e-10;
+
+% ADDED BELOW
+load tmodel_size_list_full48
+% ADDED ABOVE
 
 viable_snapshots = find(tmodel_size_list > min_tol & tmodel_size_list < max_tol);
 

@@ -47,7 +47,7 @@ N = simulation_params.N;
 M = 3*N;
 
 %define the ordinates in real space
-x=linspace(0,2*pi*(2*N-1)/(2*N),2*N);
+x = linspace(0,2*pi*(2*N-1)/(2*N),2*N);
 
 %define the initial condition as the Fourier transform of the sine function
 %and ensure that high energy modes are zero in spite of any numerical
@@ -56,8 +56,9 @@ u_complete = fft_norm(simulation_params.initial_condition(x).');
 
 %initialize cells indicating index information, and populate them
 simulation_params.M = M;
-simulation_params.F_modes = [1:N,2*N:2*M-2*N+2,2*M-N+2:2*M];
-simulation_params.G_modes = N+1:2*M-N+1;
+% Wave numbers updated
+simulation_params.F_modes = [1:N,2*N+1:4*N+1,5*N+1:6*N];
+simulation_params.G_modes = [N+1:5*N+1];
 simulation_params.k = [0:M-1,-M:-1].';
 
 %construct vector of modes we will advance in full model (just the positive modes), and
@@ -67,4 +68,4 @@ u(:) = u_complete(1:N);
 
 %save data into simulation_params
 simulation_params.u = u;
-simulation_params.RHS=@(x,t) renormalized_complete_Burgers(x,t,simulation_params);
+simulation_params.RHS = @(x,t) renormalized_complete_Burgers(x,t,simulation_params);

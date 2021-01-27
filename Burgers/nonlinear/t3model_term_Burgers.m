@@ -1,6 +1,6 @@
 function [t3,Ehat,Etilde,Fhat,Ftilde] = t3model_term_Burgers(alpha,F_modes,G_modes,u_full,t0hat,t0tilde,Ahat,Atilde,Bhat,Btilde,Dtilde)
 %
-%Computes the complete t^3-model term of KdV for a given state vector
+%Computes the complete t^3-model term of Burgers for a given state vector
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -65,5 +65,6 @@ term1(G_modes) = 0;
 
 term2 = convolution_sum_Burgers(t0tilde,-Atilde + Btilde,alpha);
 term2(G_modes) = 0;
+
 
 t3 = 4*term1 + 12*term2;

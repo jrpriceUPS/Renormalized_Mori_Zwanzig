@@ -63,7 +63,6 @@ k_f(:,:,:,3) = kz;
 tmodel_size_list = zeros(length(t),1);
 tmodel_size_list_full = zeros(length(t),1);
 
-
 % as long as the t-model energy derivative is less than tol, compute the
 % t-model energy derivative of the next timestep
 for i = 1:length(t)
@@ -85,12 +84,7 @@ for i = 1:length(t)
     % compute the energy derivative due to the t-model and record it
     t_model_size = time*sum(t1(:).*conj(u_current(:))+conj(t1(:)).*u_current(:))
     tmodel_size_list(i) = abs(t_model_size);
-    
-    
-    
-    
-    
-    
+
     % compute the t-model term and reshape into the same shape as u
     [~,~,t0tilde_f] = markov_term(temp_u_full,a_f,b_f,k_f,a_tilde_f,a_tilde2_f);
     [~,t1hat_f,~] = tmodel_term(temp_u_full,t0tilde_f,a_f,b_f,k_f,a_tilde_f,a_tilde2_f);
@@ -99,4 +93,5 @@ for i = 1:length(t)
     % compute the energy derivative due to the t-model and record it
     t_model_size_full = time*sum(t1_f(:).*conj(temp_u(:))+conj(t1_f(:)).*temp_u(:))
     tmodel_size_list_full(i) = abs(t_model_size_full);
+       
 end

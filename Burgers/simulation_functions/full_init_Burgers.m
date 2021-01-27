@@ -28,34 +28,21 @@ function [simulation_params] = full_init_Burgers(simulation_params)
 %
 %       M        =  size of the full model
 %
-%       F_modes  =  an array of indices for resolved modes in the full
-%                   model
-%
-%       G_modes  =  an array of indices for unresolved modes in the full
-%                   model
-%
-%       k        =  an array of wave numbers in full model
-%
 %       u        =  state vector of positive modes of full model
 %
 %       RHS     =  function handle of the RHS
 
-%create shorthand for ROM system size
+% Gather required parameters
 N = simulation_params.N;
+M = simulation_params.M;
 
-%define the ordinates in real space
-x=linspace(0,2*pi*(2*N-1)/(2*N),2*N);
+% Define the ordinates in real space
+x = linspace(0,2*pi*(2*N-1)/(2*N),2*N);
 
 %define the initial condition as the Fourier transform of the sine function
 %and ensure that high energy modes are zero in spite of any numerical
 %errors
 u_complete=fft_norm(simulation_params.initial_condition(x).');
-
-%initialize cells indicating index information, and populate them
-simulation_params.F_modes = 0;
-simulation_params.G_modes = 0;
-simulation_params.k = 0;
-simulation_params.M = 3*N/2;
 
 %construct vector of modes we will advance in full model (just the positive modes), and
 %fill it

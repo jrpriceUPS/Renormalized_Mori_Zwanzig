@@ -1,4 +1,4 @@
-function du_dt = tmodel_RHS(params)
+function du_dt = tmodel_RHS_tau(params)
 %
 % Computes the t-model for every mode in 3D Euler
 %
@@ -24,10 +24,10 @@ function du_dt = tmodel_RHS(params)
 %
 %      time  =  current time in simulation
 %
-%     coeff  =  constant coefficient assigned to t-model
+%     coeff  =  array of renormalization coefficients
 %
-%   no_time  =  a logical variable equal to 1 if the time is to be
-%               disregarded (KdV-like time decay)
+%       tau  =  degree of non-linearity of time dependence of
+%              renormalization coefficients
 %
 %
 %%%%%%%%%%
@@ -45,6 +45,7 @@ a_tilde2 = params.a_tilde2;
 N = params.N;
 time = params.time;
 coeff = params.coeff;
+tau = params.tau;
 
 % compute the full model term
 [t0,~,t0tilde] = markov_term(u_full,a,b,k,a_tilde,a_tilde2);
@@ -56,12 +57,4 @@ t1 = tmodel_term(u_full,t0tilde,a,b,k,a_tilde,a_tilde2);
 t0 = u_squishify(t0,N);
 t1 = u_squishify(t1,N);
 
-if params.no_time == 1
-    time_exp = 0;
-elseif params.no_time == 0
-    time_exp = 1;
-else
-    time_exp = params.time_exp;
-end
-
-du_dt = t0 + t1 * time^(1*time_exp) * coeff(1);
+du_dt = t0 + t1 * time^(1-1*tau) * coeff(1);

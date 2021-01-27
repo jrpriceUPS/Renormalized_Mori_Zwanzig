@@ -37,7 +37,7 @@ function [t0,t0hat,t0tilde,u_full] = markov_term_Burgers(u,M,N,alpha,F_modes,G_m
 %
 %  u_full   =  the full state vector (positive and negative modes)
 
-%fill positive and negative modes
+%fill positive and negative modes - set -N mode to zero
 u_full = zeros(2*M,1);
 u_full(1:N) = u;
 u_full(2*M-N+2:2*M) = conj(flipud(u(2:N)));
