@@ -1,9 +1,6 @@
 function [c1_data,c2_data,c3_data,c4_data] = renormalize(alpha,N_list,u_list,t_list,tau_list)
 %
 %
-% This function has been updated to include the renormalization exponent
-% coefficient tau
-%
 % [c1_data,c2_data,c3_data,c4_data] = renormalize(alpha,N_list,u_list,t_list,tau_list)
 %
 % Computes optimal renormalization coefficients and tau for ROMs of degree
