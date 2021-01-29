@@ -1,4 +1,4 @@
-function [t_list,u_list] = upwind_burgers(alpha,num_points,endtime,dt,howoften)
+function [t_list,u_list,u_list_real] = upwind_burgers(alpha,num_points,endtime,dt,howoften,epsilon)
 %
 %Computes solution to Burgers' equation using the upwind method
 %
@@ -25,6 +25,8 @@ function [t_list,u_list] = upwind_burgers(alpha,num_points,endtime,dt,howoften)
 %  t_list  =  vector of times
 %
 %  u_list  =  array of fourier transforms of exact solution
+%
+%  u_list_real = real space exact solution
 
 %create spatial discretization
 x = linspace(0,2*pi*(num_points-1)/num_points,num_points);
@@ -37,9 +39,10 @@ t_list = 0:dt*howoften:endtime;
 
 %construct output array
 u_list = zeros(length(x)/2,length(t_list));
+u_list_real = zeros(length(x),length(t_list));
 
 %save initial condition
-u = sin(x).';
+u = epsilon*sin(x).';
 index = 1;
 
 %take FFT of initial condition for output
@@ -48,6 +51,16 @@ u_list(:,1) = u_fft(1:num_points/2);
 
 %use upwind method to find solution at all later times
 for i = 1:length(t)-1
+    
+    if i == 1
+        % Check CFL condition
+        dt_dx = abs(dt/dx);
+        
+        if dt_dx > 1
+            sprintf('Failed CFL Test!')
+            break;
+        end
+    end
     
     %find direction of gradient
     a_plus = max([alpha*u zeros(length(x),1)],[],2);
@@ -73,6 +86,9 @@ for i = 1:length(t)-1
         index = index + 1;
         u_fft = fft_norm(u);
         u_list(:,index) = u_fft(1:num_points/2);
+        u_list_real(:,index) = u;
     end
+    
     t(i)
+
 end

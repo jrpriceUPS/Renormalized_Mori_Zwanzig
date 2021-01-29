@@ -17,6 +17,13 @@ function energy = get_energy(u,N)
 %Outputs:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-%  energy  =  the energy in modes 1:N at all times
+%  energy  =  the energy following definition of 1/2 sum_{k \in F} |u_k|^2
 
-energy = sum(2*(abs(u(1:N,:))).^2).';
+s = size(u);
+t = s(2);
+
+u_full = zeros(2*N,t);
+u_full(1:N,:) = u(1:N,:);
+u_full(N+2:2*N,:) = conj(flipud(u(2:N,:)));
+
+energy = (1/2)*sum(u_full.*conj(u_full)).';

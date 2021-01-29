@@ -31,6 +31,6 @@ energy = zeros(t,1);
 for i = 1:t
     
     u_full = u_fullify(u(:,:,:,:,:,i),M);
-    energy(i) = sum(sum(sum(sum(u_full(a,a,a,:).*conj(u_full(a,a,a,:))))));
+    energy(i) = (1/2)*sum(sum(sum(sum(u_full(a,a,a,:).*conj(u_full(a,a,a,:))))));
 
 end
