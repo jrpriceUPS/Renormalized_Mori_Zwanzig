@@ -24,11 +24,11 @@ simulation_params.initialization = @(x) full_init_KdV(x);  %full simulation
 
 simulation_params.initial_condition = @(x) sin(x);
 
-[t_list,u_list] = PDE_solve(simulation_params);
+#[t_list,u_list] = PDE_solve(simulation_params);
 
-simulation_params.initialization = @(x) full_init_KdV(x);
-simulation_params.N = N;
-[t_markov,u_markov] = PDE_solve(simulation_params);
+#simulation_params.initialization = @(x) full_init_KdV(x);
+#simulation_params.N = N;
+#[t_markov,u_markov] = PDE_solve(simulation_params);
 
 simulation_params.initialization = @(x) complete_init_KdV(x);
 simulation_params.order = 4;
